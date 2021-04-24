@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 require('dotenv/config')
 
-// Middleware
+// Middleware the best dong kemarin enak banget 
 app.use(bodyParser())
 app.use(cors())
 
