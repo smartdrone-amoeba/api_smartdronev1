@@ -11,9 +11,11 @@ app.use(cors())
 
 // import routes
 const projectRoutes = require('./routes/projectRoutes')
+const pinRoutes = require('./routes/pinRoutes');
 
 // ruoutes
 app.use('/api/project', projectRoutes)
+app.use('/api/pin', pinRoutes)
 
 // connect to DB
 mongoose.connect(process.env.DB_CONNECTION, 

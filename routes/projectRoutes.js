@@ -4,6 +4,30 @@ const Project = require('../models/projectModel')
 const _ = require('lodash')
 var arrProject = ["namaProject","namaProject","alamatProject","detailProject"]
 
+
+
+
+// GET
+router.get('/', async (req, res)=> {
+    try{
+        const response = await Project.find().exec()
+        
+        res.json({
+            status: 'success',
+            message: 'data fetch successfully',
+            count: response.length,
+            data: response
+        })
+    }
+    catch(err){
+        res.json({
+            status: 'failed',
+            message: 'request error',
+            error: err.message,
+        })
+    }
+})
+
 // CREATE 
 //localhost:3001/api/project/add
 router.post('/add', async (req, res) => {
@@ -19,63 +43,23 @@ router.post('/add', async (req, res) => {
         tglDeploy: req.body.tglDeploy,
 
         //pin
-        pin01: req.body.pin01,
-        pin02: req.body.pin02,
-        pin03: req.body.pin03,
-        pin04: req.body.pin04,
-        pin05: req.body.pin05,
-        pin06: req.body.pin06,
-        pin07: req.body.pin07,
-        pin08: req.body.pin08,
-        pin09: req.body.pin09,
-        pin10: req.body.pin10,
-        pin11: req.body.pin11,
-        pin12: req.body.pin12,
-        pin13: req.body.pin13,
-        pin14: req.body.pin14,
-        pin15: req.body.pin15,
-        pin16: req.body.pin16,
-        pin17: req.body.pin17,
-        pin18: req.body.pin18,
-        pin19: req.body.pin19,
-        pin20: req.body.pin20,
-        pin21: req.body.pin21,
-        pin22: req.body.pin22,
-        pin23: req.body.pin23,
-        pin24: req.body.pin24,
-        pin25: req.body.pin25,
-        pin26: req.body.pin26,
-        pin27: req.body.pin27,
-        pin28: req.body.pin28,
-        pin29: req.body.pin29,
-        pin30: req.body.pin30,
-        pin31: req.body.pin31,
-        pin32: req.body.pin32,
-        pin33: req.body.pin33,
-        pin34: req.body.pin34,
-        pin35: req.body.pin35,
-        pin36: req.body.pin36,
-        pin37: req.body.pin37,
-        pin38: req.body.pin38,
-        pin39: req.body.pin39,
-        pin40: req.body.pin40,
-        pin41: req.body.pin41,
-        pin42: req.body.pin42,
-        pin43: req.body.pin43,
-        pin44: req.body.pin44,
-        pin45: req.body.pin45,
-        pin46: req.body.pin46,
-        pin47: req.body.pin47,
-        pin48: req.body.pin48,
-        pin49: req.body.pin49,
-        pin50: req.body.pin50,
+        pin: req.body.pinId
+
     })
 
     try {
         const project = await projectPost.save()
-        res.json(project)
+        res.json({
+            status: 'success',
+            message: 'data create successfully',
+            data: project
+        })
     }catch(err){
-        res.json({message: err})
+        res.json({
+            status: 'failed',
+            message: 'error',
+            error: err.message
+        })
     }
 })
 
@@ -248,6 +232,32 @@ router.patch('/editone', async (req, res) => {
         res.json(project)
     }catch(err){
         res.json({message: err})
+    }
+})
+
+router.delete('/delete/:id', async(req, res) => {
+    const{id} = req.params
+    try {
+        const response = await Project.remove({_id:id})
+
+        if(response){
+            res.json({
+                status: 'success',
+                message: 'data delete successfully',
+                id: id
+            })
+        } else{
+            res.json({
+                status: 'failed',
+                message:`data id: ${id} not found`,
+            })
+        }
+    } catch (err) {
+        res.json({
+            status: 'failed',
+            message: 'request error',
+            error: err.message,
+        })
     }
 })
 
