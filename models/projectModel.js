@@ -11,24 +11,23 @@ const ProjectSchema = new Schema({
     namaSurveyor: {type: String,required: true},
     alamatProject: {type: String,required: true},
     detailProject: {type: String},
-    lokasi    : {
+    lokasi: {
         latitude : {type: Number}, 
         longitude : {type: Number}
     },
 
-
     //tgl project
-    tglPlanning: {type: Date},
-    tglTarget: {type: Date},
-    tglDeploy: {type: Date},
+    tglPlanning: {type: Date, default: new Date()},
+    tglTarget: {type: Date, required:true, default:null},
+    tglDeploy: {type: Date, default:null},
+    createdAt: {type: Date, default: new Date()},
+    updatedAt: {type: Date, default: null},
 
     //pin project 
     pin: [{
         type: Schema.Types.ObjectId,
         ref: 'Pin'
     }],
-},{
-    timestamps: true
-  })
+})
 
 module.exports = mongoose.model('Project', ProjectSchema)

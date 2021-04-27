@@ -1,25 +1,86 @@
 const express = require('express')
+const { populate } = require('../models/projectModel')
 const router = express.Router()
 const Project = require('../models/projectModel')
-const _ = require('lodash')
-var arrProject = ["namaProject","namaProject","alamatProject","detailProject"]
-
-
+const Pin = require('../models/pinModel')
 
 
 // GET
-router.get('/', async (req, res)=> {
-    try{
-        const response = await Project.find().exec()
+//localhost:3001/api/project/get-all
+router.get('/get-all', async (req, res)=> {
+        Project.find().populate('pin').exec().then(response=>{
+                res.json({
+                    status: 'success',
+                    message: 'data fetch successfully',
+                    count: response.length,
+                    data: response.map(data=>{
+                        return{
+                            _id:data._id,
+                            namaProject: data.namaProject,
+                            namaSurveyor: data.namaSurveyor,
+                            alamatProject:data.alamatProject,
+                            detailProject:data.detailProject,
+                            tglPlanning: data.tglPlanning,
+                            lokasi: {
+                                latitude: data.lokasi.latitude,
+                                longitude: data.lokasi.longitude
+                            },
+                            tglDeploy: data.tglDeploy,
+                            tglTarget: data.tglTarget,
+                            pin: data.pin.map(data=>data)
+
+                        }
+                    })
+                })
+        })
+        .catch(err=>{
+            res.json({
+                status: 'failed',
+                message: 'request error',
+                error: err.message,
+            })
+        }) 
+})
+
+// SEARCH
+// localhost:3001/api/project/search?[namaProject || alamatProject || namaSurveyor ]=[your input]
+
+router.get('/search', async(req, res) => {
+    const {namaProject, alamatProject, namaSurveyor} = req.query
+    try {
         
+        if(namaProject || alamatProject || namaSurveyor){
+        const response = await Project.find({$or: [
+            {namaProject: {$regex :`${namaProject}` , $options: 'i' }},
+            {alamatProject: {$regex : `${alamatProject}` , $options: 'i' }},
+            {namaSurveyor:{$regex : `${namaSurveyor}` , $options: 'i' }}
+        ]})
         res.json({
             status: 'success',
             message: 'data fetch successfully',
             count: response.length,
-            data: response
-        })
-    }
-    catch(err){
+            data: response.map(data=>{
+                return{
+                    _id:data._id,
+                    namaProject: data.namaProject,
+                    namaSurveyor: data.namaSurveyor,
+                    alamatProject:data.alamatProject,
+                    detailProject:data.detailProject,
+                    tglPlanning: data.tglPlanning,
+                    lokasi: {
+                        latitude: data.lokasi.latitude,
+                        longitude: data.lokasi.longitude
+                    },
+                    tglDeploy: data.tglDeploy,
+                    tglTarget: data.tglTarget,
+                    pin: data.pin.map(data=>data)
+
+                }
+            })
+        })}
+
+        console.log(response)
+    } catch (err) {
         res.json({
             status: 'failed',
             message: 'request error',
@@ -37,7 +98,10 @@ router.post('/add', async (req, res) => {
         namaSurveyor: req.body.namaSurveyor,
         alamatProject: req.body.alamatProject,
         detailProject: req.body.detailProject,
-        lokasi: req.body.lokasi,
+        lokasi: {
+            latitude: req.body.lokasiLatitude,
+            longitude: req.body.lokasiLongitude
+        },
         tglPlanning: req.body.tglPlanning,
         tglTarget: req.body.tglTarget,
         tglDeploy: req.body.tglDeploy,
@@ -63,141 +127,6 @@ router.post('/add', async (req, res) => {
     }
 })
 
-// READ 
-//localhost:3001/api/project/search?id=[project id]  (exact macth)
-//localhost:3001/api/project/search?surveyor=[surveyor] (exact match)
-//localhost:3001/api/project/search?project=[nama project]  (exact macth)
-//localhost:3001/api/project/search?alamat=[alamat project]  (exact macth)
-
-//localhost:3001/api/project/search?lsurveyor=[surveyor] (like ) Case insensitivity to match upper and lower cases
-//localhost:3001/api/project/search?lproject=[nama project]  (like ) Case insensitivity to match upper and lower cases
-//localhost:3001/api/project/search?lalamat=[alamat project]  (like )Case insensitivity to match upper and lower cases
-router.get('/search', async (req, res) => {
-    try {
-        //exact match
-        var xid = req.query.id
-        var xsurveyor = req.query.surveyor
-        var xproject = req.query.project
-        var xalamat = req.query.alamat
-
-        //like match
-        var lsurveyor = req.query.lsurveyor
-        var lproject = req.query.lproject
-        var lalamat = req.query.lalamat
-
-        //exact match
-        if ( typeof xid !== 'undefined'){
-            const project  = await Project.find({_id: xid})
-            res.json(project)
-        } else if (typeof xsurveyor !== 'undefined'){
-            const project  = await Project.find({namaSurveyor: xsurveyor})
-            res.json(project)
-        } else if (typeof xproject !== 'undefined'){
-            const project  = await Project.find({namaProject: xproject})
-            res.json(project)
-        } else if (typeof xalamat !== 'undefined'){
-            const project  = await Project.find({alamatProject: xalamat})
-            res.json(project)
-        }
-
-        //like match
-        if (typeof lsurveyor !== 'undefined'){
-            const project  = await Project.find({namaSurveyor: {$regex: lsurveyor, $options: 'i'}}).limit(5)
-            res.json(project)
-        } else if (typeof lproject !== 'undefined'){
-            const project  = await Project.find({namaProject: {$regex: lproject, $options: 'i'}}).limit(5)
-            res.json(project)
-        } else if (typeof lalamat !== 'undefined'){
-            const project  = await Project.find({alamatProject: {$regex: lalamat, $options: 'i'}}).limit(5)
-            res.json(project)
-        }
-    }catch(err){
-        res.json({message: err})
-    }
-})
-
-// UPDATE
-//localhost:3001/api/project/edit?id=[project id]  (exact macth) all detail project no pin overwrite db 
-router.put('/edit', async (req, res) => {
-    try{
-        const project = await Project.updateOne({_id: req.query.id}, {
-            //userName: req.body.userName, edit in username route
-            namaProject: req.body.namaProject,
-            namaSurveyor: req.body.namaSurveyor,
-            alamatProject: req.body.alamatProject,
-            detailProject: req.body.detailProject,
-            lokasi: req.body.lokasi,
-            //tglPlanning: req.body.tglPlanning, set by system
-            tglTarget: req.body.tglTarget,
-            //tglDeploy: req.body.tglDeploy,  set by system
-        })
-        res.json(project)
-    }catch(err){
-        res.json({message: err})
-    }
-})
-
-// UPDATE
-//localhost:3001/api/project/editpin?id=[project id]  (exact macth) all pin overwrite db 
-router.put('/editpin', async (req, res) => {
-    try{
-        const project = await Project.updateOne({_id: req.query.id}, {
-            pin01: req.body.pin01,
-            pin02: req.body.pin02,
-            pin03: req.body.pin03,
-            pin04: req.body.pin04,
-            pin05: req.body.pin05,
-            pin06: req.body.pin06,
-            pin07: req.body.pin07,
-            pin08: req.body.pin08,
-            pin09: req.body.pin09,
-            pin10: req.body.pin10,
-            pin11: req.body.pin11,
-            pin12: req.body.pin12,
-            pin13: req.body.pin13,
-            pin14: req.body.pin14,
-            pin15: req.body.pin15,
-            pin16: req.body.pin16,
-            pin17: req.body.pin17,
-            pin18: req.body.pin18,
-            pin19: req.body.pin19,
-            pin20: req.body.pin20,
-            pin21: req.body.pin21,
-            pin22: req.body.pin22,
-            pin23: req.body.pin23,
-            pin24: req.body.pin24,
-            pin25: req.body.pin25,
-            pin26: req.body.pin26,
-            pin27: req.body.pin27,
-            pin28: req.body.pin28,
-            pin29: req.body.pin29,
-            pin30: req.body.pin30,
-            pin31: req.body.pin31,
-            pin32: req.body.pin32,
-            pin33: req.body.pin33,
-            pin34: req.body.pin34,
-            pin35: req.body.pin35,
-            pin36: req.body.pin36,
-            pin37: req.body.pin37,
-            pin38: req.body.pin38,
-            pin39: req.body.pin39,
-            pin40: req.body.pin40,
-            pin41: req.body.pin41,
-            pin42: req.body.pin42,
-            pin43: req.body.pin43,
-            pin44: req.body.pin44,
-            pin45: req.body.pin45,
-            pin46: req.body.pin46,
-            pin47: req.body.pin47,
-            pin48: req.body.pin48,
-            pin49: req.body.pin49,
-            pin50: req.body.pin50,
-        })
-        res.json(project)
-    }catch(err){
-        res.json({message: err})
-    }
-})
 
 // UPDATE PATCH 
 //localhost:3001/api/project/editone?id=[project id]  (exact macth) edit parameter saja
@@ -234,24 +163,25 @@ router.patch('/editone', async (req, res) => {
         res.json({message: err})
     }
 })
-
-router.delete('/delete/:id', async(req, res) => {
-    const{id} = req.params
+//localhost:3001/api/project/delete?id=[project id]  (exact macth) all detail project no pin overwrite db 
+router.delete('/delete/:idProject', async(req, res) => {
+    const{idProject:id} = req.params
     try {
         const response = await Project.remove({_id:id})
-
-        if(response){
+console.log(response)
+        if(response.n){
             res.json({
                 status: 'success',
                 message: 'data delete successfully',
                 id: id
-            })
-        } else{
-            res.json({
-                status: 'failed',
-                message:`data id: ${id} not found`,
-            })
-        }
+            })       
+        }else{
+        res.json({
+            status: 'failed',
+            message:`data id: ${id} not found`,
+        })
+    }
+            
     } catch (err) {
         res.json({
             status: 'failed',

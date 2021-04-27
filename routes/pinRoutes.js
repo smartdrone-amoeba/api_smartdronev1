@@ -4,7 +4,10 @@ const router = express.Router();
 const PinModel = require('../models/pinModel')
 
 
-router.get('/', async (req, res) => {
+// GET
+
+//localhost:3001/api/project/get-all
+router.get('/get-all', async (req, res) => {
     try {
         const response = await PinModel.find()
 
@@ -23,6 +26,8 @@ router.get('/', async (req, res) => {
     }
 })
 
+// CREATE 
+//localhost:3001/api/pin/add
 router.post('/add', async (req, res) => {
     try {
         const newPin = new PinModel({
