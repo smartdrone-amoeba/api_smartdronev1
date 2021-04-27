@@ -12,13 +12,13 @@ const ProjectSchema = new Schema({
     alamatProject: {type: String,required: true},
     detailProject: {type: String},
     lokasi: {
-        latitude : {type: Number}, 
-        longitude : {type: Number}
+        latitude : {type: Number, default:null}, 
+        longitude : {type: Number, default: null}
     },
 
     //tgl project
     tglPlanning: {type: Date, default: new Date()},
-    tglTarget: {type: Date, required:true, default:null},
+    tglTarget: {type: Date, default:null},
     tglDeploy: {type: Date, default:null},
     createdAt: {type: Date, default: new Date()},
     updatedAt: {type: Date, default: null},

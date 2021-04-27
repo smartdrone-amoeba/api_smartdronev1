@@ -16,6 +16,7 @@ router.get('/get-all', async (req, res)=> {
                     data: response.map(data=>{
                         return{
                             _id:data._id,
+                            userName: data.userName,
                             namaProject: data.namaProject,
                             namaSurveyor: data.namaSurveyor,
                             alamatProject:data.alamatProject,
@@ -42,6 +43,46 @@ router.get('/get-all', async (req, res)=> {
         }) 
 })
 
+
+// Get Detail Project
+router.get('/get-one/:projectId', async(req, res) => {
+    const {projectId:id} = req.params
+    try {
+
+        const response = await Project.findOne({_id:id})
+        
+        res.json({
+            status: 'success',
+            message: 'data fetch successfully',
+            data: {
+                    _id:response._id,
+                    userName: response.userName,
+                    namaProject: response.namaProject,
+                    namaSurveyor: response.namaSurveyor,
+                    alamatProject:response.alamatProject,
+                    detailProject:response.detailProject,
+                    tglPlanning: response.tglPlanning,
+                    lokasi: {
+                        latitude: response.lokasi.latitude,
+                        longitude: response.lokasi.longitude
+                    },
+                    tglDeploy: response.tglDeploy,
+                    tglTarget: response.tglTarget,
+                    pin: response.pin.map(data=>data)
+
+                }
+        })
+    } catch (err) {
+        res.json({
+            status: 'failed',
+            message: 'request error',
+            error: err.message,
+        })
+    }
+})
+
+
+
 // SEARCH
 // localhost:3001/api/project/search?[namaProject || alamatProject || namaSurveyor ]=[your input]
 
@@ -54,7 +95,7 @@ router.get('/search', async(req, res) => {
             {namaProject: {$regex :`${namaProject}` , $options: 'i' }},
             {alamatProject: {$regex : `${alamatProject}` , $options: 'i' }},
             {namaSurveyor:{$regex : `${namaSurveyor}` , $options: 'i' }}
-        ]})
+        ]}).limit(5)
         res.json({
             status: 'success',
             message: 'data fetch successfully',
@@ -62,6 +103,7 @@ router.get('/search', async(req, res) => {
             data: response.map(data=>{
                 return{
                     _id:data._id,
+                    userName: data.userName,
                     namaProject: data.namaProject,
                     namaSurveyor: data.namaSurveyor,
                     alamatProject:data.alamatProject,
@@ -129,7 +171,73 @@ router.post('/add', async (req, res) => {
 
 
 // UPDATE PATCH 
-//localhost:3001/api/project/editone?id=[project id]  (exact macth) edit parameter saja
+//localhost:3001/api/project/update/projectId
+router.patch('/update/:projectId', async (req, res) => {
+
+    const {projectId:id} = req.params
+
+    try {
+        const project = await Project.findByIdAndUpdate({_id:id},{new: true})
+
+        // Check if existed project
+         if(!project){
+            res.json({
+                status: "failed",
+                message: `data id: ${id} not found`,
+
+            })
+        }
+
+        if (req.body.userName){
+            project.userName = req.body.userName
+        }
+        if (req.body.namaProject) {
+			project.namaProject = req.body.namaProject
+        }
+        if (req.body.namaSurveyor) {
+			project.namaSurveyor = req.body.namaSurveyor
+        }
+        if (req.body.alamatProject) {
+			project.alamatProject = req.body.alamatProject
+        }
+        if (req.body.detailProject) {
+			project.detailProject = req.body.detailProject
+        }
+        if (req.body.latitude) {
+			project.lokasi.latitude = req.body.latitude
+        }
+        if (req.body.longitude) {
+			project.lokasi.longitude = req.body.longitude
+        }
+
+        const projectUpdated = await project.save()
+
+        // response
+        res.json({
+            status: 'success',
+            message: 'data update successfully',
+            data: projectUpdated
+        })
+    } catch (err) {
+        res.json({
+            status: 'failed',
+            message: 'error',
+            error: err.message
+        })
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
 router.patch('/editone', async (req, res) => {
     try{
         const project = await Project.findByIdAndUpdate({_id: req.query.id},{new: true})
