@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-var moment = require('moment'); 
+const moment = require('moment')
+moment.locale('id')
+const target = moment('2021-02-28T16:51:58+07:00')
+const date = `${target.format('dddd')}`;
+
+console.log(date)
 
 const ProjectSchema = new Schema({
     //detail project
@@ -14,17 +19,60 @@ const ProjectSchema = new Schema({
     },
 
     //tgl project
-    tglPlanning: {type: Date, default: new Date()},
-    tglTarget: {type: Date, default:null},
-    tglDeploy: {type: Date, default:null},
-    createdAt: {type: Date, default: new Date()},
-    updatedAt: {type: Date, default: null},
+    tglPlanning: {type: String, default: `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`},
+    tglTarget: {type: String},
+    tglDeploy: {type: String},
+    updatedAt: {type: String, default: `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`},
 
     //pin project 
-    pin: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Pin'
-    }],
+    pin: [
+        {
+            name: {type: String, required:true},
+            koordinat    : {
+                latitude : {type: Number}, 
+                longitude : {type: Number}
+            },
+            speed: {type: Number},
+            altitude: {type: Number},
+            heading:{type:Number},
+            curvesize: {type: Number},
+            rotationdir: {type: Number},
+            poi: {
+                poiStatus:{type: Boolean},
+                poiMode :{type:Number},
+                poiLatitude:{type:Number},
+                poiLongtude:{type:Number},
+                poiAltiutde:{type:Number},
+            },
+            gimbalmode: {
+                disabled:{type: Boolean},
+                focuspoi:{type:Boolean},
+                interpolate:{type: Number} // degree
+            },
+            intervalmode:{
+                disabled:{type: Boolean},
+                seconds:{type: Number},
+                meters:{type:Number}
+            },
+            actions:{
+                act01: {type: Number}, //type 1 photo , 2 video start, 3 video stop , 4 rotate aircraf, 5 tilt camera
+                act02: {type: Number},
+                act03: {type: Number},
+                act04: {type: Number},
+                act05: {type: Number},
+                act06: {type: Number},
+                act07: {type: Number},
+                act08: {type: Number},
+                act09: {type: Number},
+                act10: {type: Number},
+                act11: {type: Number},
+                act12: {type: Number},
+                act13: {type: Number},
+                act14: {type: Number},
+                act15: {type: Number},
+            }
+        }
+    ],
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'

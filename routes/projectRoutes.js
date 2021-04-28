@@ -3,6 +3,9 @@ const router = express.Router()
 const Project = require('../models/projectModel')
 const Pin = require('../models/pinModel')
 const checkAuth = require('../middleware/check-auth')
+const moment = require('moment')
+moment.locale('id')
+const date = `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`;
 
 
 // GET
@@ -27,7 +30,7 @@ router.get('/get-all',checkAuth, async (req, res)=> {
                             },
                             tglDeploy: data.tglDeploy,
                             tglTarget: data.tglTarget,
-                            pin: data.pin.map(data=>data.poi),
+                            pin: data.pin.map(data=>data),
                             user: {
                                 _id: data.user && data.user._id,
                                 name: data.user && data.user.name,
@@ -146,53 +149,7 @@ router.get('/search', checkAuth, async(req, res) => {
 router.post('/add',checkAuth, async (req, res) => {
 
     try {
-            const newPin = new Pin({
-                koordinate : {
-                    latitude: req.body.latitude,
-                    longitude: req.body.longitude
-                },
-                speed: req.body.speed,
-                altitude: req.body.altitude,
-                heading: req.body.heading,
-                curvesize: req.body.curvesize,
-                rotationdir: req.body.rotationdir,
-                poi:{
-                    poiStatus: req.body.poiStatus,
-                    poiMode: req.body.poiMode,
-                    poiLatitude: req.body.poiLatitude,
-                    poiLongtude: req.body.poiLongtude,
-                    poiAltiutde: req.body.poiAltiutde,
-                },
-                gimbalmode:{
-                    disable: req.body.disableGimbal,
-                    focuspoi: req.body.focuspoiGimbal,
-                    interpolate: req.body.interpolateGimbal,
-                },
-                intervalmode:{
-                    disable: req.body.disableInterval,
-                    seconds: req.body.secondsInterval,
-                    meters:req.body.metersInterval,
-                },
-                actions: {
-                    act01: req.body.action01,
-                    act02: req.body.action02,
-                    act03: req.body.action03,
-                    act04: req.body.action04,
-                    act05: req.body.action05,
-                    act06: req.body.action06,
-                    act07: req.body.action07,
-                    act08: req.body.action08,
-                    act09: req.body.action09,
-                    act10: req.body.action10,
-                    act11: req.body.action11,
-                    act12: req.body.action12,
-                    act13: req.body.action13,
-                    act14: req.body.action14,
-                    act15: req.body.action15,
-                }
-            })
-    
-        const pinPost = await newPin.save()
+            
 
     // Project
     const projectPost = new Project({
@@ -204,16 +161,16 @@ router.post('/add',checkAuth, async (req, res) => {
             latitude: req.body.lokasiLatitude,
             longitude: req.body.lokasiLongitude
         },
-        tglPlanning: req.body.tglPlanning,
-        tglTarget: req.body.tglTarget,
-        tglDeploy: req.body.tglDeploy,
+        tglTarget: !req.body.tglTarget? 0 :`${moment(req.body.tglTarget).format('dddd')}, ${moment(req.body.tglTarget).format('LL')} ${moment(req.body.tglTarget).format('LTS')}`,
+        tglDeploy: !req.body.tglDeploy? 0 :`${moment(req.body.tglDeploy).format('dddd')}, ${moment(req.body.tglDeploy).format('LL')} ${moment(req.body.tglDeploy).format('LTS')}`,
 
         //Pin
-        pin: [...pinPost._id ],
+        pin: req.body.pin,
         user: req.userData.userId,
 
     }) 
         const newProject = await projectPost.save()
+        const result = await Project.findByIdAndUpdate({_id:newProject._id})
         const project = await Project.findById({_id:newProject._id}).populate('pin')
 
         res.json({
@@ -265,6 +222,7 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
         if (req.body.longitude) {
 			project.lokasi.longitude = req.body.longitude
         }
+        project.updateAt = `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`;
 
         const projectUpdated = await project.save()
 

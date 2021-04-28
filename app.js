@@ -23,7 +23,7 @@ app.use('/api/auth', userRoutes)
 
 // connect to DB
 mongoose.connect(process.env.DB_CONNECTION, 
-    { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify: false })
+    { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify: false, useCreateIndex: true })
 let db = mongoose.connection
 
 db.on('error', console.error.bind(console, 'Database connect Error!'))
