@@ -77,7 +77,7 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
                             },
                             tglDeploy: response.tglDeploy,
                             tglTarget: response.tglTarget,
-                            pin: response.pin.map(data=>data.poi),
+                            pin: response.pin.map(data=>data),
                             user: {
                                 _id: response.user._id,
                                 name: response.user.name,
@@ -232,6 +232,166 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
             message: 'data update successfully',
             data: projectUpdated
         })
+    } catch (err) {
+        res.json({
+            status: 'failed',
+            message: 'error',
+            error: err.message
+        })
+    }
+})
+
+
+// Update Pin
+
+router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
+    const {projectId, pinId} = req.params
+    try {
+        const project = await Project.findOne({_id:projectId})
+        const pin = project.pin.find(item => item._id == pinId)
+
+        if(!project){
+            res.json({
+                status: "failed",
+                message: `data project id: ${projectId} not found`,
+
+            })
+        }else if(!pin){
+            res.json({
+                status: "failed",
+                message: `data pin id: ${pinId} not found`,
+
+            })
+        }
+        if(req.body.name){
+            pin.name = req.body.name
+        }
+        if(req.body.speed){
+            pin.speed = req.body.speed
+        }
+        if(req.body.altitude){
+            pin.altitude = req.body.altitude
+        }
+        if(req.body.heading){
+            pin.heading = req.body.heading
+        }
+        if(req.body.curvesize){
+            pin.curvesize = req.body.curvesize
+        }
+        if(req.body.rotationdir){
+            pin.rotationdir = req.body.rotationdir
+        }
+        if (req.body.latitude) {
+			pin.koordinat.latitude = req.body.latitude
+        }
+        if (req.body.longitude) {
+			pin.koordinat.longitude = req.body.longitude
+        }
+        if (req.body.poiStatus) {
+			pin.poi.poiStatus = req.body.poiStatus
+        }
+        if (req.body.poiMode) {
+			pin.poi.poiMode = req.body.poiMode
+        }
+        if (req.body.poiLatitude) {
+			pin.poi.poiLatitude = req.body.poiLatitude
+        }
+        if (req.body.poiLongtude) {
+			pin.poi.poiLongtude = req.body.poiLongtude
+        }
+        if (req.body.poiAltiutde) {
+			pin.poi.poiAltiutde = req.body.poiAltiutde
+        }
+        if (req.body.disableGimbal) {
+			pin.gimbalMode.disableGimbal = req.body.disableGimbal
+        }
+        if (req.body.focuspoiGimbal) {
+			pin.gimbalMode.focuspoiGimbal = req.body.focuspoiGimbal
+        }
+        if (req.body.intepolateGimbal) {
+			pin.gimbalMode.intepolateGimbal = req.body.intepolateGimbal
+        }
+        if (req.body.disableInterval) {
+			pin.intervalMode.disableInterval = req.body.disableInterval
+        }
+        if (req.body.secondsInterval) {
+			pin.intervalMode.disableGimbal = req.body.disableGimbal
+        }
+        if (req.body.metersInterval) {
+			pin.intervalMode.metersInterval = req.body.metersInterval
+        }
+
+        if (req.body.action01) {
+			pin.actions.action01 = req.body.action01
+        }
+        if (req.body.action02) {
+			pin.actions.action02 = req.body.action02
+        }
+        if (req.body.action03) {
+			pin.actions.action03 = req.body.action03
+        }
+        if (req.body.action04) {
+			pin.actions.action04 = req.body.action04
+        }
+        if (req.body.action05) {
+			pin.actions.action05 = req.body.action05
+        }
+        if (req.body.action06) {
+			pin.actions.action06 = req.body.action06
+        }
+        if (req.body.action07) {
+			pin.actions.action07 = req.body.action07
+        }
+        if (req.body.action08) {
+			pin.actions.action08 = req.body.action08
+        }
+        if (req.body.action09) {
+			pin.actions.action09 = req.body.action09
+        }
+        if (req.body.action10) {
+			pin.actions.action10 = req.body.action10
+        }
+        if (req.body.action11) {
+			pin.actions.action11 = req.body.action11
+        }
+        if (req.body.action12 ) {
+			pin.actions.action12   = req.body.action12    
+        }
+        if (req.body.action13) {
+			pin.actions.action13 = req.body.action13
+        }
+        if (req.body.action14) {
+			pin.actions.action14 = req.body.action14
+        }
+        if (req.body.action15) {
+			pin.actions.action15 = req.body.action15
+        }
+
+        const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin}})
+
+
+        if(pinEdited.n==0){
+            return res.json({
+                status: 'failed',
+                message: 'error',
+                error: "server error"
+            })
+        }
+
+        if(pinEdited.nModified == 0){
+            return res.json({
+                status: 'failed',
+                message: 'please input field updated',
+                error: "update error"
+            })
+        }
+        // response
+        return res.json({
+            status: 'success',
+            message: 'data update successfully',
+            data: `pin id: ${pinId}`
+        })
+
     } catch (err) {
         res.json({
             status: 'failed',
