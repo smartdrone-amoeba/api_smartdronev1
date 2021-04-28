@@ -3,9 +3,6 @@ const Schema = mongoose.Schema;
 var moment = require('moment'); 
 
 const ProjectSchema = new Schema({
-    //username 
-    userName: {type: String,required: true},
-
     //detail project
     namaProject: {type: String,required: true},
     namaSurveyor: {type: String,required: true},
@@ -28,6 +25,10 @@ const ProjectSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Pin'
     }],
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 module.exports = mongoose.model('Project', ProjectSchema)

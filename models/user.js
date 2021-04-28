@@ -7,7 +7,8 @@ const userSchema = new Schema({
     name: {type: String, required: true},
     address: {type: String,required: true},
     gender: {type: String, required: true},
-    phone: {type: String, required: true}
+    phone: {type: String, required: true},
+    projects: [{type:Schema.Types.ObjectId, ref: 'Project'}]
 })
 
 module.exports = mongoose.model('User', userSchema)

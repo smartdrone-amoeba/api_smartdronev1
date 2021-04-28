@@ -1,11 +1,11 @@
 {
-	"folders": [
-		{
-			"path": "../../node-rest-api"
-		},
-		{
-			"path": ".."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "../../node-rest-api"
+    },
+    {
+      "path": ".."
+    }
+  ],
+  "settings": {}
 }
