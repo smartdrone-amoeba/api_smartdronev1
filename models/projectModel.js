@@ -2,10 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const moment = require('moment')
 moment.locale('id')
-const target = moment('2021-02-28T16:51:58+07:00')
-const date = `${target.format('dddd')}`;
+const target = moment().format()
 
-console.log(date)
+// const date = `${target.format('dddd')}`;
+
+
+console.log(target)
 
 const ProjectSchema = new Schema({
     //detail project
@@ -19,10 +21,10 @@ const ProjectSchema = new Schema({
     },
 
     //tgl project
-    tglPlanning: {type: String, default: `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`},
-    tglTarget: {type: String},
-    tglDeploy: {type: String},
-    updatedAt: {type: String, default: `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`},
+    tglPlanning: {type: Date, default: moment().format()},
+    tglTarget: {type: Date},
+    tglDeploy: {type: Date},
+    updatedAt: {type: Date, default: moment().format()},
 
     //pin project 
     pin: [

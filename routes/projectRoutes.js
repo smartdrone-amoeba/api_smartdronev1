@@ -5,7 +5,6 @@ const Pin = require('../models/pinModel')
 const checkAuth = require('../middleware/check-auth')
 const moment = require('moment')
 moment.locale('id')
-const date = `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`;
 
 
 // GET
@@ -24,6 +23,7 @@ router.get('/get-all',checkAuth, async (req, res)=> {
                             alamatProject:data.alamatProject,
                             detailProject:data.detailProject,
                             tglPlanning: data.tglPlanning,
+                            updatedAt:data.updatedAt,
                             lokasi: {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
@@ -99,9 +99,11 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
 
 // SEARCH
 // localhost:3001/api/project/search?[namaProject || alamatProject || namaSurveyor ]=[your input]
+// if tgl filter then
+// localhost:3001/api/project/search?[tglPlanning || tglDeploy || tglTarget] & startDate= [input date] & endDate [input date]
 
 router.get('/search', checkAuth, async(req, res) => {
-    const {namaProject, alamatProject, namaSurveyor} = req.query
+    const {namaProject, alamatProject, namaSurveyor, startDate, endDate, tglPlanning, tglDeploy, tglTarget} = req.query
     try {
         
         if(namaProject || alamatProject || namaSurveyor){
@@ -134,6 +136,86 @@ router.get('/search', checkAuth, async(req, res) => {
             })
         })}
 
+        if(startDate || endDate){
+            if(tglPlanning){
+                const response = await Project.find({tglPlanning:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }})
+                return res.json({
+                    status: 'success',
+                    message: 'data fetch successfully',
+                    count: response.length,
+                    data: response.map(data=>{
+                        return{
+                            _id:data._id,
+                            namaProject: data.namaProject,
+                            namaSurveyor: data.namaSurveyor,
+                            alamatProject:data.alamatProject,
+                            detailProject:data.detailProject,
+                            tglPlanning: data.tglPlanning,
+                            lokasi: {
+                                latitude: data.lokasi.latitude,
+                                longitude: data.lokasi.longitude
+                            },
+                            tglDeploy: data.tglDeploy,
+                            tglTarget: data.tglTarget,
+                            pin: data.pin.map(data=>data)
+        
+                        }
+                    })
+                })
+            }
+            if(tglDeploy){
+                const response = await Project.find({tglDeploy:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }})
+                return res.json({
+                    status: 'success',
+                    message: 'data fetch successfully',
+                    count: response.length,
+                    data: response.map(data=>{
+                        return{
+                            _id:data._id,
+                            namaProject: data.namaProject,
+                            namaSurveyor: data.namaSurveyor,
+                            alamatProject:data.alamatProject,
+                            detailProject:data.detailProject,
+                            tglPlanning: data.tglPlanning,
+                            lokasi: {
+                                latitude: data.lokasi.latitude,
+                                longitude: data.lokasi.longitude
+                            },
+                            tglDeploy: data.tglDeploy,
+                            tglTarget: data.tglTarget,
+                            pin: data.pin.map(data=>data)
+        
+                        }
+                    })
+                })
+            }
+            if(tglTarget){
+                const response = await Project.find({tglTarget:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }})
+                return res.json({
+                    status: 'success',
+                    message: 'data fetch successfully',
+                    count: response.length,
+                    data: response.map(data=>{
+                        return{
+                            _id:data._id,
+                            namaProject: data.namaProject,
+                            namaSurveyor: data.namaSurveyor,
+                            alamatProject:data.alamatProject,
+                            detailProject:data.detailProject,
+                            tglPlanning: data.tglPlanning,
+                            lokasi: {
+                                latitude: data.lokasi.latitude,
+                                longitude: data.lokasi.longitude
+                            },
+                            tglDeploy: data.tglDeploy,
+                            tglTarget: data.tglTarget,
+                            pin: data.pin.map(data=>data)
+        
+                        }
+                    })
+                })
+            }
+        }
         console.log(response)
     } catch (err) {
         res.json({
@@ -144,13 +226,13 @@ router.get('/search', checkAuth, async(req, res) => {
     }
 })
 
+
+
 // CREATE 
 //localhost:3001/api/project/add
 router.post('/add',checkAuth, async (req, res) => {
 
     try {
-            
-
     // Project
     const projectPost = new Project({
         namaProject: req.body.namaProject,
@@ -161,8 +243,8 @@ router.post('/add',checkAuth, async (req, res) => {
             latitude: req.body.lokasiLatitude,
             longitude: req.body.lokasiLongitude
         },
-        tglTarget: !req.body.tglTarget? 0 :`${moment(req.body.tglTarget).format('dddd')}, ${moment(req.body.tglTarget).format('LL')} ${moment(req.body.tglTarget).format('LTS')}`,
-        tglDeploy: !req.body.tglDeploy? 0 :`${moment(req.body.tglDeploy).format('dddd')}, ${moment(req.body.tglDeploy).format('LL')} ${moment(req.body.tglDeploy).format('LTS')}`,
+        tglTarget: !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`,
+        tglDeploy: !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`,
 
         //Pin
         pin: req.body.pin,
@@ -170,7 +252,6 @@ router.post('/add',checkAuth, async (req, res) => {
 
     }) 
         const newProject = await projectPost.save()
-        const result = await Project.findByIdAndUpdate({_id:newProject._id})
         const project = await Project.findById({_id:newProject._id}).populate('pin')
 
         res.json({
@@ -206,23 +287,29 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
         }
         if (req.body.namaProject) {
 			project.namaProject = req.body.namaProject
+            project.updatedAt = moment().format()
         }
         if (req.body.namaSurveyor) {
 			project.namaSurveyor = req.body.namaSurveyor
+            project.updatedAt = moment().format()
         }
         if (req.body.alamatProject) {
 			project.alamatProject = req.body.alamatProject
+            project.updatedAt = moment().format()
         }
         if (req.body.detailProject) {
 			project.detailProject = req.body.detailProject
+            project.updatedAt = moment().format()
         }
         if (req.body.latitude) {
 			project.lokasi.latitude = req.body.latitude
+            project.updatedAt = moment().format()
         }
         if (req.body.longitude) {
 			project.lokasi.longitude = req.body.longitude
+            project.updatedAt = moment().format()
         }
-        project.updateAt = `${moment().format('dddd')}, ${moment().format('LL')} ${moment().format('LTS')}`;
+        
 
         const projectUpdated = await project.save()
 
@@ -367,7 +454,7 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
 			pin.actions.action15 = req.body.action15
         }
 
-        const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin}})
+        const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin, "updatedAt":moment().format()}})
 
 
         if(pinEdited.n==0){

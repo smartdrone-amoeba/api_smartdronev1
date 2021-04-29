@@ -13,12 +13,10 @@ app.use(cors())
 
 // import routes
 const projectRoutes = require('./routes/projectRoutes')
-const pinRoutes = require('./routes/pinRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 // ruoutes
 app.use('/api/project', projectRoutes)
-app.use('/api/pin', pinRoutes)
 app.use('/api/auth', userRoutes)
 
 // connect to DB
