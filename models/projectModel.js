@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const moment = require('moment')
 moment.locale('id')
 let date = new Date()
+date.setHours(date.getHours() + 7)
 
 console.log(date)
 
@@ -18,7 +19,7 @@ const ProjectSchema = new Schema({
     },
 
     //tgl project
-    tglPlanning: {type: Date, default: date.setHours(date.getHours() + 7)},
+    tglPlanning: {type: Date, default:date },
     tglTarget: {type: Date},
     tglDeploy: {type: Date},
     updatedAt: {type: Date, default: date},

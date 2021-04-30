@@ -376,8 +376,8 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
         if (req.body.longitude) {
 			pin.koordinat.longitude = req.body.longitude
         }
-        if (req.body.poiStatuspin) {
-			pin.poi.poiStatus = req.body.poiStatuspin
+        if (req.body.poiStatus) {
+			pin.poi.poiStatus = req.body.poiStatus
         }
         if (req.body.poiMode) {
 			pin.poi.poiMode = req.body.poiMode
