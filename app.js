@@ -16,8 +16,9 @@ const projectRoutes = require('./routes/projectRoutes')
 const userRoutes = require('./routes/userRoutes');
 
 // ruoutes
-app.use('/api/project', projectRoutes)
 app.use('/api/auth', userRoutes)
+app.use('/api/project', projectRoutes)
+
 
 // connect to DB
 mongoose.connect(process.env.DB_CONNECTION, 
