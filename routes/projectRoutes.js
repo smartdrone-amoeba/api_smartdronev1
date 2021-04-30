@@ -5,12 +5,14 @@ const Pin = require('../models/pinModel')
 const checkAuth = require('../middleware/check-auth')
 const moment = require('moment')
 moment.locale('id')
+let date = new Date()
+date.setHours(date.getHours() + 7)
 
 
 // GET
 //localhost:3001/api/project/get-all
 router.get('/get-all',checkAuth, async (req, res)=> {
-        Project.find().populate(['user','pin']).exec().then(response=>{
+        Project.find().populate(['pin']).exec().then(response=>{
                 res.json({
                     status: 'success',
                     message: 'data fetch successfully',
@@ -287,27 +289,27 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
         }
         if (req.body.namaProject) {
 			project.namaProject = req.body.namaProject
-            project.updatedAt = moment().format()
+            project.updatedAt = date
         }
         if (req.body.namaSurveyor) {
 			project.namaSurveyor = req.body.namaSurveyor
-            project.updatedAt = moment().format()
+            project.updatedAt = date
         }
         if (req.body.alamatProject) {
 			project.alamatProject = req.body.alamatProject
-            project.updatedAt = moment().format()
+            project.updatedAt = date
         }
         if (req.body.detailProject) {
 			project.detailProject = req.body.detailProject
-            project.updatedAt = moment().format()
+            project.updatedAt = date
         }
         if (req.body.latitude) {
 			project.lokasi.latitude = req.body.latitude
-            project.updatedAt = moment().format()
+            project.updatedAt = date
         }
         if (req.body.longitude) {
 			project.lokasi.longitude = req.body.longitude
-            project.updatedAt = moment().format()
+            project.updatedAt = date
         }
         
 
@@ -330,7 +332,7 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
 
 
 // Update Pin
-
+// localhost:3001/api/project/update/:projectId/pin/:pinId
 router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
     const {projectId, pinId} = req.params
     try {
@@ -374,8 +376,8 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
         if (req.body.longitude) {
 			pin.koordinat.longitude = req.body.longitude
         }
-        if (req.body.poiStatus) {
-			pin.poi.poiStatus = req.body.poiStatus
+        if (req.body.poiStatuspin) {
+			pin.poi.poiStatus = req.body.poiStatuspin
         }
         if (req.body.poiMode) {
 			pin.poi.poiMode = req.body.poiMode
@@ -454,8 +456,8 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
 			pin.actions.action15 = req.body.action15
         }
 
-        const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin, "updatedAt":moment().format()}})
-
+        const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin, "updatedAt":date.setHours(date.getHours() + 7)}})
+        console.log(pin)
 
         if(pinEdited.n==0){
             return res.json({
@@ -480,7 +482,7 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
         })
 
     } catch (err) {
-        res.json({
+        return res.json({
             status: 'failed',
             message: 'error',
             error: err.message

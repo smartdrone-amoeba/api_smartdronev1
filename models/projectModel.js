@@ -2,12 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const moment = require('moment')
 moment.locale('id')
-const target = moment().format()
+let date = new Date()
 
-// const date = `${target.format('dddd')}`;
-
-
-console.log(target)
+console.log(date)
 
 const ProjectSchema = new Schema({
     //detail project
@@ -21,10 +18,10 @@ const ProjectSchema = new Schema({
     },
 
     //tgl project
-    tglPlanning: {type: Date, default: moment().format()},
+    tglPlanning: {type: Date, default: date.setHours(date.getHours() + 7)},
     tglTarget: {type: Date},
     tglDeploy: {type: Date},
-    updatedAt: {type: Date, default: moment().format()},
+    updatedAt: {type: Date, default: date},
 
     //pin project 
     pin: [
