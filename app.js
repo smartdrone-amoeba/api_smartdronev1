@@ -5,21 +5,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 require('dotenv/config')
 
-const moment =require('moment')
-
-// Middleware mrxxxxxxxxx kondro cvxbxcvxc
-app.use(bodyParser())
-app.use(cors())
-
-// import routes
-const projectRoutes = require('./routes/projectRoutes')
-const userRoutes = require('./routes/userRoutes');
-
-// ruoutes
-app.use('/api/auth', userRoutes)
-app.use('/api/project', projectRoutes)
-
-
 // connect to DB
 mongoose.connect(process.env.DB_CONNECTION, 
     { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify: false, useCreateIndex: true })
@@ -29,6 +14,22 @@ db.on('error', console.error.bind(console, 'Database connect Error!'))
 db.once('open', () => {
     console.log('Database is Connected')
 })
+
+// Middleware mrxxxxxxxxx kondro cvxbxcvxc
+app.disable('x-powered-by')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors())
+
+// import routes
+const projectRoutes = require('./routes/projectRoutes')
+const userRoutes = require('./routes/userRoutes');
+const pinRoutes = require('./routes/pinRoutes')
+
+// ruoutes
+app.use('/api/auth', userRoutes)
+app.use('/api/project', projectRoutes)
+app.use('/api/pin', pinRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running in ${process.env.PORT}`)

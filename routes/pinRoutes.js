@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 
 const PinModel = require('../models/pinModel')
+const {uploadFile} = require('../helper/upload')
 
 
 // GET
@@ -53,65 +55,9 @@ router.get('get-one/:pinId', async(req, res) => {
 
 // CREATE 
 //localhost:3001/api/pin/add
-router.post('/add', async (req, res) => {
+router.post('/add',uploadFile('image') , async (req, res) => {
     try {
-        let newPin
-        req.body.forEach(data=> {
-            newPin = new PinModel({
-                name: data.name,
-                koordinate : {
-                    latitude: data.latitude,
-                    longitude: data.longitude
-                },
-                speed: data.speed,
-                altitude: data.altitude,
-                heading: data.heading,
-                curvesize: data.curvesize,
-                rotationdir: data.rotationdir,
-                poi:{
-                    poiStatus: data.poiStatus,
-                    poiMode: data.poiMode,
-                    poiLatitude: data.poiLatitude,
-                    poiLongtude: data.poiLongtude,
-                    poiAltiutde: data.poiAltiutde,
-                },
-                gimbalmode:{
-                    disable: data.disableGimbal,
-                    focuspoi: data.focuspoiGimbal,
-                    interpolate: data.interpolateGimbal,
-                },
-                intervalmode:{
-                    disable: data.disableInterval,
-                    seconds: data.secondsInterval,
-                    meters:data.metersInterval,
-                },
-                actions: {
-                    act01: data.action01,
-                    act02: data.action02,
-                    act03: data.action03,
-                    act04: data.action04,
-                    act05: data.action05,
-                    act06: data.action06,
-                    act07: data.action07,
-                    act08: data.action08,
-                    act09: data.action09,
-                    act10: data.action10,
-                    act11: data.action11,
-                    act12: data.action12,
-                    act13: data.action13,
-                    act14: data.action14,
-                    act15: data.action15,
-                }
-            })
-        })
-
-        const createPin = await PinModel.insertMany(newPin, {ordered:true})
-        console.log(createPin)
-        res.json({
-            status: 'success',
-            message: 'data create successfully',
-            data: createPin
-        })
+        // console.log(req.file)
 
     } catch (err) {
         res.json({
