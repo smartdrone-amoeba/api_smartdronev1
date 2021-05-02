@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const router = require('./projectRoutes')
 require('dotenv/config')
+const checkAuth = require('../middleware/check-auth')
 
 let date = new Date()
 date.setHours(date.getHours() + 7)
@@ -30,9 +31,31 @@ router.get('/get', async (req, res)=> {
     }
 })
 
+// Get By Id
+// localhost:3001/api/auth/get-one/[userId]
+
+router.get('/get/:userId', async(req, res) => {
+    const {userId:id} = req.params
+    try {
+        const response = await User.findOne({_id:id}).select('_id name email address phone createdAt updatedAt')
+        res.json({
+            status: 'success',
+            message: 'data fetch successfully',
+            data: response
+        })
+    } catch (err) {
+        res.json({
+            status: 'failed',
+            message: 'request error',
+            error: err.message,
+        })
+    }
+})
 
 
-// Sign Up
+
+// Register
+// localhot:3001/api/auth/register
 router.post('/register', async(req, res) => {
     const {email, password, name, gender, address, phone} = req.body
     try {
@@ -85,6 +108,9 @@ router.post('/register', async(req, res) => {
         })
     }
 })
+
+// Login
+// localhost:3001/api/auth/login
 
 router.post('/login', async(req, res) => {
     const {email, password} = req.body
@@ -142,6 +168,8 @@ router.post('/login', async(req, res) => {
     }
 })
 
+// Update
+// localhost:3001/api/auth/update-user/:[userId]
 
 router.patch('/update-user/:userId', async(req, res) => {
     const {userId:id} = req.params
@@ -166,7 +194,7 @@ try {
         }
         if (req.body.phone) {
 			user.phone = req.body.phone
-            project.updatedAt = date
+            user.updatedAt = date
         }
 
         const userUpdated = await user.save()
@@ -186,23 +214,26 @@ try {
 }
 })
 
-router.delete('/delete/:userId', async(req, res) => {
+
+// Delete
+// localhost:3001/api/auth/delete-user/[userId]
+router.delete('/delete-user/:userId', checkAuth, async(req, res) => {
     const{userId:id} = req.params
     try {
-        const response = await User.remove({_id:id})
+        const response = await User.deleteOne({_id:id})
+        console.log(response)
         if(response.n){
-            res.json({
+            return res.json({
                 status: 'success',
                 message: 'data delete successfully',
                 id: id
             })       
         }else{
-        res.json({
+        return res.json({
             status: 'failed',
             message:`data id: ${id} not found`,
         })
-    }
-            
+    }        
     } catch (err) {
         res.json({
             status: 'failed',

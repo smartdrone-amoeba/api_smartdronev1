@@ -10,7 +10,7 @@ const userSchema = new Schema({
     name: {type: String, required: true},
     address: {type: String,required: true},
     gender: {type: String, required: true},
-    phone: {type: String, required: true},
+    phone: {type: Number, required: true},
     projects: [{type:Schema.Types.ObjectId, ref: 'Project'}],
     createdAt: {type: Date, default:date},
     updatedAt: {type: Date, default:date}

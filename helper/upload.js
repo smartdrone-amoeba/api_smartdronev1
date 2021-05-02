@@ -3,7 +3,6 @@ const bucket = googleCloud.bucket('smartdrone-backend')
 const multer = require('multer');
 
 exports.uploadFile = (field) => {
-    console.log(bucket)
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       return cb(null, 'uploads/');
