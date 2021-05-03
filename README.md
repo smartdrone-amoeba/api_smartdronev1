@@ -4,6 +4,7 @@
 
 * **URL**
 
+***USER***
 
 > Endpoint `http://localhost:3001/api/auth`
  
@@ -19,12 +20,28 @@
  
  `DELETE` /delete-user/[id]
  
+ ***PROJECT***
+ 
+ > Endpoint `http://localhost:3001/api/project`
+ 
+ `GET`  /api/project/get-all (Menampilkan list semua project)
+ 
+ `GET`  /api/project/get/[id] (Menampilkan data project berdasarkan id)
+
+ `POST` /api/project/add (create project baru)
+ 
+ `PATCH` api/project/update/[id] (Edit parsial project)
+ 
+ `PATCH` api/project/update/[id]/pin/[id] (Edit parsial project pin)
+ 
+ `DELETE` api/project/delete/[id]
+ 
  
  
  **EXAMPLE USER**
  
- **Contoh Input
- `GET`  /api/auth/get (Menampilkan list semua user)**
+ Contoh Input
+ `GET`  /api/auth/get (Menampilkan list semua user)
  
  ```
  headers : {
@@ -174,6 +191,876 @@ Contoh Output
 }
 ```
 
+**EXAMPLE PROJECT**
+
+Contoh Input
+ `GET`  /api/project/get-all (Menampilkan list semua project)
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ contoh Output
+ ```
+ // GET
+ {
+    "status": "success",
+    "message": "data fetch successfully",
+    "count": 1,
+    "data": [
+        {
+            "_id": "608f7c003daf47153969376d",
+            "namaProject": "Padang Sidimpuan",
+            "namaSurveyor": "hasibuan",
+            "alamatProject": "Medan sunggal Jl. SM Raja",
+            "tglPlanning": "2021-05-03T10:59:34.458Z",
+            "updatedAt": "2021-05-03T10:59:34.458Z",
+            "lokasi": {
+                "latitude": null,
+                "longitude": null
+            },
+            "tglDeploy": null,
+            "tglTarget": "2021-08-30T01:42:39.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf47153969376e",
+                    "name": "pin 1",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": false,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf47153969376f",
+                    "name": "pin 2",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf471539693770",
+                    "name": "pin 3",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf471539693771",
+                    "name": "pin 5",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf471539693772",
+                    "name": "pin 4",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                }
+            ],
+            "user": {
+                "_id": "608f76223daf47153969376c"
+            }
+        }
+    ]
+}
+  ```
+  
+Contoh Input
+ `GET`  /api/project/get-one/[id] (Menampilkan project By Id)
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ contoh Output
+ ```
+ // GET
+ {
+    "status": "success",
+    "message": "data fetch successfully",
+    "data": {
+        "id": "608f7c003daf47153969376d",
+        "namaProject": "Padang Sidimpuan",
+        "namaSurveyor": "hasibuan",
+        "alamatProject": "Medan sunggal Jl. SM Raja",
+        "tglPlanning": "2021-05-03T10:59:34.458Z",
+        "lokasi": {
+            "latitude": null,
+            "longitude": null
+        },
+        "tglDeploy": null,
+        "tglTarget": "2021-08-30T01:42:39.000Z",
+        "pin": [
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf47153969376e",
+                "name": "pin 1",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": false,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf47153969376f",
+                "name": "pin 2",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf471539693770",
+                "name": "pin 3",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf471539693771",
+                "name": "pin 5",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf471539693772",
+                "name": "pin 4",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            }
+        ]
+    }
+}
+  ```
+  
+Contoh Input
+ `POST`  /api/project/add (Add Project)
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ ```
+ {
+    "namaProject": "Padang Sidimpuan",
+    "namaSurveyor": "hasibuan",
+    "alamatProject": "Medan sunggal Jl. SM Raja",
+    "tglTarget": "2021-08-30T01:42:39.000Z",
+    "pin": [
+        {
+            "name": "pin 1",
+            "koordinat"    : {
+                "latitude" : 1, 
+                "longitude" : 3
+            },
+            "speed":12,
+            "altitude": 10,
+            "heading": 30,
+            "curvesize": 1,
+            "rotationdir":10,
+            "poi": {
+                "poiStatus":true,
+                "poiMode" :5,
+                "poiLatitude":1,
+                "poiLongtude":2,
+                "poiAltiutde":6
+            },
+            "gimbalmode": {
+                "disable": false,
+                "focuspoi":true,
+                "interpolate": 11
+            },
+            "intervalmode": {
+                "disable": false,
+                "seconda":2000,
+                "meters":52
+            },
+            "actions": {
+                "act01": 1,
+                "act02": 2,
+                "act03": 3,
+                "act04": 4,
+                "act05": 5,
+                "act06": 1,
+                "act08": 2,
+                "act09": 3
+            }  
+        },
+        {
+            "name": "pin 2",
+            "koordinat"    : {
+                "latitude" : 1, 
+                "longitude" : 3
+            },
+            "speed":12,
+            "altitude": 10,
+            "heading": 30,
+            "curvesize": 1,
+            "rotationdir":10,
+            "poi": {
+                "poiStatus":false,
+                "poiMode" :5,
+                "poiLatitude":1,
+                "poiLongtude":2,
+                "poiAltiutde":6
+            },
+            "gimbalmode": {
+                "disable": false,
+                "focuspoi":true,
+                "interpolate": 11
+            },
+            "intervalmode": {
+                "disable": false,
+                "seconda":2000,
+                "meters":52
+            },
+            "actions": {
+                "act01": 1,
+                "act02": 2,
+                "act03": 3,
+                "act04": 4,
+                "act05": 5,
+                "act06": 1,
+                "act08": 2,
+                "act09": 3
+            }  
+        },
+        {
+            "name": "pin 3",
+            "koordinat"    : {
+                "latitude" : 1, 
+                "longitude" : 3
+            },
+            "speed":12,
+            "altitude": 10,
+            "heading": 30,
+            "curvesize": 1,
+            "rotationdir":10,
+            "poi": {
+                "poiStatus":true,
+                "poiMode" :5,
+                "poiLatitude":1,
+                "poiLongtude":2,
+                "poiAltiutde":6
+            },
+            "gimbalmode": {
+                "disable": false,
+                "focuspoi":true,
+                "interpolate": 11
+            },
+            "intervalmode": {
+                "disable": false,
+                "seconda":2000,
+                "meters":52
+            },
+            "actions": {
+                "act01": 1,
+                "act02": 2,
+                "act03": 3,
+                "act04": 4,
+                "act05": 5,
+                "act06": 1,
+                "act08": 2,
+                "act09": 3
+            }  
+        },
+        {
+            "name": "pin 5",
+            "koordinat"    : {
+                "latitude" : 1, 
+                "longitude" : 3
+            },
+            "speed":12,
+            "altitude": 10,
+            "heading": 30,
+            "curvesize": 1,
+            "rotationdir":10,
+            "poi": {
+                "poiStatus":true,
+                "poiMode" :5,
+                "poiLatitude":1,
+                "poiLongtude":2,
+                "poiAltiutde":6
+            },
+            "gimbalmode": {
+                "disable": false,
+                "focuspoi":true,
+                "interpolate": 11
+            },
+            "intervalmode": {
+                "disable": false,
+                "seconda":2000,
+                "meters":52
+            },
+            "actions": {
+                "act01": 1,
+                "act02": 2,
+                "act03": 3,
+                "act04": 4,
+                "act05": 5,
+                "act06": 1,
+                "act08": 2,
+                "act09": 3
+            }  
+        },
+        {
+            "name": "pin 4",
+            "koordinat"    : {
+                "latitude" : 1, 
+                "longitude" : 3
+            },
+            "speed":12,
+            "altitude": 10,
+            "heading": 30,
+            "curvesize": 1,
+            "rotationdir":10,
+            "poi": {
+                "poiStatus":true,
+                "poiMode" :5,
+                "poiLatitude":1,
+                "poiLongtude":2,
+                "poiAltiutde":6
+            },
+            "gimbalmode": {
+                "disable": false,
+                "focuspoi":true,
+                "interpolate": 11
+            },
+            "intervalmode": {
+                "disable": false,
+                "seconda":2000,
+                "meters":52
+            },
+            "actions": {
+                "act01": 1,
+                "act02": 2,
+                "act03": 3,
+                "act04": 4,
+                "act05": 5,
+                "act06": 1,
+                "act08": 2,
+                "act09": 3
+            }  
+        }        
+    ]
+}
+ ```
+ 
+ contoh Output
+ ```
+ {
+    "status": "success",
+    "message": "data create successfully",
+    "data": {
+        "lokasi": {
+            "latitude": null,
+            "longitude": null
+        },
+        "tglPlanning": "2021-05-03T10:59:34.458Z",
+        "updatedAt": "2021-05-03T10:59:34.458Z",
+        "_id": "608f7c003daf47153969376d",
+        "namaProject": "Padang Sidimpuan",
+        "namaSurveyor": "hasibuan",
+        "alamatProject": "Medan sunggal Jl. SM Raja",
+        "tglTarget": "2021-08-30T01:42:39.000Z",
+        "tglDeploy": null,
+        "pin": [
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf47153969376e",
+                "name": "pin 1",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": false,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf47153969376f",
+                "name": "pin 2",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf471539693770",
+                "name": "pin 3",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf471539693771",
+                "name": "pin 5",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "608f7c003daf471539693772",
+                "name": "pin 4",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            }
+        ],
+        "user": "608f76223daf47153969376c",
+        "__v": 0
+    }
+}
+  ```
+  
 
 
-** EXAMPLE PROJECT**
