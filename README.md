@@ -41,6 +41,7 @@
  **EXAMPLE USER**
  
  **Contoh Input  `GET`  /api/auth/get (Menampilkan list semua user)**
+ ----
  
  ```
  headers : {
@@ -71,6 +72,7 @@
   
   **Contoh Input
   `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)**
+  ----
   
    ```
  headers : {
@@ -98,6 +100,7 @@
   ```
   **Contoh Input
 `POST` /api/auth/register**
+----
 
 ```
 {
@@ -121,6 +124,7 @@ Contoh Output
 ```
 **Contoh Input
 `POST` /api/auth/login**
+----
 
 ```
 {
@@ -140,6 +144,7 @@ Contoh Output
 
 **Contoh Input
 `PATCH` /api/auth/update-user/608e2c7fc3435e000bc27d4c**
+----
 
  ```
  headers : {
@@ -174,6 +179,7 @@ Contoh Output
 
 **Contoh Input
 `DELETE` /api/auth/delete-user/608f76223daf47153969376c**
+----
 
  ```
  headers : {
@@ -194,6 +200,7 @@ Contoh Output
 
 **Contoh Input
  `GET`  /api/project/get-all (Menampilkan list semua project)**
+ ----
  
  ```
  headers : {
@@ -419,6 +426,7 @@ Contoh Output
   
 **Contoh Input
  `GET`  /api/project/get-one/[id] (Menampilkan project By Id)**
+ ----
  
  ```
  headers : {
@@ -637,6 +645,7 @@ Contoh Output
   
  **Contoh Input
  `GET`  /api/project/search?[query] (Menampilkan project By Id)**
+ ----
  
  >note: query => * namaProject = padang
                  * alamatProject
@@ -866,6 +875,7 @@ Contoh Output
   
 **Contoh Input
  `POST`  /api/project/add (Add Project)**
+ ----
  
  ```
  headers : {
@@ -1292,6 +1302,7 @@ Contoh Output
   
 **Contoh Input
  `PATCH`  /api/project/update/[id] (Update project (Spesifikasi field allowed))**
+ ----
  
  ```
  headers : {
@@ -1523,6 +1534,7 @@ Contoh Output
  
  **Contoh Input
  `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed))**
+ ----
  
  ```
  headers : {
@@ -1553,6 +1565,7 @@ Contoh Output
  
  **Contoh Input
  `DELETE`  /api/project/delete/[projectId] (Update project (Spesifikasi field allowed))**
+ ----
  
  ```
  headers : {
