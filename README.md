@@ -6,7 +6,7 @@
 
 ***USER***
 
-> Endpoint `http://localhost:3001/api/auth`
+> Endpoint `https://our-chess-310913.et.r.appspot.com/api/auth`
  
  `GET`  /api/auth/get (Menampilkan list semua user)
  
@@ -22,7 +22,7 @@
  
  ***PROJECT***
  
- > Endpoint `http://localhost:3001/api/project`
+ > Endpoint `https://our-chess-310913.et.r.appspot.com/api/project`
  
  `GET`  /api/project/get-all (Menampilkan list semua project)
  
