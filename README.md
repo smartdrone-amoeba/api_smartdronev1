@@ -23,12 +23,13 @@
  
  **CONTOH OUTPUT**
  
+ `GET`  /api/auth/get (Menampilkan list semua user)
  ```
  // GET
  {
     "status": "success",
     "message": "data fetch successfully",
-    "count": 3,
+    "count": 1,
     "data": [
         {
             "createdAt": "2021-05-02T11:24:15.235Z",
