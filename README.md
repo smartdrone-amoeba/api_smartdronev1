@@ -21,11 +21,16 @@
  
  
  
- **EXAMPLE**
+ **EXAMPLE USER**
  
  Contoh Input
- >Token
  `GET`  /api/auth/get (Menampilkan list semua user)
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
  
  contoh Output
  ```
@@ -49,8 +54,13 @@
   ```
   
   Contoh Input
-  >Token
   `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)
+  
+   ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
   
   Contoh Output
  ```
@@ -113,8 +123,13 @@ Contoh Output
 ```
 
 Contoh Input
->Token
 `PATCH` /api/auth/update-user/608e2c7fc3435e000bc27d4c
+
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
 
 ```
 {
@@ -142,9 +157,13 @@ Contoh Output
 ```
 
 Contoh Input
->Token
 `DELETE` /api/auth/delete-user/608f76223daf47153969376c
 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
 
 Contoh Output
 ```
@@ -154,3 +173,7 @@ Contoh Output
     "id": "608f76223daf47153969376c"
 }
 ```
+
+
+
+** EXAMPLE PROJECT**
