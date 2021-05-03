@@ -636,6 +636,235 @@ Contoh Input
 }
   ```
   
+  Contoh Input
+ `GET`  /api/project/search?[query] (Menampilkan project By Id)
+ 
+ >note: query => * namaProject = padang
+                 * alamatProject
+                 * namaSurveyor
+                 * date between tglPlanning
+                 * date between tglDeploy
+                 * date between tglTarget
+ 
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ contoh Output
+ 
+ ```
+ {
+    "status": "success",
+    "message": "data fetch successfully",
+    "count": 1,
+    "data": [
+        {
+            "_id": "608f7c003daf47153969376d",
+            "namaProject": "Padang Sidimpuan",
+            "namaSurveyor": "hasibuan",
+            "alamatProject": "Medan sunggal Jl. SM Raja",
+            "tglPlanning": "2021-05-03T10:59:34.458Z",
+            "lokasi": {
+                "latitude": null,
+                "longitude": null
+            },
+            "tglDeploy": null,
+            "tglTarget": "2021-08-30T01:42:39.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf47153969376e",
+                    "name": "pin 1",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": false,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf47153969376f",
+                    "name": "pin 2",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf471539693770",
+                    "name": "pin 3",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf471539693771",
+                    "name": "pin 5",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                },
+                {
+                    "koordinat": {
+                        "latitude": 1,
+                        "longitude": 3
+                    },
+                    "poi": {
+                        "poiStatus": true,
+                        "poiMode": 5,
+                        "poiLatitude": 1,
+                        "poiLongtude": 2,
+                        "poiAltiutde": 6
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 11
+                    },
+                    "intervalmode": {
+                        "meters": 52
+                    },
+                    "actions": {
+                        "act01": 1,
+                        "act02": 2,
+                        "act03": 3,
+                        "act04": 4,
+                        "act05": 5,
+                        "act06": 1,
+                        "act08": 2,
+                        "act09": 3
+                    },
+                    "_id": "608f7c003daf471539693772",
+                    "name": "pin 4",
+                    "speed": 12,
+                    "altitude": 10,
+                    "heading": 30,
+                    "curvesize": 1,
+                    "rotationdir": 10
+                }
+            ]
+        }
+    ]
+}
+ ```
+  
 Contoh Input
  `POST`  /api/project/add (Add Project)
  
