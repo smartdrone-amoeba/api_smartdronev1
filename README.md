@@ -23,6 +23,7 @@
  
  **EXAMPLE**
  
+ Contoh Input
  `GET`  /api/auth/get (Menampilkan list semua user)
  
  contoh Output
@@ -46,9 +47,13 @@
 }
   ```
   
+  Contoh Input
   `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)
+  
+  Contoh Output
  ```
  // GET BY ID
+
  {
     "status": "success",
     "message": "data fetch successfully",
