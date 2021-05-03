@@ -21,9 +21,11 @@
  
  
  
- **CONTOH OUTPUT**
+ **EXAMPLE**
  
  `GET`  /api/auth/get (Menampilkan list semua user)
+ 
+ contoh Output
  ```
  // GET
  {
