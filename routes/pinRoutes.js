@@ -6,6 +6,12 @@ const PinModel = require('../models/pinModel')
 const {uploadFile} = require('../helper/upload')
 
 
+const upload = multer({
+    storage: multer.memoryStorage(),
+    fileSize: 5 * 1024 * 1024
+})
+
+
 // GET
 
 //localhost:3001/api/project/get-all
@@ -55,15 +61,18 @@ router.get('get-one/:pinId', async(req, res) => {
 
 // CREATE 
 //localhost:3001/api/pin/add
-router.post('/add',uploadFile('image') , async (req, res) => {
+router.post('/add', async (req, res) => {
     try {
-        // console.log(req.file)
+        const fileUpload = req.file
+
+        const response = await uploadFile(fileUpload)
+        console.log(response)
 
     } catch (err) {
         res.json({
             status: 'failed',
-            message: 'error',
-            error: err.message
+            message: 'error 1',
+            error: err
         })
     }
 })

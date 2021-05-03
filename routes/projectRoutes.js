@@ -63,11 +63,12 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
     try {
         const response = await Project.findOne({_id:id}).populate(['user', 'pin'])
         
+        console.log(response._id)
         res.json({
             status: 'success',
             message: 'data fetch successfully',
             data: {
-                _id:response._id,
+                id:response._id,
                             namaProject: response.namaProject,
                             namaSurveyor: response.namaSurveyor,
                             alamatProject:response.alamatProject,
@@ -79,15 +80,7 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
                             },
                             tglDeploy: response.tglDeploy,
                             tglTarget: response.tglTarget,
-                            pin: response.pin.map(data=>data),
-                            user: {
-                                _id: response.user._id,
-                                name: response.user.name,
-                                email: response.user.email,
-                                gender: response.user.gender,
-                                address: response.user.address,
-                                phone: response.user.phone
-                            }
+                            pin: response.pin.map(data=>data)
             },
         })
     } catch (err) {
