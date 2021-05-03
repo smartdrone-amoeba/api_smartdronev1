@@ -1,13 +1,14 @@
 const Cloud = require('@google-cloud/storage')
 const path = require('path')
-const serviceKey = require('../key.json')
+require('dotenv/config')
+const serviceKey = path.join(__dirname, '../key-new.json')
 
 const { Storage } = Cloud
 
 // Storage
 const storage = new Storage({
   keyFilename: serviceKey,
-  projectId: process.env.GCS_PROJECT_ID,
+  projectId: "our-chess-310913",
 })
 
 module.exports = storage

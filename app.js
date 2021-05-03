@@ -3,7 +3,6 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const multer = require('multer')
 require('dotenv/config')
 
 
@@ -17,19 +16,10 @@ db.once('open', () => {
     console.log('Database is Connected')
 })
 
-const multerMid = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-      // no larger than 5mb.
-      fileSize: 5 * 1024 * 1024,
-    },
-  })
-
 // Middleware mrxxxxxxxxx kondro cvxbxcvxc
 app.disable('x-powered-by')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(multerMid.single('file'))
 app.use(cors())
 
 // import routes
