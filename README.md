@@ -68,3 +68,44 @@
     }
 }
   ```
+  Contoh Input
+`POST` /api/auth/register
+
+```
+{
+    "email": "harahap@gmail.com",
+    "password":"xxxx",
+    "name": "harahap",
+    "gender":"man",
+    "address": "address tester",
+    "phone": "0945345345345354345"
+}
+```
+
+Contoh Output
+
+```
+{
+    "status": "success",
+    "message": "User was created",
+    "token": "xxxxxxxxxxxxxxxxxx"
+}
+```
+Contoh Input
+`POST` /api/auth/login
+
+```
+{
+    "email": "harahap@gmail.com",
+    "password": "harahap"
+}
+```
+
+Contoh Output
+```
+{
+    "status": "success",
+    "message": "login successfully",
+    "token": "xxxxxxxxxxxx"
+}
+```
