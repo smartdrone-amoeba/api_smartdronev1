@@ -1553,7 +1553,7 @@ Contoh Input
  
  
  Contoh Input
- `PATCH`  /api/project/delete/[projectId] (Update project (Spesifikasi field allowed))
+ `DELETE`  /api/project/delete/[projectId] (Update project (Spesifikasi field allowed))
  
  ```
  headers : {
