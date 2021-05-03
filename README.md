@@ -18,3 +18,18 @@
  `PATCH` /update-user/[id] (Edit parsial user)
  
  `DELETE` /delete-user/[id]
+ 
+ 
+ 
+ **CONTOH OUTPUT**
+ 
+ ```javascript
+    $.ajax({
+      url: "/users/1",
+      dataType: "json",
+      type : "GET",
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```
