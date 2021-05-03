@@ -39,6 +39,7 @@
  
  
  **EXAMPLE USER**
+  ----
  
  **Contoh Input  `GET`  /api/auth/get (Menampilkan list semua user)**
  ----
@@ -197,6 +198,7 @@ Contoh Output
 ```
 
 **EXAMPLE PROJECT**
+ ----
 
 **Contoh Input
  `GET`  /api/project/get-all (Menampilkan list semua project)**
