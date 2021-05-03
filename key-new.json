@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "our-chess-310913",
+  "private_key_id": "100ee44e86aebaa1ee94e65c775aede8fcacc012",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDPQkJ0cWG5NgyG\nWL/nnF10mjJq6DY0UYa9ql0JM+vPwwJQKcm+WNoPzYpfg9ooMRP1ddtKzC379T1g\ngVv9+4+ddjnbl8R+87/+bDBDr2cfv1v0Rep62zmDaTCtH9Z8qb/0mLFjObvESCWs\nMWbyhawgdBemN0AVVdYblC5CN+VXaHSpLunge/ryVinvCQQg7D33CJXhtZ8Cm/e/\nDuSQV2gFfaE7S1pn+Xo/1RlQ753Jph+8aMcRpM2mK2cpOnCWTBFyrpRmg/xPrK0L\nkVX00LEfqTc+2NussCjMExkoI1BzvVH64azTCOowO8ZwxeYYXqklGNSCJ2daK9d1\noOasMVx9AgMBAAECggEAIAjEP740lg1qEyvNgY10Dm005Lw+gIinVFJsLdt2E7c2\n+M/0rDSMg8vHmurEwdiQFqzgN6fmZZ6qnWtxHgkPUg2vdKb5Cow/PSJYtWV7gXcw\nzckurE2NDqgoC2Iz4zHThwlAxa7rPDPQitRZ7ptFlwCKlTjN8V5CiSG2oqqECqXF\nsTXjCYZqOViijnXc1c1zjYPu9k8rrcV4jKtFQeoen9LBxHD3XptsNuQrZ7FxfQla\ndua2S2IgaEWF72bGr+A9MyLvPsp1GtrsU2e4zspp3zZ9Tt6egl0QloRbC2cAac8k\njpSQ1ZwQsGnYaOco/2SIskWWbZd/2Kg0YWdffk4iewKBgQDylfvhAhYk/j6kZ121\ngBA15oA8IQ424178qKvjCrsMiy+GHh6+ECH8oDvULOVC3wFZ/iKYsW03JkI2v+ai\npLlTp/HVfJAGTMnHzExGwa87SxPWmDL3vjbzBEKNpeIH7TBYjfVUMZW3OrHbcIup\nX7uPvwUDvz3WrRjQBs15nnCg4wKBgQDauDC3RyrEYeFQZ3/BOSvCCONSABXJHsRS\nHErfUsCl4dABYZ6Yb8fAFS7W1C63zpUQvwpeSl7xW47PAyT4zWWtntxGxjmQjwXX\n1OiH03sCkiuZGeS4rX7VoN7sb5COS7OlHCx9ky+jNV03CkwBpRm6I1zmLOutTl0Q\nhAX2HaVrHwKBgQCBL7hscmUCnFcVzGpOHv4DBlaiLuRX/Kv4F4c6KNvF6VWMsfuj\nMgo3c8mIy8Pn4cThfQJFmK9V4E0AxR943ApJ77VNAMHeaQRIH5c7UygThn7xGCqE\nXsr6jfk3X/DIUdsePbM5fBKD+oD/IKdvsqi6+3obLbwr2BDPr9+69dJ7CwKBgE2F\n7ZZ4vhrfSppSJQEav3zF47TD3PTtV852wr8HOMtTD4P90tXbAOT/XRu+F1UE/ubx\nn74uBBruRd7wEWGyg7CXVyIqzmqDlyGaEFVcSwRtRNC+Uch3jjYwD/Oj04vsHx+N\nreNQkRj7KDADEU+f8k98i0f2cg56cRgSg35poaEnAoGBAO95quLYnVZCSx6wveC1\nfrGqvdd+XCifPEOXzqwrhKh4bGwvYSb2vYoCMKA11vPj1p3TBOZUQs6CnAimSm03\nbkDa2mXJE9xkHvXX7xrhjfddQBTTWXBwD6W71i4fI4hvLbZvzgsyIxfTOgQCiSRg\nTHDh8l9wzGFNaz0q+BrRT9EM\n-----END PRIVATE KEY-----\n",
+  "client_email": "contoh-cloud@our-chess-310913.iam.gserviceaccount.com",
+  "client_id": "113295472629280932452",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/contoh-cloud%40our-chess-310913.iam.gserviceaccount.com"
+}
