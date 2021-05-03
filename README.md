@@ -23,8 +23,8 @@
  
  **EXAMPLE**
  
- Contoh Input
- `GET`  /api/auth/get (Menampilkan list semua user)
+ **Contoh Input
+ `GET`  /api/auth/get (Menampilkan list semua user)**
  
  contoh Output
  ```
@@ -47,8 +47,8 @@
 }
   ```
   
-  Contoh Input
-  `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)
+  **Contoh Input
+  `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)**
   
   Contoh Output
  ```
@@ -68,8 +68,8 @@
     }
 }
   ```
-  Contoh Input
-`POST` /api/auth/register
+  **Contoh Input
+`POST` /api/auth/register**
 
 ```
 {
@@ -91,8 +91,8 @@ Contoh Output
     "token": "xxxxxxxxxxxxxxxxxx"
 }
 ```
-Contoh Input
-`POST` /api/auth/login
+**Contoh Input
+`POST` /api/auth/login**
 
 ```
 {
