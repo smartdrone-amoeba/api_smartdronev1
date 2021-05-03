@@ -23,8 +23,8 @@
  
  **EXAMPLE USER**
  
- Contoh Input
- `GET`  /api/auth/get (Menampilkan list semua user)
+ **Contoh Input
+ `GET`  /api/auth/get (Menampilkan list semua user)**
  
  ```
  headers : {
