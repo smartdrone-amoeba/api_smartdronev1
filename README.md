@@ -69,8 +69,8 @@
 }
   ```
   
-  Contoh Input
-  `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)
+  **Contoh Input
+  `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)**
   
    ```
  headers : {
@@ -96,8 +96,8 @@
     }
 }
   ```
-  Contoh Input
-`POST` /api/auth/register
+  **Contoh Input
+`POST` /api/auth/register**
 
 ```
 {
@@ -119,8 +119,8 @@ Contoh Output
     "token": "xxxxxxxxxxxxxxxxxx"
 }
 ```
-Contoh Input
-`POST` /api/auth/login
+**Contoh Input
+`POST` /api/auth/login**
 
 ```
 {
@@ -138,8 +138,8 @@ Contoh Output
 }
 ```
 
-Contoh Input
-`PATCH` /api/auth/update-user/608e2c7fc3435e000bc27d4c
+**Contoh Input
+`PATCH` /api/auth/update-user/608e2c7fc3435e000bc27d4c**
 
  ```
  headers : {
@@ -172,8 +172,8 @@ Contoh Output
 }
 ```
 
-Contoh Input
-`DELETE` /api/auth/delete-user/608f76223daf47153969376c
+**Contoh Input
+`DELETE` /api/auth/delete-user/608f76223daf47153969376c**
 
  ```
  headers : {
@@ -192,8 +192,8 @@ Contoh Output
 
 **EXAMPLE PROJECT**
 
-Contoh Input
- `GET`  /api/project/get-all (Menampilkan list semua project)
+**Contoh Input
+ `GET`  /api/project/get-all (Menampilkan list semua project)**
  
  ```
  headers : {
@@ -417,8 +417,8 @@ Contoh Input
 }
   ```
   
-Contoh Input
- `GET`  /api/project/get-one/[id] (Menampilkan project By Id)
+**Contoh Input
+ `GET`  /api/project/get-one/[id] (Menampilkan project By Id)**
  
  ```
  headers : {
@@ -635,8 +635,8 @@ Contoh Input
 }
   ```
   
-  Contoh Input
- `GET`  /api/project/search?[query] (Menampilkan project By Id)
+ **Contoh Input
+ `GET`  /api/project/search?[query] (Menampilkan project By Id)**
  
  >note: query => * namaProject = padang
                  * alamatProject
@@ -864,8 +864,8 @@ Contoh Input
 }
  ```
   
-Contoh Input
- `POST`  /api/project/add (Add Project)
+**Contoh Input
+ `POST`  /api/project/add (Add Project)**
  
  ```
  headers : {
@@ -1290,8 +1290,8 @@ Contoh Input
 }
   ```
   
-Contoh Input
- `PATCH`  /api/project/update/[id] (Update project (Spesifikasi field allowed))
+**Contoh Input
+ `PATCH`  /api/project/update/[id] (Update project (Spesifikasi field allowed))**
  
  ```
  headers : {
@@ -1521,8 +1521,8 @@ Contoh Input
 }
  ```
  
- Contoh Input
- `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed))
+ **Contoh Input
+ `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed))**
  
  ```
  headers : {
@@ -1551,8 +1551,8 @@ Contoh Input
  ```
  
  
- Contoh Input
- `DELETE`  /api/project/delete/[projectId] (Update project (Spesifikasi field allowed))
+ **Contoh Input
+ `DELETE`  /api/project/delete/[projectId] (Update project (Spesifikasi field allowed))**
  
  ```
  headers : {
