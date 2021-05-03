@@ -23,8 +23,9 @@
  
  **EXAMPLE**
  
- **Contoh Input
- `GET`  /api/auth/get (Menampilkan list semua user)**
+ Contoh Input
+ >Token
+ `GET`  /api/auth/get (Menampilkan list semua user)
  
  contoh Output
  ```
@@ -47,8 +48,9 @@
 }
   ```
   
-  **Contoh Input
-  `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)**
+  Contoh Input
+  >Token
+  `GET`  /api/auth/get/608e2c7fc3435e000bc27d4c (Menampilkan User By ID)
   
   Contoh Output
  ```
@@ -68,8 +70,8 @@
     }
 }
   ```
-  **Contoh Input
-`POST` /api/auth/register**
+  Contoh Input
+`POST` /api/auth/register
 
 ```
 {
@@ -91,8 +93,8 @@ Contoh Output
     "token": "xxxxxxxxxxxxxxxxxx"
 }
 ```
-**Contoh Input
-`POST` /api/auth/login**
+Contoh Input
+`POST` /api/auth/login
 
 ```
 {
@@ -107,5 +109,48 @@ Contoh Output
     "status": "success",
     "message": "login successfully",
     "token": "xxxxxxxxxxxx"
+}
+```
+
+Contoh Input
+>Token
+`PATCH` /api/auth/update-user/608e2c7fc3435e000bc27d4c
+
+```
+{
+    "name":"donkey",
+    "phone": "0932834943",
+    "address": "jalan kutilang edit"
+}
+```
+
+Contoh Output
+```
+{
+    "status": "success",
+    "message": "data update successfully",
+    "data": {
+        "createdAt": "2021-05-02T11:24:15.235Z",
+        "updatedAt": "2021-05-03T10:59:34.680Z",
+        "_id": "608e2c7fc3435e000bc27d4c",
+        "email": "drone@gmail.com",
+        "name": "donkey",
+        "address": "jalan kutilang edit",
+        "phone": 932834943
+    }
+}
+```
+
+Contoh Input
+>Token
+`DELETE` /api/auth/delete-user/608f76223daf47153969376c
+
+
+Contoh Output
+```
+{
+    "status": "success",
+    "message": "data delete successfully",
+    "id": "608f76223daf47153969376c"
 }
 ```
