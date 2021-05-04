@@ -16,7 +16,7 @@ db.once('open', () => {
     console.log('Database is Connected')
 })
 
-// Middleware mrxxxxxxxxx kondro cvxbxcvxc
+// Middleware versi tanpa google storage
 app.disable('x-powered-by')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
