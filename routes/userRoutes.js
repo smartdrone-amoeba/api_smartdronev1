@@ -32,7 +32,7 @@ router.get('/get', async (req, res)=> {
 })
 
 // Get By Id
-// localhost:3001/api/auth/get-one/[userId]
+// localhost:3001/api/auth/get/[userId]
 
 router.get('/get/:userId', async(req, res) => {
     const {userId:id} = req.params

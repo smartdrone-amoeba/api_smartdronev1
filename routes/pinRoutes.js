@@ -1,17 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-
 const PinModel = require('../models/pinModel')
-const {uploadToGCS, uploadFile} = require('../helper/upload')
-const gc = require('../config')
-const bucket = gc.bucket('contoh-cloud')
 
-
-const upload = multer({
-    storage: multer.memoryStorage(),
-    fileSize: 5 * 1024 * 1024
-})
 
 
 // GET
@@ -63,7 +53,7 @@ router.get('get-one/:pinId', async(req, res) => {
 
 // CREATE 
 //localhost:3001/api/pin/add
-router.post('/add', uploadFile('image', 2), async (req, res) => {
+router.post('/add', async (req, res) => {
     try {
 
         if(res.status === 500){
@@ -71,14 +61,11 @@ router.post('/add', uploadFile('image', 2), async (req, res) => {
                 status:'failed'
             })
         }
-        const image = req.files
-        const response = await uploadToGCS(image)
-        console.log(response)
+        
 
         res.json({
             status:'success',
             message: 'file successfully uploaded',
-            data: response
         })
         
     } catch (err) {
