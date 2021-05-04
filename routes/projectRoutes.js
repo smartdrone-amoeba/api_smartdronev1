@@ -4,6 +4,8 @@ const Project = require('../models/projectModel')
 const Pin = require('../models/pinModel')
 require('dotenv/config')
 const checkAuth = require('../middleware/check-auth')
+const {uploadFile, uploadToGCS} = require('../helper/upload')
+
 const moment = require('moment')
 moment.locale('id')
 let date = new Date()
@@ -31,17 +33,10 @@ router.get('/get-all',checkAuth, async (req, res)=> {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
                             },
+                            preview: data.preview.map(data=>data),
                             tglDeploy: data.tglDeploy,
                             tglTarget: data.tglTarget,
-                            pin: data.pin.map(data=>data),
-                            user: {
-                                _id: data.user && data.user._id,
-                                name: data.user && data.user.name,
-                                email: data.user && data.user.email,
-                                gender: data.user && data.user.gender,
-                                address: data.user && data.user.address,
-                                phone: data.user && data.user.phone
-                            }
+                            pin: data.pin.map(data=>data)
 
                         }
                     })
@@ -79,6 +74,7 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
                                 latitude: response.lokasi.latitude,
                                 longitude: response.lokasi.longitude
                             },
+                            preview: data.map(data=>data),
                             tglDeploy: response.tglDeploy,
                             tglTarget: response.tglTarget,
                             pin: response.pin.map(data=>data)
@@ -124,6 +120,7 @@ router.get('/search', checkAuth, async(req, res) => {
                         latitude: data.lokasi.latitude,
                         longitude: data.lokasi.longitude
                     },
+                    preview: data.map(data=>data),
                     tglDeploy: data.tglDeploy,
                     tglTarget: data.tglTarget,
                     pin: data.pin.map(data=>data)
@@ -151,6 +148,7 @@ router.get('/search', checkAuth, async(req, res) => {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
                             },
+                            preview: data.map(data=>data),
                             tglDeploy: data.tglDeploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
@@ -177,6 +175,7 @@ router.get('/search', checkAuth, async(req, res) => {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
                             },
+                            preview: data.map(data=>data),
                             tglDeploy: data.tglDeploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
@@ -203,6 +202,7 @@ router.get('/search', checkAuth, async(req, res) => {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
                             },
+                            preview: data.map(data=>data),
                             tglDeploy: data.tglDeploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
@@ -226,7 +226,7 @@ router.get('/search', checkAuth, async(req, res) => {
 
 // CREATE 
 //localhost:3001/api/project/add
-router.post('/add',checkAuth, async (req, res) => {
+router.post('/add',checkAuth,uploadFile('preview', 2), async (req, res) => {
 
     try {
     // Project
@@ -239,14 +239,28 @@ router.post('/add',checkAuth, async (req, res) => {
             latitude: req.body.lokasiLatitude,
             longitude: req.body.lokasiLongitude
         },
+        preview: await uploadToGCS(req.files),
         tglTarget: !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`,
         tglDeploy: !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`,
 
         //Pin
         pin: req.body.pin,
         user: req.userData.userId,
-
     }) 
+
+
+     // const projectPost = new Project()
+
+        // projectPost.namaProject = req.body.namaProject
+        // projectPost.namaSurveyor = req.body.namaSurveyor
+        // projectPost.alamatProject = req.body.alamatProject
+        // projectPost.detailProject = req.body.detailProject
+        // projectPost.lokasi.latitude = req.body.lokasiLatitude
+        // projectPost.lokasi.longitude = req.body.lokasiLongitude
+        // projectPost.tglTarget = !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`
+        // projectPost.tglDeploy = !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`
+
+
         const newProject = await projectPost.save()
         const project = await Project.findById({_id:newProject._id}).populate('pin')
 

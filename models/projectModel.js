@@ -17,6 +17,12 @@ const ProjectSchema = new Schema({
         latitude : {type: Number, default:null}, 
         longitude : {type: Number, default: null}
     },
+    preview:[
+        {
+            type: String,
+            default:null
+        }
+    ],  
     //tgl project
     tglPlanning: {type: Date, default:date },
     tglTarget: {type: Date},
