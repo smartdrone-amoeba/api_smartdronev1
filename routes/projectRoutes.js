@@ -498,6 +498,40 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
     }
 })
 
+
+// Delete Pin
+// localhost:3001/api/project/delete/:projectId/pin/:pinId
+
+router.delete('/delete/:projectId/pin/:pinId', async (req, res) => {
+    const {projectId, pinId} = req.params
+    try {
+        const deletePin = await Project.updateOne({_id:projectId}, {$pull:{"pin":{_id:pinId}}})
+        const response = await Project.findOne({_id:projectId}).select('pin')
+
+        if(!deletePin || deletePin.nModified === 0 ){
+            return res.json({
+                status: 'failed',
+                message: 'error',
+                error: 'something went wrong, please check id params'
+            })
+        }
+
+        return res.json({
+            status: 'success',
+            message: 'data update successfully',
+            data: response
+        })
+    } catch (err) {
+        return res.json({
+            status: 'failed',
+            message: 'error',
+            error: err.message
+        })
+    }
+})
+
+
+
 // Delete
 //localhost:3001/api/project/delete?id=[project id]  (exact macth) all detail project no pin overwrite db 
 router.delete('/delete/:idProject', checkAuth, async(req, res) => {
