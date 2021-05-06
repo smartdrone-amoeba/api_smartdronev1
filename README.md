@@ -1359,11 +1359,10 @@ Contoh Output
     "message": "data update successfully",
     "data": "pin id: [pinId]"
 }
- ```
- 
+ ``` 
  
  **Contoh Input
- `DELETE`  /api/project/delete/[projectId] (Update project (Spesifikasi field allowed))**
+ `DELETE`  /api/project/delete/[projectId] (Delete project)**
  ----
  
  ```
@@ -1379,6 +1378,178 @@ Contoh Output
     "status": "success",
     "message": "data delete successfully",
     "id": "608f7c003daf47153969376d"
+}
+ ```
+ 
+ **Contoh Input
+ `DELETE`  /api/project/delete/[projectId]/pin/[pinId] (Delete Pin project)**
+ ----
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ contoh Output
+ 
+ ```
+ {
+    "status": "success",
+    "message": "data update successfully",
+    "data": {
+        "_id": "609248d6b23dfb000a34ecfc",
+        "pin": [
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "609248d6b23dfb000a34ecfd",
+                "name": "pin 1",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": false,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "609248d6b23dfb000a34ecfe",
+                "name": "pin 2",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "609248d6b23dfb000a34ecff",
+                "name": "pin 3",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            },
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 5,
+                    "poiLatitude": 1,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 6
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 11
+                },
+                "intervalmode": {
+                    "meters": 52
+                },
+                "actions": {
+                    "act01": 1,
+                    "act02": 2,
+                    "act03": 3,
+                    "act04": 4,
+                    "act05": 5,
+                    "act06": 1,
+                    "act08": 2,
+                    "act09": 3
+                },
+                "_id": "609248d6b23dfb000a34ed00",
+                "name": "pin 5",
+                "speed": 12,
+                "altitude": 10,
+                "heading": 30,
+                "curvesize": 1,
+                "rotationdir": 10
+            }
+        ]
+    }
 }
  ```
   
