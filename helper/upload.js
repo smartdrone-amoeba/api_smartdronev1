@@ -9,21 +9,19 @@ exports.uploadToGCS = (file) => new Promise((resolve, reject) => {
   let data= []
   let blob
   file.forEach(file => {
-  blob = bucket.file(file.originalname.replace(" ", "_"))
-    publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-    data.push(publicUrl)
-  });
+      blob = bucket.file(file.originalname.replace(" ", "_"))
+      publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+      data.push(publicUrl);
 
-  const blobStream = blob.createWriteStream({
-    resumable: false
-  })
-  blobStream.on('finish', () => {
-    resolve(data)
-  })
-  .on('error', (err) => {
-    reject(err)
-  })
-  .end(buffer)
+      const blobStream = blob.createWriteStream()
+      blobStream.on('finish', () => {
+        resolve(data)
+      })
+      blobStream.on('error', (err) => {
+        reject(err)
+      })
+      blobStream.end(file.buffer)
+  });
 })
 
 exports.uploadFile = (field, max) => {
