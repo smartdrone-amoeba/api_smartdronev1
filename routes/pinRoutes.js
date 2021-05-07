@@ -66,19 +66,27 @@ router.get('get-one/:pinId', async(req, res) => {
 router.post('/add', uploadFile('image', 2), async (req, res) => {
     try {
 
-        if(res.status === 500){
-            res.json({
-                status:'failed'
-            })
-        }
-        const image = req.files
-        const response = await uploadToGCS(image)
-        console.log(response)
+        req.files.forEach((fil) => {
+            const blob = bucket.file(fil.originalname);
+            const blobStream = blob.createWriteStream();
+    
+    
+            blobStream.on('finish', () => {
+                // The public URL can be used to directly access the file via HTTP.
+                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+                console.log(publicUrl)
+            
+            });
+
+            let data
+            req.files.forEach(file=>data = file.buffer)
+            
+            blobStream.end(data);
+        });
 
         res.json({
             status:'success',
             message: 'file successfully uploaded',
-            data: response
         })
         
     } catch (err) {

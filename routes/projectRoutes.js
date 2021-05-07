@@ -499,31 +499,6 @@ router.patch('/update/:projectId/pin/:pinId', uploadFile('image', 5), async (req
     }
 })
 
-// Add image to pin Project
-
-// router.patch('/add-image/:projectId/pin/:pinId', uploadFile('image', 5), async (req, res) => {
-//     const { projectId, pinId } = req.params
-//     const image = req.files
-//     try {
-        
-
-//         const imageUploaded = await Project.updateOne({"pin._id":pinId}, {$push: {"pin.$.preview":{path:await uploadToGCS(image)}}})
-//         const project = await Project.findOne({_id:projectId})
-//         return res.json({
-//             status: 'success',
-//             message: 'data update successfully',
-//             data: project
-//         })
-
-//     } catch (err) {
-//         return res.json({
-//             status: 'failed',
-//             message: 'error',
-//             error: err.message
-//         })
-//     }
-// })
-
 // Delete
 //localhost:3001/api/project/delete?id=[project id]  (exact macth) all detail project no pin overwrite db 
 router.delete('/delete/:idProject', checkAuth, async(req, res) => {
