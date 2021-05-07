@@ -237,7 +237,6 @@ router.post('/add',checkAuth, async (req, res) => {
             latitude: req.body.lokasiLatitude,
             longitude: req.body.lokasiLongitude
         },
-        preview: await uploadToGCS(req.files),
         tglTarget: !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`,
         tglDeploy: !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`,
 
