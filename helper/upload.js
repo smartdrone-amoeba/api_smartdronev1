@@ -1,5 +1,5 @@
 const gc = require('../config/')
-const bucket = gc.bucket('contoh-cloud') 
+const bucket = gc.bucket('example-cloud') 
 const multer = require('multer')
 
 exports.uploadToGCS = (file) => new Promise((resolve, reject) => {

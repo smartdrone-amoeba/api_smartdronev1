@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Project = require('../models/projectModel')
-const Pin = require('../models/pinModel')
 require('dotenv/config')
 const checkAuth = require('../middleware/check-auth')
 const {uploadFile, uploadToGCS} = require('../helper/upload')
@@ -33,7 +32,6 @@ router.get('/get-all',checkAuth, async (req, res)=> {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
                             },
-                            preview: data.preview.map(data=>data),
                             tglDeploy: data.tglDeploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
@@ -226,7 +224,7 @@ router.get('/search', checkAuth, async(req, res) => {
 
 // CREATE 
 //localhost:3001/api/project/add
-router.post('/add',checkAuth,uploadFile('preview', 2), async (req, res) => {
+router.post('/add',checkAuth, async (req, res) => {
 
     try {
     // Project
@@ -341,8 +339,9 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
 
 // Update Pin
 // localhost:3001/api/project/update/:projectId/pin/:pinId
-router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
+router.patch('/update/:projectId/pin/:pinId', uploadFile('image', 5), async (req, res) => {
     const {projectId, pinId} = req.params
+    const image = req.files
     try {
         const project = await Project.findOne({_id:projectId})
         const pin = project.pin.find(item => item._id == pinId)
@@ -463,6 +462,9 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
         if (req.body.action15) {
 			pin.actions.action15 = req.body.action15
         }
+        if(req.files){
+            pin.preview.path = await uploadToGCS(image)
+        }
 
         const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin, "updatedAt":date.setHours(date.getHours() + 7)}})
         console.log(pin)
@@ -498,6 +500,7 @@ router.patch('/update/:projectId/pin/:pinId', async (req, res) => {
     }
 })
 
+<<<<<<< HEAD
 
 // Delete Pin
 // localhost:3001/api/project/delete/:projectId/pin/:pinId
@@ -531,6 +534,32 @@ router.delete('/delete/:projectId/pin/:pinId', async (req, res) => {
 })
 
 
+=======
+// Add image to pin Project
+
+// router.patch('/add-image/:projectId/pin/:pinId', uploadFile('image', 5), async (req, res) => {
+//     const { projectId, pinId } = req.params
+//     const image = req.files
+//     try {
+        
+
+//         const imageUploaded = await Project.updateOne({"pin._id":pinId}, {$push: {"pin.$.preview":{path:await uploadToGCS(image)}}})
+//         const project = await Project.findOne({_id:projectId})
+//         return res.json({
+//             status: 'success',
+//             message: 'data update successfully',
+//             data: project
+//         })
+
+//     } catch (err) {
+//         return res.json({
+//             status: 'failed',
+//             message: 'error',
+//             error: err.message
+//         })
+//     }
+// })
+>>>>>>> google-storage
 
 // Delete
 //localhost:3001/api/project/delete?id=[project id]  (exact macth) all detail project no pin overwrite db 
