@@ -237,7 +237,6 @@ router.post('/add',checkAuth, async (req, res) => {
             latitude: req.body.lokasiLatitude,
             longitude: req.body.lokasiLongitude
         },
-        preview: await uploadToGCS(req.files),
         tglTarget: !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`,
         tglDeploy: !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`,
 
@@ -500,7 +499,6 @@ router.patch('/update/:projectId/pin/:pinId', uploadFile('image', 5), async (req
     }
 })
 
-<<<<<<< HEAD
 
 // Delete Pin
 // localhost:3001/api/project/delete/:projectId/pin/:pinId
@@ -533,8 +531,6 @@ router.delete('/delete/:projectId/pin/:pinId', async (req, res) => {
     }
 })
 
-
-=======
 // Add image to pin Project
 
 // router.patch('/add-image/:projectId/pin/:pinId', uploadFile('image', 5), async (req, res) => {
@@ -559,7 +555,6 @@ router.delete('/delete/:projectId/pin/:pinId', async (req, res) => {
 //         })
 //     }
 // })
->>>>>>> google-storage
 
 // Delete
 //localhost:3001/api/project/delete?id=[project id]  (exact macth) all detail project no pin overwrite db 
