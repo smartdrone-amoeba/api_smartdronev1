@@ -1341,15 +1341,7 @@ Contoh Output
  }
  ```
  
- ```
- {
-    "name": "pin 1 edit",
-    "speed": 13,
-    "poiStatus":"false",
-    "latitude": -0.3,
-    "poiMode":-10
-}
- ```
+this request allowed input form-data. upload image to preview pin project
  
  contoh Output
  
