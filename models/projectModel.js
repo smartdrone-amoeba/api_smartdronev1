@@ -16,13 +16,7 @@ const ProjectSchema = new Schema({
     lokasi: {
         latitude : {type: Number, default:null}, 
         longitude : {type: Number, default: null}
-    },
-    preview:[
-        {
-            type: String,
-            default:null
-        }
-    ],  
+    },  
     //tgl project
     tglPlanning: {type: Date, default:date },
     tglTarget: {type: Date},
@@ -75,6 +69,10 @@ const ProjectSchema = new Schema({
                 act13: {type: Number},
                 act14: {type: Number},
                 act15: {type: Number},
+            },
+            preview:{
+                path: [{type: String}],
+                default: ''
             }
         }
     ],
