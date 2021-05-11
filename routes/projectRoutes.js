@@ -325,7 +325,7 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
 
 // Update Pin
 // localhost:3001/api/project/update/:projectId/pin/:pinId
-router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 10), async (req, res) => {
+router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 50), async (req, res) => {
     const {projectId, pinId} = req.params
     const image = req.files
     try {
