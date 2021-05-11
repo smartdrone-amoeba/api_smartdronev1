@@ -70,10 +70,6 @@ const ProjectSchema = new Schema({
                 act14: {type: Number},
                 act15: {type: Number},
             },
-            preview:{
-                path: [{type: String}],
-                default: ''
-            }
         }
     ],
     user: {

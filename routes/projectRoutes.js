@@ -3,7 +3,6 @@ const router = express.Router()
 const Project = require('../models/projectModel')
 require('dotenv/config')
 const checkAuth = require('../middleware/check-auth')
-const {uploadFile, uploadToGCS} = require('../helper/upload')
 
 const moment = require('moment')
 moment.locale('id')
@@ -244,20 +243,6 @@ router.post('/add',checkAuth, async (req, res) => {
         pin: req.body.pin,
         user: req.userData.userId,
     }) 
-
-
-     // const projectPost = new Project()
-
-        // projectPost.namaProject = req.body.namaProject
-        // projectPost.namaSurveyor = req.body.namaSurveyor
-        // projectPost.alamatProject = req.body.alamatProject
-        // projectPost.detailProject = req.body.detailProject
-        // projectPost.lokasi.latitude = req.body.lokasiLatitude
-        // projectPost.lokasi.longitude = req.body.lokasiLongitude
-        // projectPost.tglTarget = !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`
-        // projectPost.tglDeploy = !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`
-
-
         const newProject = await projectPost.save()
         const project = await Project.findById({_id:newProject._id}).populate('pin')
 
@@ -338,7 +323,7 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
 
 // Update Pin
 // localhost:3001/api/project/update/:projectId/pin/:pinId
-router.patch('/update/:projectId/pin/:pinId', uploadFile('image', 5), async (req, res) => {
+router.patch('/update/:projectId/pin/:pinId',checkAuth, async (req, res) => {
     const {projectId, pinId} = req.params
     const image = req.files
     try {
@@ -461,9 +446,6 @@ router.patch('/update/:projectId/pin/:pinId', uploadFile('image', 5), async (req
         if (req.body.action15) {
 			pin.actions.action15 = req.body.action15
         }
-        if(req.files){
-            pin.preview.path = await uploadToGCS(image)
-        }
 
         const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin, "updatedAt":date.setHours(date.getHours() + 7)}})
         console.log(pin)
@@ -499,8 +481,40 @@ router.patch('/update/:projectId/pin/:pinId', uploadFile('image', 5), async (req
     }
 })
 
+
+// Delete Pin
+// localhost:3001/api/project/delete/:projectId/pin/:pinId
+
+router.delete('/delete/:projectId/pin/:pinId', async (req, res) => {
+    const {projectId, pinId} = req.params
+    try {
+        const deletePin = await Project.updateOne({_id:projectId}, {$pull:{"pin":{_id:pinId}}})
+        const response = await Project.findOne({_id:projectId}).select('pin')
+
+        if(!deletePin || deletePin.nModified === 0 ){
+            return res.json({
+                status: 'failed',
+                message: 'error',
+                error: 'something went wrong, please check id params'
+            })
+        }
+
+        return res.json({
+            status: 'success',
+            message: 'data update successfully',
+            data: response
+        })
+    } catch (err) {
+        return res.json({
+            status: 'failed',
+            message: 'error',
+            error: err.message
+        })
+    }
+})
+
 // Delete
-//localhost:3001/api/project/delete?id=[project id]  (exact macth) all detail project no pin overwrite db 
+//localhost:3001/api/project/delete/:[project id]  (exact macth) all detail project no pin overwrite db 
 router.delete('/delete/:idProject', checkAuth, async(req, res) => {
     const{idProject:id} = req.params
     try {
