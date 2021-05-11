@@ -1,5 +1,5 @@
 const gc = require('../config/')
-const bucket = gc.bucket('example-cloud') 
+const bucket = gc.bucket('contoh-cloud') 
 const multer = require('multer')
 
 exports.uploadToGCS = (file) => new Promise((resolve, reject) => {
@@ -9,7 +9,8 @@ exports.uploadToGCS = (file) => new Promise((resolve, reject) => {
   let data= []
   let blob
   file.forEach(file => {
-      blob = bucket.file(file.originalname.replace(" ", "_"))
+      const filename = Date.now() + '-' + file.originalname
+      blob = bucket.file(filename.replace(" ", "_"))
       publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
       data.push(publicUrl);
 
