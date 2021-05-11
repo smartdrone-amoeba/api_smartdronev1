@@ -3,6 +3,7 @@ const router = express.Router()
 const Project = require('../models/projectModel')
 require('dotenv/config')
 const checkAuth = require('../middleware/check-auth')
+const {uploadFile, uploadToGCS} = require('../helper/upload')
 
 const moment = require('moment')
 moment.locale('id')
@@ -324,7 +325,7 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
 
 // Update Pin
 // localhost:3001/api/project/update/:projectId/pin/:pinId
-router.patch('/update/:projectId/pin/:pinId',checkAuth, async (req, res) => {
+router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 10), async (req, res) => {
     const {projectId, pinId} = req.params
     const image = req.files
     try {
@@ -447,9 +448,11 @@ router.patch('/update/:projectId/pin/:pinId',checkAuth, async (req, res) => {
         if (req.body.action15) {
 			pin.actions.action15 = req.body.action15
         }
+        if(req.files){
+            pin.preview.path = await uploadToGCS(req.files)
+        }
 
         const pinEdited =  await Project.updateOne({"pin._id":pinId}, {$set: {"pin.$": pin, "updatedAt":date.setHours(date.getHours() + 7)}})
-        console.log(pin)
 
         if(pinEdited.n==0){
             return res.json({
@@ -470,7 +473,7 @@ router.patch('/update/:projectId/pin/:pinId',checkAuth, async (req, res) => {
         return res.json({
             status: 'success',
             message: 'data update successfully',
-            data: `pin id: ${pinId}`
+            data: pin
         })
 
     } catch (err) {
