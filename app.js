@@ -16,11 +16,6 @@ db.once('open', () => {
     console.log('Database is Connected')
 })
 
-<<<<<<< HEAD
-// Middleware update pemisahan upload file
-=======
-// Middleware versi tanpa google storage
->>>>>>> 07c6fe8498d1596a56d33bedea17e8aa5d699ee1
 app.disable('x-powered-by')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -29,12 +24,10 @@ app.use(cors())
 // import routes
 const projectRoutes = require('./routes/projectRoutes')
 const userRoutes = require('./routes/userRoutes');
-const pinRoutes = require('./routes/pinRoutes')
 
 // ruoutes
 app.use('/api/auth', userRoutes)
 app.use('/api/project', projectRoutes)
-app.use('/api/pin', pinRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running in ${process.env.PORT}`)
