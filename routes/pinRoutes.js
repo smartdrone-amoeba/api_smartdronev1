@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-
 const PinModel = require('../models/pinModel')
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 07c6fe8498d1596a56d33bedea17e8aa5d699ee1
 
 // GET
 
@@ -58,6 +61,7 @@ router.get('get-one/:pinId', async(req, res) => {
 router.post('/add', async (req, res) => {
     try {
 
+<<<<<<< HEAD
         req.files.forEach((fil) => {
             const blob = bucket.file(fil.originalname);
             const blobStream = blob.createWriteStream();
@@ -75,6 +79,14 @@ router.post('/add', async (req, res) => {
             
             blobStream.end(data);
         });
+=======
+        if(res.status === 500){
+            res.json({
+                status:'failed'
+            })
+        }
+        
+>>>>>>> 07c6fe8498d1596a56d33bedea17e8aa5d699ee1
 
         res.json({
             status:'success',
