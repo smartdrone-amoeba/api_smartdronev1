@@ -16,7 +16,11 @@ db.once('open', () => {
     console.log('Database is Connected')
 })
 
+<<<<<<< HEAD
 // Middleware update pemisahan upload file
+=======
+// Middleware versi tanpa google storage
+>>>>>>> 07c6fe8498d1596a56d33bedea17e8aa5d699ee1
 app.disable('x-powered-by')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))

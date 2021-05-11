@@ -243,6 +243,7 @@ router.post('/add',checkAuth, async (req, res) => {
         pin: req.body.pin,
         user: req.userData.userId,
     }) 
+
         const newProject = await projectPost.save()
         const project = await Project.findById({_id:newProject._id}).populate('pin')
 
