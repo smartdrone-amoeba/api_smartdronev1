@@ -16,7 +16,7 @@ db.once('open', () => {
     console.log('Database is Connected')
 })
 
-// Middleware delete pin update
+// Middleware update pemisahan upload file
 app.disable('x-powered-by')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
