@@ -6,7 +6,7 @@ const cors = require('cors')
 require('dotenv/config')
 
 
-// connect to DB google storage api
+// connect to DB google storage api versi terbaru 
 mongoose.connect(process.env.DB_CONNECTION, 
     { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify: false, useCreateIndex: true })
 let db = mongoose.connection
