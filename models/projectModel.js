@@ -5,7 +5,6 @@ moment.locale('id')
 let date = new Date()
 date.setHours(date.getHours() + 7)
 
-console.log(date)
 
 const ProjectSchema = new Schema({
     //detail project
