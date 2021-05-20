@@ -6,6 +6,7 @@ const checkAuth = require('../middleware/check-auth')
 const {uploadFile, uploadToGCS} = require('../helper/upload')
 
 const moment = require('moment')
+const { findOne } = require('../models/projectModel')
 moment.locale('id')
 let date = new Date()
 date.setHours(date.getHours() + 7)
@@ -32,7 +33,7 @@ router.get('/get-all',checkAuth, async (req, res)=> {
                                 latitude: data.lokasi.latitude,
                                 longitude: data.lokasi.longitude
                             },
-                            tglDeploy: data.tglDeploy,
+                            deploy: data.deploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
 
@@ -73,7 +74,7 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
                                 longitude: response.lokasi.longitude
                             },
                             preview: data.map(data=>data),
-                            tglDeploy: response.tglDeploy,
+                            deploy: response.deploy,
                             tglTarget: response.tglTarget,
                             pin: response.pin.map(data=>data)
             },
@@ -119,7 +120,7 @@ router.get('/search', checkAuth, async(req, res) => {
                         longitude: data.lokasi.longitude
                     },
                     preview: data.map(data=>data),
-                    tglDeploy: data.tglDeploy,
+                    deploy: data.deploy,
                     tglTarget: data.tglTarget,
                     pin: data.pin.map(data=>data)
 
@@ -147,7 +148,7 @@ router.get('/search', checkAuth, async(req, res) => {
                                 longitude: data.lokasi.longitude
                             },
                             preview: data.map(data=>data),
-                            tglDeploy: data.tglDeploy,
+                            deploy: data.deploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
         
@@ -174,7 +175,7 @@ router.get('/search', checkAuth, async(req, res) => {
                                 longitude: data.lokasi.longitude
                             },
                             preview: data.map(data=>data),
-                            tglDeploy: data.tglDeploy,
+                            deploy: data.deploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
         
@@ -201,7 +202,7 @@ router.get('/search', checkAuth, async(req, res) => {
                                 longitude: data.lokasi.longitude
                             },
                             preview: data.map(data=>data),
-                            tglDeploy: data.tglDeploy,
+                            deploy: data.deploy,
                             tglTarget: data.tglTarget,
                             pin: data.pin.map(data=>data)
         
@@ -238,8 +239,6 @@ router.post('/add',checkAuth, async (req, res) => {
             longitude: req.body.lokasiLongitude
         },
         tglTarget: !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`,
-        tglDeploy: !req.body.tglDeploy? null :`${moment(req.body.tglDeploy)}`,
-
         //Pin
         pin: req.body.pin,
         user: req.userData.userId,
@@ -485,6 +484,47 @@ router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 50
     }
 })
 
+
+// Deploy
+// localhost:3001/api/project/deploy/[projectId]
+
+router.patch('/deploy/:projectId', checkAuth, async (req, res) => {
+    const {projectId:id} = req.params
+    try {
+        const response = await Project.update(
+            {
+                _id:id
+            },
+            {
+                $push: {
+                    deploy: {
+                        "tglDeploy":req.body.tglDeploy
+                    }
+                }
+            }
+        )
+        if(response.n !== 1) {
+            return res.json({
+                status: 'failed',
+                message: "server error",
+            })
+        }
+        const project = await Project.findOne({_id:id})
+
+        return res.json({
+            status: 'success',
+            message: 'project deploy successfully',
+            data: project
+        })
+
+    } catch (err) {
+        return res.json({
+            status: 'failed',
+            message: 'error',
+            error: err.message
+        })
+    }
+})
 
 // Delete Pin
 // localhost:3001/api/project/delete/:projectId/pin/:pinId

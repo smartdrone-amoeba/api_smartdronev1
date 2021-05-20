@@ -20,7 +20,9 @@ const ProjectSchema = new Schema({
     //tgl project
     tglPlanning: {type: Date, default:date },
     tglTarget: {type: Date},
-    tglDeploy: {type: Date},
+    deploy: [
+        {tglDeploy: {type:Date}}
+    ],
     updatedAt: {type: Date, default: date},
 
     //pin project 
