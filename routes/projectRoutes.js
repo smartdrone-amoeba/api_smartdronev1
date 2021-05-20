@@ -8,8 +8,6 @@ const {uploadFile, uploadToGCS} = require('../helper/upload')
 const moment = require('moment')
 const { findOne } = require('../models/projectModel')
 moment.locale('id')
-let date = new Date()
-date.setHours(date.getHours() + 7)
 
 
 // GET
@@ -265,6 +263,8 @@ router.post('/add',checkAuth, async (req, res) => {
 // UPDATE PATCH 
 //localhost:3001/api/project/update/projectId
 router.patch('/update/:projectId', checkAuth, async (req, res) => {
+    let date = new Date()
+    
 
     const {projectId:id} = req.params
     try {
@@ -280,27 +280,27 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
         }
         if (req.body.namaProject) {
 			project.namaProject = req.body.namaProject
-            project.updatedAt = date
+            project.updatedAt = date.setHours(date.getHours() + 7)
         }
         if (req.body.namaSurveyor) {
 			project.namaSurveyor = req.body.namaSurveyor
-            project.updatedAt = date
+            project.updatedAt = date.setHours(date.getHours() + 7)
         }
         if (req.body.alamatProject) {
 			project.alamatProject = req.body.alamatProject
-            project.updatedAt = date
+            project.updatedAt = date.setHours(date.getHours() + 7)
         }
         if (req.body.detailProject) {
 			project.detailProject = req.body.detailProject
-            project.updatedAt = date
+            project.updatedAt = date.setHours(date.getHours() + 7)
         }
         if (req.body.latitude) {
 			project.lokasi.latitude = req.body.latitude
-            project.updatedAt = date
+            project.updatedAt = date.setHours(date.getHours() + 7)
         }
         if (req.body.longitude) {
 			project.lokasi.longitude = req.body.longitude
-            project.updatedAt = date
+            project.updatedAt = date.setHours(date.getHours() + 7)
         }
         
 
@@ -326,6 +326,7 @@ router.patch('/update/:projectId', checkAuth, async (req, res) => {
 // localhost:3001/api/project/update/:projectId/pin/:pinId
 router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 50), async (req, res) => {
     const {projectId, pinId} = req.params
+    let date = new Date()
     const image = req.files
     try {
         const project = await Project.findOne({_id:projectId})
@@ -490,6 +491,9 @@ router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 50
 
 router.patch('/deploy/:projectId', checkAuth, async (req, res) => {
     const {projectId:id} = req.params
+    let date = new Date()
+
+    console.log(date)
     try {
         const response = await Project.update(
             {
@@ -498,7 +502,7 @@ router.patch('/deploy/:projectId', checkAuth, async (req, res) => {
             {
                 $push: {
                     deploy: {
-                        "tglDeploy":req.body.tglDeploy
+                        "tglDeploy":date.setHours(date.getHours() + 7)
                     }
                 }
             }

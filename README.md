@@ -33,6 +33,7 @@
  `PATCH` api/project/update/[id] (Edit parsial project)
  
  `PATCH` api/project/update/[id]/pin/[id] (Edit parsial project pin)
+ `PATCH` api/project/deploy[projectId] (deploy project)
  
  `DELETE` api/project/delete/[id]
  
@@ -1352,6 +1353,106 @@ this request allowed input form-data. upload image to preview pin project
     "data": "pin id: [pinId]"
 }
  ``` 
+ **Contoh Input
+ `PATCH`  /api/project/deploy/[projectId](Deploy Project)**
+
+```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+
+ ** Contoh Output
+
+ ```
+{
+    "status": "success",
+    "message": "project deploy successfully",
+    "data": {
+        "lokasi": {
+            "latitude": null,
+            "longitude": null
+        },
+        "tglPlanning": "2021-05-06T15:59:20.263Z",
+        "updatedAt": "2021-05-06T15:59:20.263Z",
+        "_id": "6093afed5640e58e3ceaf9ed",
+        "preview": [
+            "https://storage.googleapis.com/contoh-cloud/IMG_20210206_211140.jpg"
+        ],
+        "namaProject": "test",
+        "namaSurveyor": "testing 1",
+        "alamatProject": "testing alamat 1",
+        "tglTarget": null,
+        "tglDeploy": null,
+        "pin": [
+            {
+                "koordinat": {
+                    "latitude": 1,
+                    "longitude": 3
+                },
+                "poi": {
+                    "poiStatus": true,
+                    "poiMode": 2,
+                    "poiLatitude": 3,
+                    "poiLongtude": 2,
+                    "poiAltiutde": 8
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 10
+                },
+                "intervalmode": {
+                    "seconds": 1000,
+                    "meters": 40
+                },
+                "actions": {
+                    "act01": 30,
+                    "act02": 3,
+                    "act03": 32,
+                    "act04": 1,
+                    "act05": 10,
+                    "act06": 9
+                },
+                "preview": {
+                    "path": []
+                },
+                "_id": "6093afed5640e58e3ceaf9ee",
+                "name": "pin 1",
+                "speed": 12,
+                "altitude": 10,
+                "curvesize": 1,
+                "rotationdir": 10
+            }
+        ],
+        "user": "608f76223daf47153969376c",
+        "__v": 0,
+        "deploy": [
+            {
+                "_id": "60a5c7b32b9f94793bc5eb0e",
+                "tglDeploy": "2021-05-20T23:16:15.406Z"
+            },
+            {
+                "_id": "60a5c7d630e56d7a76123e53",
+                "tglDeploy": "2021-05-20T09:22:09.624Z"
+            },
+            {
+                "_id": "60a5c80630e56d7a76123e54",
+                "tglDeploy": "2021-05-20T09:22:09.624Z"
+            },
+            {
+                "_id": "60a5c95c27c39e7bf7b957da",
+                "tglDeploy": "2021-05-20T09:28:44.368Z"
+            },
+            {
+                "_id": "60a5c97527c39e7bf7b957db",
+                "tglDeploy": "2021-05-20T09:29:09.262Z"
+            }
+        ]
+    }
+}
+ ```
+
+
  
  **Contoh Input
  `DELETE`  /api/project/delete/[projectId] (Delete project)**
