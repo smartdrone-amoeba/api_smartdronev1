@@ -55,21 +55,111 @@ const ProjectSchema = new Schema({
                 meters:{type:Number}
             },
             actions:{
-                act01: {type: Number}, //type 1 photo , 2 video start, 3 video stop , 4 rotate aircraf, 5 tilt camera
-                act02: {type: Number},
-                act03: {type: Number},
-                act04: {type: Number},
-                act05: {type: Number},
-                act06: {type: Number},
-                act07: {type: Number},
-                act08: {type: Number},
-                act09: {type: Number},
-                act10: {type: Number},
-                act11: {type: Number},
-                act12: {type: Number},
-                act13: {type: Number},
-                act14: {type: Number},
-                act15: {type: Number},
+                act01: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                }, //type 1 photo , 2 video start, 3 video stop , 4 rotate aircraf, 5 tilt camera
+                act02: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act03: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act04: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act05: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act06: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act07: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act08: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act09: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act10: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act11: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act12: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act13: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act14: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
+                act15: {
+                    stay_for: {type: Number},
+                    take_photos: {type: Number},
+                    record_video: {type: Number},
+                    rotate: {type: Boolean},
+                    home: {type: Boolean}
+                },
             },
             preview:{
                 path:[{type:String}]
