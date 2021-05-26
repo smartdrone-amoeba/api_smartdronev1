@@ -13,7 +13,7 @@ moment.locale('id')
 // GET
 //localhost:3001/api/project/get-all
 router.get('/get-all',checkAuth, async (req, res)=> {
-        Project.find().populate(['pin']).exec().then(response=>{
+        Project.find().populate('user').exec().then(response=>{
                 res.json({
                     status: 'success',
                     message: 'data fetch successfully',
@@ -33,7 +33,8 @@ router.get('/get-all',checkAuth, async (req, res)=> {
                             },
                             deploy: data.deploy,
                             tglTarget: data.tglTarget,
-                            pin: data.pin.map(data=>data)
+                            pin: data.pin.map(data=>data),
+                            userName:data.user.name
 
                         }
                     })
@@ -54,9 +55,8 @@ router.get('/get-all',checkAuth, async (req, res)=> {
 router.get('/get-one/:projectId', checkAuth, async(req, res) => {
     const {projectId:id} = req.params
     try {
-        const response = await Project.findOne({_id:id}).populate(['user', 'pin'])
+        const response = await Project.findOne({_id:id}).populate('user');
         
-        console.log(response._id)
         res.json({
             status: 'success',
             message: 'data fetch successfully',
@@ -71,12 +71,60 @@ router.get('/get-one/:projectId', checkAuth, async(req, res) => {
                                 latitude: response.lokasi.latitude,
                                 longitude: response.lokasi.longitude
                             },
-                            preview: data.map(data=>data),
+                            preview: response.preview,
                             deploy: response.deploy,
                             tglTarget: response.tglTarget,
-                            pin: response.pin.map(data=>data)
+                            pin: response.pin.map(data=>data),
+                            userName:response.user.name
+                            
             },
         })
+    } catch (err) {
+        res.json({
+            status: 'failed',
+            message: 'request error',
+            error: err.message,
+        })
+    }
+})
+
+// GET BY User
+// localhost:3001/api/project/getbyuser
+
+router.get('/getbyuser', checkAuth, async (req, res) => {
+    try {
+        const {userId} = req.userData
+        const response = await Project.find({
+                    user:{
+                        _id: userId
+                    }
+        }).populate('user')
+        res.json({
+            status: 'success',
+            message: 'data fetch successfully',
+            count: response.length,
+            data: response.map(data=>{
+                return{
+                    _id:data._id,
+                    namaProject: data.namaProject,
+                    namaSurveyor: data.namaSurveyor,
+                    alamatProject:data.alamatProject,
+                    detailProject:data.detailProject,
+                    tglPlanning: data.tglPlanning,
+                    updatedAt:data.updatedAt,
+                    lokasi: {
+                        latitude: data.lokasi.latitude,
+                        longitude: data.lokasi.longitude
+                    },
+                    deploy: data.deploy,
+                    tglTarget: data.tglTarget,
+                    pin: data.pin.map(data=>data),
+                    userName:data.user.name
+
+                }
+            })
+        })
+        
     } catch (err) {
         res.json({
             status: 'failed',
@@ -100,7 +148,7 @@ router.get('/search', checkAuth, async(req, res) => {
             {namaProject: {$regex :`${namaProject}` , $options: 'i' }},
             {alamatProject: {$regex : `${alamatProject}` , $options: 'i' }},
             {namaSurveyor:{$regex : `${namaSurveyor}` , $options: 'i' }}
-        ]}).limit(5)
+        ]}).populate('user').limit(5)
         res.json({
             status: 'success',
             message: 'data fetch successfully',
@@ -120,7 +168,8 @@ router.get('/search', checkAuth, async(req, res) => {
                     preview: data.map(data=>data),
                     deploy: data.deploy,
                     tglTarget: data.tglTarget,
-                    pin: data.pin.map(data=>data)
+                    pin: data.pin.map(data=>data),
+                    userName:data.user.name
 
                 }
             })
@@ -128,7 +177,7 @@ router.get('/search', checkAuth, async(req, res) => {
 
         if(startDate || endDate){
             if(tglPlanning){
-                const response = await Project.find({tglPlanning:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }})
+                const response = await Project.find({tglPlanning:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }}).populate('user')
                 return res.json({
                     status: 'success',
                     message: 'data fetch successfully',
@@ -148,14 +197,15 @@ router.get('/search', checkAuth, async(req, res) => {
                             preview: data.map(data=>data),
                             deploy: data.deploy,
                             tglTarget: data.tglTarget,
-                            pin: data.pin.map(data=>data)
+                            pin: data.pin.map(data=>data),
+                            userName:data.user.name
         
                         }
                     })
                 })
             }
             if(tglDeploy){
-                const response = await Project.find({tglDeploy:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }})
+                const response = await Project.find({tglDeploy:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }}).populate('user')
                 return res.json({
                     status: 'success',
                     message: 'data fetch successfully',
@@ -175,14 +225,15 @@ router.get('/search', checkAuth, async(req, res) => {
                             preview: data.map(data=>data),
                             deploy: data.deploy,
                             tglTarget: data.tglTarget,
-                            pin: data.pin.map(data=>data)
+                            pin: data.pin.map(data=>data),
+                            userName:data.user.name
         
                         }
                     })
                 })
             }
             if(tglTarget){
-                const response = await Project.find({tglTarget:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }})
+                const response = await Project.find({tglTarget:{ $gte:new Date(startDate).toString(), $lt:new Date(endDate).toString() }}).populate('user')
                 return res.json({
                     status: 'success',
                     message: 'data fetch successfully',
@@ -202,7 +253,8 @@ router.get('/search', checkAuth, async(req, res) => {
                             preview: data.map(data=>data),
                             deploy: data.deploy,
                             tglTarget: data.tglTarget,
-                            pin: data.pin.map(data=>data)
+                            pin: data.pin.map(data=>data),
+                            userName:data.user.name
         
                         }
                     })
