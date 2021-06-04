@@ -887,7 +887,7 @@ Contoh Output
  ```
  [![Contoh Input Project](https://i.postimg.cc/BQ4nj9hc/Deepin-Screenshot-select-area-20210504091955.png)](https://postimg.cc/xqp2Z7Vc)
  [![Contoh Input Project](https://i.postimg.cc/3wM6w713/Deepin-Screenshot-select-area-20210504092011.png)](https://postimg.cc/w1VFWCnr)
- [![Contoh Input Project](https://i.postimg.cc/TPrsLSNg/Deepin-Screenshot-select-area-20210504092027.png)](https://postimg.cc/KK8fC928)
+ [![Contoh Input Project](https://i.postimg.cc/t450yMhG/Deepin-Screenshot-select-area-20210604095317.png)](https://postimg.cc/xXcp3gx6)
  
  contoh Output
  ```
@@ -928,15 +928,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf47153969376e",
                 "name": "pin 1",
                 "speed": 12,
@@ -965,15 +978,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf47153969376f",
                 "name": "pin 2",
                 "speed": 12,
@@ -1002,15 +1028,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693770",
                 "name": "pin 3",
                 "speed": 12,
@@ -1039,15 +1078,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693771",
                 "name": "pin 5",
                 "speed": 12,
@@ -1076,15 +1128,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693772",
                 "name": "pin 4",
                 "speed": 12,
@@ -1160,15 +1225,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf47153969376e",
                 "name": "pin 1",
                 "speed": 12,
@@ -1197,15 +1275,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf47153969376f",
                 "name": "pin 2",
                 "speed": 12,
@@ -1234,15 +1325,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693770",
                 "name": "pin 3",
                 "speed": 12,
@@ -1271,15 +1375,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693771",
                 "name": "pin 5",
                 "speed": 12,
@@ -1308,15 +1425,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693772",
                 "name": "pin 4",
                 "speed": 12,
@@ -1406,13 +1536,28 @@ this request allowed input form-data. upload image to preview pin project
                     "meters": 40
                 },
                 "actions": {
-                    "act01": 30,
-                    "act02": 3,
-                    "act03": 32,
-                    "act04": 1,
-                    "act05": 10,
-                    "act06": 9
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "preview": {
                     "path": []
                 },
@@ -1514,15 +1659,28 @@ this request allowed input form-data. upload image to preview pin project
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ecfd",
                 "name": "pin 1",
                 "speed": 12,
@@ -1551,15 +1709,28 @@ this request allowed input form-data. upload image to preview pin project
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ecfe",
                 "name": "pin 2",
                 "speed": 12,
@@ -1588,15 +1759,28 @@ this request allowed input form-data. upload image to preview pin project
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ecff",
                 "name": "pin 3",
                 "speed": 12,
@@ -1625,15 +1809,28 @@ this request allowed input form-data. upload image to preview pin project
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ed00",
                 "name": "pin 5",
                 "speed": 12,
