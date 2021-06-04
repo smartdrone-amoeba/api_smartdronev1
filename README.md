@@ -1598,6 +1598,111 @@ this request allowed input form-data. upload image to preview pin project
  ```
 
 
+  **Contoh Input
+ `DELETE`  /api/project/deploy/[projectId] (Deploy project)**
+ ----
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ contoh Output
+ 
+ ```
+{
+    "status": "success",
+    "message": "project deploy successfully",
+    "data": {
+        "lokasi": {
+            "latitude": -6.12201468,
+            "longitude": 106.88686669
+        },
+        "tglPlanning": "2021-06-04T14:13:00.139Z",
+        "updatedAt": "2021-06-04T14:13:00.139Z",
+        "_id": "60b9d35aaffde7ce4d25f4b7",
+        "namaProject": "dayat 5",
+        "namaSurveyor": "dayat",
+        "alamatProject": "Jl. Swasembada Barat XIII No.38, RT.9/RW.9, Kb. Bawang, Tj. Priok, Kota Jkt Utara, Daerah Khusus Ibukota Jakarta 14320, Indonesia",
+        "tglTarget": "2021-06-01T17:00:00.000Z",
+        "pin": [
+            {
+                "koordinat": {
+                    "latitude": -6.1220520656822055,
+                    "longitude": 106.88597358763218
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 46
+                },
+                "actions": {
+                    "act01": {
+                        "rotate": "true"
+                    },
+                    "act02": {
+                        "take_photos": "4"
+                    },
+                    "act03": {
+                        "record_video": "2"
+                    },
+                    "act04": {
+                        "rotate": "true"
+                    },
+                    "act05": {
+                        "home": "false"
+                    },
+                    "act08": {
+                        "stay_for": "20"
+                    },
+                    "act09": {
+                        "stay_for": "10"
+                    }
+                },
+                "preview": {
+                    "path": []
+                },
+                "_id": "60b9d35aaffde7ce4d25f4b8",
+                "altitude": 57,
+                "curvesize": 0,
+                "heading": 61,
+                "name": "Marker 1",
+                "rotationdir": 0,
+                "speed": 36
+            },
+            {
+                "koordinat": {
+                    "latitude": -6.122249750519877,
+                    "longitude": 106.88740320503712
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 58
+                },
+                "preview": {
+                    "path": []
+                },
+                "_id": "60b9d35aaffde7ce4d25f4b9",
+                "altitude": 56,
+                "curvesize": 0,
+                "heading": 75,
+                "name": "Marker 2",
+                "rotationdir": 0,
+                "speed": 64
+            }
+        ],
+        "user": "60aa143c976c05000aedcb22",
+        "deploy": [
+            {
+                "_id": "60b9dc1ffd3da7000a7beb44",
+                "tglDeploy": "2021-06-04T14:54:07.897Z"
+            }
+        ],
+        "__v": 0
+    }
+}
+ ```
+
  
  **Contoh Input
  `DELETE`  /api/project/delete/[projectId] (Delete project)**
