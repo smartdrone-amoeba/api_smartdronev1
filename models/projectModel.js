@@ -56,109 +56,109 @@ const ProjectSchema = new Schema({
             },
             actions:{
                 act01: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 }, //type 1 photo , 2 video start, 3 video stop , 4 rotate aircraf, 5 tilt camera
                 act02: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act03: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act04: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act05: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act06: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act07: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act08: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act09: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act10: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act11: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act12: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act13: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act14: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
                 act15: {
-                    stay_for: {type: Number},
-                    take_photos: {type: Number},
-                    record_video: {type: Number},
-                    rotate: {type: Boolean},
-                    home: {type: Boolean}
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
                 },
             },
             preview:{
