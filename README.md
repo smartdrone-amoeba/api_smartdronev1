@@ -1342,15 +1342,62 @@ Contoh Output
  }
  ```
  
-this request allowed input form-data. upload image to preview pin project
+[![Contoh Input Update Pin & upload preview](https://i.postimg.cc/pTF8HPSs/Deepin-Screenshot-select-area-20210610090340.png)](https://postimg.cc/r0qzG2M4)
  
  contoh Output
  
  ```
- {
+{
     "status": "success",
     "message": "data update successfully",
-    "data": "pin id: [pinId]"
+    "data": {
+        "koordinat": {
+            "latitude": -6.1220520656822055,
+            "longitude": 106.88597358763218
+        },
+        "gimbalmode": {
+            "focuspoi": true,
+            "interpolate": 46
+        },
+        "actions": {
+            "act01": {
+                "rotate": "true"
+            },
+            "act02": {
+                "take_photos": "4"
+            },
+            "act03": {
+                "record_video": "2"
+            },
+            "act04": {
+                "rotate": "true"
+            },
+            "act05": {
+                "home": "true"
+            },
+            "act08": {
+                "stay_for": "20"
+            },
+            "act09": {
+                "stay_for": "10"
+            }
+        },
+        "preview": {
+            "path": [
+                "https://storage.googleapis.com/contoh-cloud/1623290578437-banana.png",
+                "https://storage.googleapis.com/contoh-cloud/1623290578504-melon.png",
+                "https://storage.googleapis.com/contoh-cloud/1623290578506-profil.jpg",
+                "https://storage.googleapis.com/contoh-cloud/1623290578507-watermelon.png"
+            ]
+        },
+        "_id": "60b9d35aaffde7ce4d25f4b8",
+        "altitude": 57,
+        "curvesize": 0,
+        "heading": 61,
+        "name": "Marker 1 A",
+        "rotationdir": 0,
+        "speed": 46
+    }
 }
  ``` 
  **Contoh Input

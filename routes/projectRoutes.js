@@ -285,8 +285,8 @@ router.post('/add',checkAuth, async (req, res) => {
         alamatProject: req.body.alamatProject,
         detailProject: req.body.detailProject,
         lokasi: {
-            latitude: req.body.lokasiLatitude,
-            longitude: req.body.lokasiLongitude
+            latitude: req.body.lokasi.latitude,
+            longitude: req.body.lokasi.longitude
         },
         tglTarget: !req.body.tglTarget? null :`${moment(req.body.tglTarget)}`,
         //Pin
@@ -437,68 +437,278 @@ router.patch('/update/:projectId/pin/:pinId',checkAuth, uploadFile('preview', 50
 			pin.poi.poiAltiutde = req.body.poiAltiutde
         }
         if (req.body.disableGimbal) {
-			pin.gimbalMode.disableGimbal = req.body.disableGimbal
+			pin.gimbalmode.disable = req.body.disableGimbal
         }
         if (req.body.focuspoiGimbal) {
-			pin.gimbalMode.focuspoiGimbal = req.body.focuspoiGimbal
+			pin.gimbalmode.focuspoi = req.body.focuspoiGimbal
         }
         if (req.body.intepolateGimbal) {
-			pin.gimbalMode.intepolateGimbal = req.body.intepolateGimbal
+			pin.gimbalmode.interpolate = req.body.intepolateGimbal
         }
         if (req.body.disableInterval) {
-			pin.intervalMode.disableInterval = req.body.disableInterval
+			pin.intervalmode.disable = req.body.disableInterval
         }
         if (req.body.secondsInterval) {
-			pin.intervalMode.disableGimbal = req.body.disableGimbal
+			pin.intervalmode.seconds = req.body.disableGimbal
         }
         if (req.body.metersInterval) {
-			pin.intervalMode.metersInterval = req.body.metersInterval
+			pin.intervalmode.meters = req.body.metersInterval
         }
 
         if (req.body.action01) {
-			pin.actions.action01 = req.body.action01
+            if(pin.actions.act01.stay_for){
+                pin.actions.act01.stay_for = req.body.action01
+            }
+            else if(pin.actions.act01.take_photos){
+                pin.actions.act01.take_photos = req.body.action01
+            }
+            else if(pin.actions.act01.record_video){
+                pin.actions.act01.record_video = req.body.action01
+            }
+            else if(pin.actions.act01.rotate){
+                pin.actions.act01.rotate = req.body.action01
+            }
+            else if(pin.actions.act01.home){
+                pin.actions.act01.home = req.body.action01
+            }
         }
         if (req.body.action02) {
-			pin.actions.action02 = req.body.action02
+			if(pin.actions.act02.stay_for){
+                pin.actions.act02.stay_for = req.body.action02
+            }
+            else if(pin.actions.act02.take_photos){
+                pin.actions.act02.take_photos = req.body.action02
+            }
+            else if(pin.actions.act02.record_video){
+                pin.actions.act02.record_video = req.body.action02
+            }
+            else if(pin.actions.act02.rotate){
+                pin.actions.act02.rotate = req.body.action02
+            }
+            else if(pin.actions.act02.home){
+                pin.actions.act02.home = req.body.action02
+            }
         }
         if (req.body.action03) {
-			pin.actions.action03 = req.body.action03
+			if(pin.actions.act03.stay_for){
+                pin.actions.act03.stay_for = req.body.action03
+            }
+            else if(pin.actions.act03.take_photos){
+                pin.actions.act03.take_photos = req.body.action03
+            }
+            else if(pin.actions.act03.record_video){
+                pin.actions.act03.record_video = req.body.action03
+            }
+            else if(pin.actions.act03.rotate){
+                pin.actions.act03.rotate = req.body.action03
+            }
+            else if(pin.actions.act03.home){
+                pin.actions.act03.home = req.body.action03
+            }
         }
         if (req.body.action04) {
-			pin.actions.action04 = req.body.action04
+			if(pin.actions.act04.stay_for){
+                pin.actions.act04.stay_for = req.body.action04
+            }
+            else if(pin.actions.act04.take_photos){
+                pin.actions.act04.take_photos = req.body.action04
+            }
+            else if(pin.actions.act04.record_video){
+                pin.actions.act04.record_video = req.body.action04
+            }
+            else if(pin.actions.act04.rotate){
+                pin.actions.act04.rotate = req.body.action04
+            }
+            else if(pin.actions.act04.home){
+                pin.actions.act04.home = req.body.action04
+            }
         }
         if (req.body.action05) {
-			pin.actions.action05 = req.body.action05
+			if(pin.actions.act05.stay_for){
+                pin.actions.act05.stay_for = req.body.action05
+            }
+            else if(pin.actions.act05.take_photos){
+                pin.actions.act05.take_photos = req.body.action05
+            }
+            else if(pin.actions.act05.record_video){
+                pin.actions.act05.record_video = req.body.action05
+            }
+            else if(pin.actions.act05.rotate){
+                pin.actions.act05.rotate = req.body.action05
+            }
+            else if(pin.actions.act05.home){
+                pin.actions.act05.home = req.body.action05
+            }
         }
         if (req.body.action06) {
-			pin.actions.action06 = req.body.action06
+			if(pin.actions.act06.stay_for){
+                pin.actions.act06.stay_for = req.body.action06
+            }
+            else if(pin.actions.act06.take_photos){
+                pin.actions.act06.take_photos = req.body.action06
+            }
+            else if(pin.actions.act06.record_video){
+                pin.actions.act06.record_video = req.body.action06
+            }
+            else if(pin.actions.act06.rotate){
+                pin.actions.act06.rotate = req.body.action06
+            }
+            else if(pin.actions.act06.home){
+                pin.actions.act06.home = req.body.action06
+            }
         }
         if (req.body.action07) {
-			pin.actions.action07 = req.body.action07
+			if(pin.actions.act07.stay_for){
+                pin.actions.act07.stay_for = req.body.action07
+            }
+            else if(pin.actions.act07.take_photos){
+                pin.actions.act07.take_photos = req.body.action07
+            }
+            else if(pin.actions.act07.record_video){
+                pin.actions.act07.record_video = req.body.action07
+            }
+            else if(pin.actions.act07.rotate){
+                pin.actions.act07.rotate = req.body.action07
+            }
+            else if(pin.actions.act07.home){
+                pin.actions.act07.home = req.body.action07
+            }
         }
         if (req.body.action08) {
-			pin.actions.action08 = req.body.action08
+			if(pin.actions.act08.stay_for){
+                pin.actions.act08.stay_for = req.body.action08
+            }
+            else if(pin.actions.act08.take_photos){
+                pin.actions.act08.take_photos = req.body.action08
+            }
+            else if(pin.actions.act08.record_video){
+                pin.actions.act08.record_video = req.body.action08
+            }
+            else if(pin.actions.act08.rotate){
+                pin.actions.act08.rotate = req.body.action08
+            }
+            else if(pin.actions.act08.home){
+                pin.actions.act08.home = req.body.action08
+            }
         }
         if (req.body.action09) {
-			pin.actions.action09 = req.body.action09
+			if(pin.actions.act09.stay_for){
+                pin.actions.act09.stay_for = req.body.action09
+            }
+            else if(pin.actions.act09.take_photos){
+                pin.actions.act09.take_photos = req.body.action09
+            }
+            else if(pin.actions.act09.record_video){
+                pin.actions.act09.record_video = req.body.action09
+            }
+            else if(pin.actions.act09.rotate){
+                pin.actions.act09.rotate = req.body.action09
+            }
+            else if(pin.actions.act09.home){
+                pin.actions.act09.home = req.body.action09
+            }
         }
         if (req.body.action10) {
-			pin.actions.action10 = req.body.action10
+			if(pin.actions.act10.stay_for){
+                pin.actions.act10.stay_for = req.body.action10
+            }
+            else if(pin.actions.act10.take_photos){
+                pin.actions.act10.take_photos = req.body.action10
+            }
+            else if(pin.actions.act10.record_video){
+                pin.actions.act10.record_video = req.body.action10
+            }
+            else if(pin.actions.act10.rotate){
+                pin.actions.act10.rotate = req.body.action10
+            }
+            else if(pin.actions.act10.home){
+                pin.actions.act10.home = req.body.action10
+            }
         }
         if (req.body.action11) {
-			pin.actions.action11 = req.body.action11
+			if(pin.actions.act11.stay_for){
+                pin.actions.act11.stay_for = req.body.action11
+            }
+            else if(pin.actions.act11.take_photos){
+                pin.actions.act11.take_photos = req.body.action11
+            }
+            else if(pin.actions.act11.record_video){
+                pin.actions.act11.record_video = req.body.action11
+            }
+            else if(pin.actions.act11.rotate){
+                pin.actions.act11.rotate = req.body.action11
+            }
+            else if(pin.actions.act11.home){
+                pin.actions.act11.home = req.body.action11
+            }
         }
         if (req.body.action12 ) {
-			pin.actions.action12   = req.body.action12    
+			if(pin.actions.act12.stay_for){
+                pin.actions.act12.stay_for = req.body.action12
+            }
+            else if(pin.actions.act12.take_photos){
+                pin.actions.act12.take_photos = req.body.action12
+            }
+            else if(pin.actions.act12.record_video){
+                pin.actions.act12.record_video = req.body.action12
+            }
+            else if(pin.actions.act12.rotate){
+                pin.actions.act12.rotate = req.body.action12
+            }
+            else if(pin.actions.act12.home){
+                pin.actions.act12.home = req.body.action12
+            }    
         }
         if (req.body.action13) {
-			pin.actions.action13 = req.body.action13
+			if(pin.actions.act13.stay_for){
+                pin.actions.act13.stay_for = req.body.action13
+            }
+            else if(pin.actions.act13.take_photos){
+                pin.actions.act13.take_photos = req.body.action13
+            }
+            else if(pin.actions.act13.record_video){
+                pin.actions.act13.record_video = req.body.action13
+            }
+            else if(pin.actions.act13.rotate){
+                pin.actions.act13.rotate = req.body.action13
+            }
+            else if(pin.actions.act13.home){
+                pin.actions.act13.home = req.body.action13
+            }
         }
         if (req.body.action14) {
-			pin.actions.action14 = req.body.action14
+			if(pin.actions.act14.stay_for){
+                pin.actions.act14.stay_for = req.body.action14
+            }
+            else if(pin.actions.act14.take_photos){
+                pin.actions.act14.take_photos = req.body.action14
+            }
+            else if(pin.actions.act14.record_video){
+                pin.actions.act14.record_video = req.body.action14
+            }
+            else if(pin.actions.act14.rotate){
+                pin.actions.act14.rotate = req.body.action14
+            }
+            else if(pin.actions.act14.home){
+                pin.actions.act14.home = req.body.action14
+            }
         }
         if (req.body.action15) {
-			pin.actions.action15 = req.body.action15
+			if(pin.actions.act15.stay_for){
+                pin.actions.act15.stay_for = req.body.action15
+            }
+            else if(pin.actions.act15.take_photos){
+                pin.actions.act15.take_photos = req.body.action15
+            }
+            else if(pin.actions.act15.record_video){
+                pin.actions.act15.record_video = req.body.action15
+            }
+            else if(pin.actions.act15.rotate){
+                pin.actions.act15.rotate = req.body.action15
+            }
+            else if(pin.actions.act15.home){
+                pin.actions.act15.home = req.body.action15
+            }
         }
         if(req.files){
             pin.preview.path = await uploadToGCS(req.files)
