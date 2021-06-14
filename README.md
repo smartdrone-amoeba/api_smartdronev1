@@ -1333,7 +1333,7 @@ Contoh Output
  ```
  
  **Contoh Input
- `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data))**
+ `PATCH`  /api/project/update/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data))**
  ----
  
  ```
