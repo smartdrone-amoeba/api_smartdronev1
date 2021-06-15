@@ -1420,9 +1420,6 @@ Contoh Output
  `PATCH`  /api/project/[projectId]/pin/add (Add pin To Project)**
  ----
  
- **Contoh Input
- `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data, user bisa upload file menggunakan endpoint ini))**
- ----
 ```
  headers : {
   Authorization : `Bearer: ${token}`
@@ -1691,7 +1688,7 @@ Contoh Output
     ]
 }
  ```
-
+ `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data, user bisa upload file menggunakan endpoint ini))**
  
  ```
  headers : {
