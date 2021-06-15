@@ -886,9 +886,113 @@ Contoh Output
   Authorization : `Bearer: ${token}`
  }
  ```
- [![Contoh Input Project](https://i.postimg.cc/BQ4nj9hc/Deepin-Screenshot-select-area-20210504091955.png)](https://postimg.cc/xqp2Z7Vc)
- [![Contoh Input Project](https://i.postimg.cc/3wM6w713/Deepin-Screenshot-select-area-20210504092011.png)](https://postimg.cc/w1VFWCnr)
- [![Contoh Input Project](https://i.postimg.cc/TPrsLSNg/Deepin-Screenshot-select-area-20210504092027.png)](https://postimg.cc/KK8fC928)
+ ```
+ {
+  "namaProject":"Padang Sihopal",
+  "alamatProject":"Desa Sialagundi, Kec. Huristak, Kab. Padang Lawas, Prov. Sumatera Utara",
+  "detailProject": "project pertama yang akan di terbangkan di padang sihopal",
+  "tglTarget":"2021-06-02",
+  "namaSurveyor":"Amanudin Harahap",
+  "lokasi":{
+    "latitude":-6.12201468,
+    "longitude":106.88686669
+  },
+  "pin":[
+    {
+      "name":"Marker 1",
+      "rotationdir":0,
+      "speed":36,
+      "altitude":57,
+      "curvesize":0,
+      "poi":{
+          "poiStatus":true,
+          "poiMode": 20,
+          "poiLatitude":10,
+          "poiLongtude":20,
+          "poiAltiutde":10
+      },
+      "gimbalmode":{
+        "disable":false,
+        "focuspoi":true,
+        "interpolate":46
+      },
+      "intervalmode": {
+          "disable":false,
+          "seconds":1000,
+          "meters":40
+      },
+      "heading":61,
+      "koordinat":{
+        "latitude":-6.1220520656822055,
+        "longitude":106.88597358763218
+      },
+      "actions": {
+            "act01": {
+                "rotate": "oke"
+            },
+            "act02": {
+                "take_photos": 4
+            },
+            "act03": {
+                "record_video": 2
+            },
+            "act04": {
+                "rotate": true
+            },
+            "act05": {
+                "home": false
+            },
+            "act06": {
+                "stay_for": 20
+            },
+            "act07": {
+                "stay_for": 10
+            },
+            "act08": {
+                "record_video": 2
+            },
+            "act09": {
+                "rotate": true
+            },
+            "act10": {
+                "home": false
+            },
+            "act11": {
+                "stay_for": 20
+            },
+            "act12": {
+                "stay_for": 10
+            },
+            "act13": {
+                "home": false
+            },
+            "act14": {
+                "stay_for": 20
+            },
+            "act15": {
+                "stay_for": 10
+            }
+        }
+    },
+    {
+      "altitude":56,
+      "curvesize":0,
+      "gimbalmode":{
+        "focuspoi":true,
+        "interpolate":58
+      },
+      "heading":75,
+      "koordinat":{
+        "latitude":-6.122249750519877,
+        "longitude":106.88740320503712
+      },
+      "name":"Marker 2",
+      "rotationdir":0,
+      "speed":64
+    }
+  ]
+}
+ ```
  
  contoh Output
  ```
@@ -897,205 +1001,119 @@ Contoh Output
     "message": "data create successfully",
     "data": {
         "lokasi": {
-            "latitude": null,
-            "longitude": null
+            "latitude": -6.12201468,
+            "longitude": 106.88686669
         },
-        "tglPlanning": "2021-05-03T10:59:34.458Z",
-        "updatedAt": "2021-05-03T10:59:34.458Z",
-        "_id": "608f7c003daf47153969376d",
-        "namaProject": "Padang Sidimpuan",
-        "namaSurveyor": "hasibuan",
-        "alamatProject": "Medan sunggal Jl. SM Raja",
-        "tglTarget": "2021-08-30T01:42:39.000Z",
-        "tglDeploy": null,
+        "tglPlanning": "2021-06-05T00:38:44.899Z",
+        "updatedAt": "2021-06-05T00:38:44.899Z",
+        "_id": "60ba6530c1a2392281e098fc",
+        "namaProject": "Padang Sihopal",
+        "namaSurveyor": "Amanudin Harahap",
+        "alamatProject": "Desa Sialagundi, Kec. Huristak, Kab. Padang Lawas, Prov. Sumatera Utara",
+        "detailProject": "project pertama yang akan di terbangkan di padang sihopal",
+        "tglTarget": "2021-06-01T17:00:00.000Z",
         "pin": [
             {
                 "koordinat": {
-                    "latitude": 1,
-                    "longitude": 3
+                    "latitude": -6.1220520656822055,
+                    "longitude": 106.88597358763218
                 },
                 "poi": {
                     "poiStatus": true,
-                    "poiMode": 5,
-                    "poiLatitude": 1,
-                    "poiLongtude": 2,
-                    "poiAltiutde": 6
+                    "poiMode": 20,
+                    "poiLatitude": 10,
+                    "poiLongtude": 20,
+                    "poiAltiutde": 10
                 },
                 "gimbalmode": {
                     "focuspoi": true,
-                    "interpolate": 11
+                    "interpolate": 46
                 },
                 "intervalmode": {
-                    "meters": 52
+                    "seconds": 1000,
+                    "meters": 40
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
+                    "act01": {
+                        "rotate": "oke"
+                    },
+                    "act02": {
+                        "take_photos": "4"
+                    },
+                    "act03": {
+                        "record_video": "2"
+                    },
+                    "act04": {
+                        "rotate": "true"
+                    },
+                    "act05": {
+                        "home": "false"
+                    },
+                    "act06": {
+                        "stay_for": "20"
+                    },
+                    "act07": {
+                        "stay_for": "10"
+                    },
+                    "act08": {
+                        "record_video": "2"
+                    },
+                    "act09": {
+                        "rotate": "true"
+                    },
+                    "act10": {
+                        "home": "false"
+                    },
+                    "act11": {
+                        "stay_for": "20"
+                    },
+                    "act12": {
+                        "stay_for": "10"
+                    },
+                    "act13": {
+                        "home": "false"
+                    },
+                    "act14": {
+                        "stay_for": "20"
+                    },
+                    "act15": {
+                        "stay_for": "10"
+                    }
                 },
-                "_id": "608f7c003daf47153969376e",
-                "name": "pin 1",
-                "speed": 12,
-                "altitude": 10,
-                "heading": 30,
-                "curvesize": 1,
-                "rotationdir": 10
+                "preview": {
+                    "path": []
+                },
+                "_id": "60ba6530c1a2392281e098fd",
+                "name": "Marker 1",
+                "rotationdir": 0,
+                "speed": 36,
+                "altitude": 57,
+                "curvesize": 0,
+                "heading": 61
             },
             {
                 "koordinat": {
-                    "latitude": 1,
-                    "longitude": 3
-                },
-                "poi": {
-                    "poiStatus": false,
-                    "poiMode": 5,
-                    "poiLatitude": 1,
-                    "poiLongtude": 2,
-                    "poiAltiutde": 6
+                    "latitude": -6.122249750519877,
+                    "longitude": 106.88740320503712
                 },
                 "gimbalmode": {
                     "focuspoi": true,
-                    "interpolate": 11
+                    "interpolate": 58
                 },
-                "intervalmode": {
-                    "meters": 52
+                "preview": {
+                    "path": []
                 },
-                "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
-                "_id": "608f7c003daf47153969376f",
-                "name": "pin 2",
-                "speed": 12,
-                "altitude": 10,
-                "heading": 30,
-                "curvesize": 1,
-                "rotationdir": 10
-            },
-            {
-                "koordinat": {
-                    "latitude": 1,
-                    "longitude": 3
-                },
-                "poi": {
-                    "poiStatus": true,
-                    "poiMode": 5,
-                    "poiLatitude": 1,
-                    "poiLongtude": 2,
-                    "poiAltiutde": 6
-                },
-                "gimbalmode": {
-                    "focuspoi": true,
-                    "interpolate": 11
-                },
-                "intervalmode": {
-                    "meters": 52
-                },
-                "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
-                "_id": "608f7c003daf471539693770",
-                "name": "pin 3",
-                "speed": 12,
-                "altitude": 10,
-                "heading": 30,
-                "curvesize": 1,
-                "rotationdir": 10
-            },
-            {
-                "koordinat": {
-                    "latitude": 1,
-                    "longitude": 3
-                },
-                "poi": {
-                    "poiStatus": true,
-                    "poiMode": 5,
-                    "poiLatitude": 1,
-                    "poiLongtude": 2,
-                    "poiAltiutde": 6
-                },
-                "gimbalmode": {
-                    "focuspoi": true,
-                    "interpolate": 11
-                },
-                "intervalmode": {
-                    "meters": 52
-                },
-                "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
-                "_id": "608f7c003daf471539693771",
-                "name": "pin 5",
-                "speed": 12,
-                "altitude": 10,
-                "heading": 30,
-                "curvesize": 1,
-                "rotationdir": 10
-            },
-            {
-                "koordinat": {
-                    "latitude": 1,
-                    "longitude": 3
-                },
-                "poi": {
-                    "poiStatus": true,
-                    "poiMode": 5,
-                    "poiLatitude": 1,
-                    "poiLongtude": 2,
-                    "poiAltiutde": 6
-                },
-                "gimbalmode": {
-                    "focuspoi": true,
-                    "interpolate": 11
-                },
-                "intervalmode": {
-                    "meters": 52
-                },
-                "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
-                "_id": "608f7c003daf471539693772",
-                "name": "pin 4",
-                "speed": 12,
-                "altitude": 10,
-                "heading": 30,
-                "curvesize": 1,
-                "rotationdir": 10
+                "_id": "60ba6530c1a2392281e098fe",
+                "altitude": 56,
+                "curvesize": 0,
+                "heading": 75,
+                "name": "Marker 2",
+                "rotationdir": 0,
+                "speed": 64
             }
         ],
-        "user": "608f76223daf47153969376c",
+        "user": "60aa143c976c05000aedcb22",
+        "deploy": [],
         "__v": 0
     }
 }
@@ -1161,15 +1179,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf47153969376e",
                 "name": "pin 1",
                 "speed": 12,
@@ -1198,15 +1229,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf47153969376f",
                 "name": "pin 2",
                 "speed": 12,
@@ -1235,15 +1279,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693770",
                 "name": "pin 3",
                 "speed": 12,
@@ -1272,15 +1329,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693771",
                 "name": "pin 5",
                 "speed": 12,
@@ -1309,15 +1379,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "608f7c003daf471539693772",
                 "name": "pin 4",
                 "speed": 12,
@@ -1338,7 +1421,7 @@ Contoh Output
  ----
  
  **Contoh Input
- `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data))**
+ `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data, user bisa upload file menggunakan endpoint ini))**
  ----
 ```
  headers : {
@@ -1727,13 +1810,28 @@ Contoh Output
                     "meters": 40
                 },
                 "actions": {
-                    "act01": 30,
-                    "act02": 3,
-                    "act03": 32,
-                    "act04": 1,
-                    "act05": 10,
-                    "act06": 9
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "preview": {
                     "path": []
                 },
@@ -1773,6 +1871,111 @@ Contoh Output
 }
  ```
 
+
+  **Contoh Input
+ `DELETE`  /api/project/deploy/[projectId] (Deploy project)**
+ ----
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ contoh Output
+ 
+ ```
+{
+    "status": "success",
+    "message": "project deploy successfully",
+    "data": {
+        "lokasi": {
+            "latitude": -6.12201468,
+            "longitude": 106.88686669
+        },
+        "tglPlanning": "2021-06-04T14:13:00.139Z",
+        "updatedAt": "2021-06-04T14:13:00.139Z",
+        "_id": "60b9d35aaffde7ce4d25f4b7",
+        "namaProject": "dayat 5",
+        "namaSurveyor": "dayat",
+        "alamatProject": "Jl. Swasembada Barat XIII No.38, RT.9/RW.9, Kb. Bawang, Tj. Priok, Kota Jkt Utara, Daerah Khusus Ibukota Jakarta 14320, Indonesia",
+        "tglTarget": "2021-06-01T17:00:00.000Z",
+        "pin": [
+            {
+                "koordinat": {
+                    "latitude": -6.1220520656822055,
+                    "longitude": 106.88597358763218
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 46
+                },
+                "actions": {
+                    "act01": {
+                        "rotate": "true"
+                    },
+                    "act02": {
+                        "take_photos": "4"
+                    },
+                    "act03": {
+                        "record_video": "2"
+                    },
+                    "act04": {
+                        "rotate": "true"
+                    },
+                    "act05": {
+                        "home": "false"
+                    },
+                    "act08": {
+                        "stay_for": "20"
+                    },
+                    "act09": {
+                        "stay_for": "10"
+                    }
+                },
+                "preview": {
+                    "path": []
+                },
+                "_id": "60b9d35aaffde7ce4d25f4b8",
+                "altitude": 57,
+                "curvesize": 0,
+                "heading": 61,
+                "name": "Marker 1",
+                "rotationdir": 0,
+                "speed": 36
+            },
+            {
+                "koordinat": {
+                    "latitude": -6.122249750519877,
+                    "longitude": 106.88740320503712
+                },
+                "gimbalmode": {
+                    "focuspoi": true,
+                    "interpolate": 58
+                },
+                "preview": {
+                    "path": []
+                },
+                "_id": "60b9d35aaffde7ce4d25f4b9",
+                "altitude": 56,
+                "curvesize": 0,
+                "heading": 75,
+                "name": "Marker 2",
+                "rotationdir": 0,
+                "speed": 64
+            }
+        ],
+        "user": "60aa143c976c05000aedcb22",
+        "deploy": [
+            {
+                "_id": "60b9dc1ffd3da7000a7beb44",
+                "tglDeploy": "2021-06-04T14:54:07.897Z"
+            }
+        ],
+        "__v": 0
+    }
+}
+ ```
 
  
  **Contoh Input
@@ -1835,15 +2038,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ecfd",
                 "name": "pin 1",
                 "speed": 12,
@@ -1872,15 +2088,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ecfe",
                 "name": "pin 2",
                 "speed": 12,
@@ -1909,15 +2138,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ecff",
                 "name": "pin 3",
                 "speed": 12,
@@ -1946,15 +2188,28 @@ Contoh Output
                     "meters": 52
                 },
                 "actions": {
-                    "act01": 1,
-                    "act02": 2,
-                    "act03": 3,
-                    "act04": 4,
-                    "act05": 5,
-                    "act06": 1,
-                    "act08": 2,
-                    "act09": 3
-                },
+                        "act01": {
+                            "rotate": true
+                        },
+                        "act02": {
+                            "take_photos": 4
+                        },
+                        "act03": {
+                            "record_video": 2
+                        },
+                        "act04": {
+                            "rotate": true
+                        },
+                        "act05": {
+                            "home": false
+                        },
+                        "act08": {
+                            "stay_for": 20
+                        },
+                        "act09": {
+                            "stay_for": 10
+                        }
+                    },
                 "_id": "609248d6b23dfb000a34ed00",
                 "name": "pin 5",
                 "speed": 12,
