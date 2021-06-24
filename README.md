@@ -27,6 +27,8 @@
  `GET`  /api/project/get-all (Menampilkan list semua project)
  
  `GET`  /api/project/get/[id] (Menampilkan data project berdasarkan id)
+ 
+ `GET`  /api/project/getbyuser (Menampilkan data project berdasarkan user)
 
  `POST` /api/project/add (create project baru)
  
@@ -646,6 +648,620 @@ Contoh Output
     }
 }
   ```
+  
+  **Contoh Input
+ `GET`  /api/project/getbyuser (Menampilkan project By User)**
+ ----
+ 
+ ```
+ headers : {
+  Authorization : `Bearer: ${token}`
+ }
+ ```
+ 
+ Contoh Output
+ 
+ ```
+ {
+    "status": "success",
+    "message": "data fetch successfully",
+    "count": 5,
+    "data": [
+        {
+            "_id": "60b9d35aaffde7ce4d25f4b7",
+            "namaProject": "grya permai edit",
+            "namaSurveyor": "harahap edit",
+            "alamatProject": "Medan Jl. Imam bonjol edit",
+            "tglPlanning": "2021-06-04T14:13:00.139Z",
+            "updatedAt": "2021-06-15T12:28:07.283Z",
+            "lokasi": {
+                "latitude": -6.12201468,
+                "longitude": 106.88686669
+            },
+            "deploy": [
+                {
+                    "_id": "60b9dc1ffd3da7000a7beb44",
+                    "tglDeploy": "2021-06-04T14:54:07.897Z"
+                },
+                {
+                    "_id": "60c77720d4f8d1000af424fb",
+                    "tglDeploy": "2021-06-14T22:34:56.853Z"
+                }
+            ],
+            "tglTarget": "2021-06-01T17:00:00.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": -6.1220520656822055,
+                        "longitude": 106.88597358763218
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 46
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "true"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "true"
+                        },
+                        "act08": {
+                            "stay_for": "20"
+                        },
+                        "act09": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": [
+                            "https://storage.googleapis.com/contoh-cloud/1623676281526-WIN_20210329_23_20_27_Pro.jpg",
+                            "https://storage.googleapis.com/contoh-cloud/1623676281534-WIN_20210329_23_20_28_Pro.jpg"
+                        ]
+                    },
+                    "_id": "60b9d35aaffde7ce4d25f4b8",
+                    "altitude": 57,
+                    "curvesize": 0,
+                    "heading": 61,
+                    "name": "marker 1A",
+                    "rotationdir": 0,
+                    "speed": 46
+                },
+                {
+                    "koordinat": {
+                        "latitude": -6.122249750519877,
+                        "longitude": 106.88740320503712
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 58
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60b9d35aaffde7ce4d25f4b9",
+                    "altitude": 56,
+                    "curvesize": 0,
+                    "heading": 75,
+                    "name": "Marker 2",
+                    "rotationdir": 0,
+                    "speed": 64
+                },
+                {
+                    "koordinat": {
+                        "latitude": -6.12201468,
+                        "longitude": 106.88686669
+                    },
+                    "poi": {
+                        "poiStatus": false,
+                        "poiMode": 3000,
+                        "poiLatitude": 200,
+                        "poiLongtude": 1002,
+                        "poiAltiutde": 2103
+                    },
+                    "gimbalmode": {
+                        "disabled": false,
+                        "focuspoi": true,
+                        "interpolate": 3002
+                    },
+                    "intervalmode": {
+                        "disabled": false,
+                        "seconds": 4000,
+                        "meters": 30
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "true"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "false"
+                        },
+                        "act06": {
+                            "stay_for": "20"
+                        },
+                        "act07": {
+                            "stay_for": "10"
+                        },
+                        "act08": {
+                            "record_video": "2"
+                        },
+                        "act09": {
+                            "rotate": "true"
+                        },
+                        "act10": {
+                            "home": "false"
+                        },
+                        "act11": {
+                            "stay_for": "20"
+                        },
+                        "act12": {
+                            "stay_for": "10"
+                        },
+                        "act13": {
+                            "home": "false"
+                        },
+                        "act14": {
+                            "stay_for": "20"
+                        },
+                        "act15": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60c81d22c078ca43f93af7eb",
+                    "name": "pin baru",
+                    "speed": 56,
+                    "altitude": 34,
+                    "heading": 70,
+                    "curvesize": 3,
+                    "rotationdir": 30
+                }
+            ],
+            "userName": "testing"
+        },
+        {
+            "_id": "60b9d370affde7ce4d25f4ba",
+            "namaProject": "dayat 5",
+            "namaSurveyor": "dayat",
+            "alamatProject": "Jl. Swasembada Barat XIII No.38, RT.9/RW.9, Kb. Bawang, Tj. Priok, Kota Jkt Utara, Daerah Khusus Ibukota Jakarta 14320, Indonesia",
+            "tglPlanning": "2021-06-04T14:13:00.139Z",
+            "updatedAt": "2021-06-04T14:13:00.139Z",
+            "lokasi": {
+                "latitude": -6.12201468,
+                "longitude": 106.88686669
+            },
+            "deploy": [],
+            "tglTarget": "2021-06-01T17:00:00.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": -6.1220520656822055,
+                        "longitude": 106.88597358763218
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 46
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "oke"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "false"
+                        },
+                        "act08": {
+                            "stay_for": "20"
+                        },
+                        "act09": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60b9d370affde7ce4d25f4bb",
+                    "altitude": 57,
+                    "curvesize": 0,
+                    "heading": 61,
+                    "name": "Marker 1",
+                    "rotationdir": 0,
+                    "speed": 36
+                },
+                {
+                    "koordinat": {
+                        "latitude": -6.122249750519877,
+                        "longitude": 106.88740320503712
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 58
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60b9d370affde7ce4d25f4bc",
+                    "altitude": 56,
+                    "curvesize": 0,
+                    "heading": 75,
+                    "name": "Marker 2",
+                    "rotationdir": 0,
+                    "speed": 64
+                }
+            ],
+            "userName": "testing"
+        },
+        {
+            "_id": "60ba58657cec86000a467e07",
+            "namaProject": "dayat 5",
+            "namaSurveyor": "dayat",
+            "alamatProject": "Jl. Swasembada Barat XIII No.38, RT.9/RW.9, Kb. Bawang, Tj. Priok, Kota Jkt Utara, Daerah Khusus Ibukota Jakarta 14320, Indonesia",
+            "tglPlanning": "2021-06-04T23:42:18.217Z",
+            "updatedAt": "2021-06-04T23:42:18.217Z",
+            "lokasi": {
+                "latitude": -6.12201468,
+                "longitude": 106.88686669
+            },
+            "deploy": [],
+            "tglTarget": "2021-06-02T00:00:00.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": -6.1220520656822055,
+                        "longitude": 106.88597358763218
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 46
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "oke"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "false"
+                        },
+                        "act08": {
+                            "stay_for": "20"
+                        },
+                        "act09": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60ba58657cec86000a467e08",
+                    "altitude": 57,
+                    "curvesize": 0,
+                    "heading": 61,
+                    "name": "Marker 1",
+                    "rotationdir": 0,
+                    "speed": 36
+                },
+                {
+                    "koordinat": {
+                        "latitude": -6.122249750519877,
+                        "longitude": 106.88740320503712
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 58
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60ba58657cec86000a467e09",
+                    "altitude": 56,
+                    "curvesize": 0,
+                    "heading": 75,
+                    "name": "Marker 2",
+                    "rotationdir": 0,
+                    "speed": 64
+                }
+            ],
+            "userName": "testing"
+        },
+        {
+            "_id": "60ba614b752a771f6929113d",
+            "namaProject": "dayat 5",
+            "namaSurveyor": "dayat",
+            "alamatProject": "Jl. Swasembada Barat XIII No.38, RT.9/RW.9, Kb. Bawang, Tj. Priok, Kota Jkt Utara, Daerah Khusus Ibukota Jakarta 14320, Indonesia",
+            "tglPlanning": "2021-06-05T00:21:21.202Z",
+            "updatedAt": "2021-06-05T00:21:21.202Z",
+            "lokasi": {
+                "latitude": -6.12201468,
+                "longitude": 106.88686669
+            },
+            "deploy": [],
+            "tglTarget": "2021-06-01T17:00:00.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": -6.1220520656822055,
+                        "longitude": 106.88597358763218
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 46
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "oke"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "false"
+                        },
+                        "act08": {
+                            "stay_for": "20"
+                        },
+                        "act09": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60ba614b752a771f6929113e",
+                    "altitude": 57,
+                    "curvesize": 0,
+                    "heading": 61,
+                    "name": "Marker 1",
+                    "rotationdir": 0,
+                    "speed": 36
+                },
+                {
+                    "koordinat": {
+                        "latitude": -6.122249750519877,
+                        "longitude": 106.88740320503712
+                    },
+                    "gimbalmode": {
+                        "focuspoi": true,
+                        "interpolate": 58
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60ba614b752a771f6929113f",
+                    "altitude": 56,
+                    "curvesize": 0,
+                    "heading": 75,
+                    "name": "Marker 2",
+                    "rotationdir": 0,
+                    "speed": 64
+                }
+            ],
+            "userName": "testing"
+        },
+        {
+            "_id": "60ba64d2128bdd202f29dee8",
+            "namaProject": "Padang Sihopal",
+            "namaSurveyor": "Amanudin Harahap",
+            "alamatProject": "Desa Sialagundi, Kec. Huristak, Kab. Padang Lawas, Prov. Sumatera Utara",
+            "detailProject": "project pertama yang akan di terbangkan di padang sihopal",
+            "tglPlanning": "2021-06-05T00:23:30.932Z",
+            "updatedAt": "2021-06-05T00:23:30.932Z",
+            "lokasi": {
+                "latitude": -6.12201468,
+                "longitude": 106.88686669
+            },
+            "deploy": [],
+            "tglTarget": "2021-06-01T17:00:00.000Z",
+            "pin": [
+                {
+                    "koordinat": {
+                        "latitude": -6.12201468,
+                        "longitude": 106.88686669
+                    },
+                    "poi": {
+                        "poiStatus": false,
+                        "poiMode": 3000,
+                        "poiLatitude": 200,
+                        "poiLongtude": 1002,
+                        "poiAltiutde": 2103
+                    },
+                    "gimbalmode": {
+                        "disabled": false,
+                        "focuspoi": true,
+                        "interpolate": 3002
+                    },
+                    "intervalmode": {
+                        "disabled": false,
+                        "seconds": 4000,
+                        "meters": 30
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "true"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "false"
+                        },
+                        "act06": {
+                            "stay_for": "20"
+                        },
+                        "act07": {
+                            "stay_for": "10"
+                        },
+                        "act08": {
+                            "record_video": "2"
+                        },
+                        "act09": {
+                            "rotate": "true"
+                        },
+                        "act10": {
+                            "home": "false"
+                        },
+                        "act11": {
+                            "stay_for": "20"
+                        },
+                        "act12": {
+                            "stay_for": "10"
+                        },
+                        "act13": {
+                            "home": "false"
+                        },
+                        "act14": {
+                            "stay_for": "20"
+                        },
+                        "act15": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60cc1806c2bcf83698f27fbe",
+                    "name": "pin baru 1",
+                    "speed": 56,
+                    "altitude": 34,
+                    "heading": 70,
+                    "curvesize": 3,
+                    "rotationdir": 30
+                },
+                {
+                    "koordinat": {
+                        "latitude": -6.12201468,
+                        "longitude": 106.88686669
+                    },
+                    "poi": {
+                        "poiStatus": false,
+                        "poiMode": 3000,
+                        "poiLatitude": 200,
+                        "poiLongtude": 1002,
+                        "poiAltiutde": 2103
+                    },
+                    "gimbalmode": {
+                        "disabled": false,
+                        "focuspoi": true,
+                        "interpolate": 3002
+                    },
+                    "intervalmode": {
+                        "disabled": false,
+                        "seconds": 4000,
+                        "meters": 30
+                    },
+                    "actions": {
+                        "act01": {
+                            "rotate": "true"
+                        },
+                        "act02": {
+                            "take_photos": "4"
+                        },
+                        "act03": {
+                            "record_video": "2"
+                        },
+                        "act04": {
+                            "rotate": "true"
+                        },
+                        "act05": {
+                            "home": "false"
+                        },
+                        "act06": {
+                            "stay_for": "20"
+                        },
+                        "act07": {
+                            "stay_for": "10"
+                        },
+                        "act08": {
+                            "record_video": "2"
+                        },
+                        "act09": {
+                            "rotate": "true"
+                        },
+                        "act10": {
+                            "home": "false"
+                        },
+                        "act11": {
+                            "stay_for": "20"
+                        },
+                        "act12": {
+                            "stay_for": "10"
+                        },
+                        "act13": {
+                            "home": "false"
+                        },
+                        "act14": {
+                            "stay_for": "20"
+                        },
+                        "act15": {
+                            "stay_for": "10"
+                        }
+                    },
+                    "preview": {
+                        "path": []
+                    },
+                    "_id": "60cc1806c2bcf83698f27fbf",
+                    "name": "pin baru 2",
+                    "speed": 56,
+                    "altitude": 34,
+                    "heading": 70,
+                    "curvesize": 3,
+                    "rotationdir": 30
+                }
+            ],
+            "userName": "testing"
+        }
+    ]
+}
+ ```
+  
+  
   
  **Contoh Input
  `GET`  /api/project/search?[query] (Menampilkan project By Id)**
