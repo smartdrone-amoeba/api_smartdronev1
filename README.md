@@ -2315,6 +2315,15 @@ Contoh Output
   action01: true,
 }
 ```
+
+menambahkan actions ke pin: 
+```
+{
+ action01 : {
+     [nama_actions]: value
+ }
+}
+```
  
  contoh Output
  
