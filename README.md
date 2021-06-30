@@ -35,7 +35,9 @@
  `PATCH` api/project/update/[id] (Edit parsial project)
  
  `PATCH` api/project/[projectId]/pin/add (add pin to project)
+ 
  `PATCH` api/project/update/[id]/pin/[id] (Edit parsial project pin)
+ 
  `PATCH` api/project/deploy[projectId] (deploy project)
  
  `DELETE` api/project/delete/[id]
