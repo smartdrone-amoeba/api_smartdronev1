@@ -32,7 +32,7 @@
 
  `POST` /api/project/add (create project baru)
  
- `PATCH` api/project/update/[id] (Edit parsial project)
+ `PATCH` api/project/update/[id] (Edit parsial project allow upload file)
  
  `PATCH` api/project/[projectId]/pin/add (add pin to project)
  
@@ -1738,7 +1738,7 @@ Contoh Output
   ```
   
 **Contoh Input
- `PATCH`  /api/project/update/[id] (Update project (Spesifikasi field allowed))**
+ `PATCH`  /api/project/update/[id] (Update project (Spesifikasi field allowed & upload file allowed))**
  ----
  
  ```
@@ -1747,13 +1747,7 @@ Contoh Output
  }
  ```
  
- ```
- {
-    "namaProject": "padang sidempuan edit",
-    "alamatProject": "Medan sunggal Jl. SM Raja edit",
-    "namaSurveyor": "hasibuan edit"
-}
- ```
+[![Deepin-Screenshot-select-area-20210630175032.png](https://i.postimg.cc/28QFpndn/Deepin-Screenshot-select-area-20210630175032.png)](https://postimg.cc/PPq8YpRq)
  
  contoh Output
  
@@ -2306,7 +2300,7 @@ Contoh Output
     ]
 }
  ```
- `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed allowed input form-data, user bisa upload file menggunakan endpoint ini))**
+ `PATCH`  /api/project/[projectId]/pin/[pinId] (Update project (Spesifikasi field allowed))**
  
  ```
  headers : {
@@ -2314,7 +2308,13 @@ Contoh Output
  }
  ```
  
-[![Contoh Input Update Pin & upload preview](https://i.postimg.cc/pTF8HPSs/Deepin-Screenshot-select-area-20210610090340.png)](https://postimg.cc/r0qzG2M4)
+```
+{
+  name: "marker 1 edit",
+  speed: 48,
+  action01: true,
+}
+```
  
  contoh Output
  
