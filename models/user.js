@@ -11,6 +11,10 @@ const userSchema = new Schema({
     address: {type: String,required: true},
     gender: {type: String, required: true},
     phone: {type: Number, required: true},
+    status: {type: String},
+    battery: {type: String},
+    remote: {type: String},
+    signal: {type: String},
     projects: [{type:Schema.Types.ObjectId, ref: 'Project'}],
     createdAt: {type: Date, default:date},
     updatedAt: {type: Date, default:date}

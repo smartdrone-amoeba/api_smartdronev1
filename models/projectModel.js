@@ -23,6 +23,15 @@ const ProjectSchema = new Schema({
         {tglDeploy: {type:Date}}
     ],
     updatedAt: {type: Date, default: date},
+    preview:{
+        path:[{type:String}]
+    },
+    image2d: {
+        path : [{type:String}]
+    },
+    image3d: {
+        path : [{type:String}]
+    },
 
     //pin project 
     pin: [
@@ -160,9 +169,258 @@ const ProjectSchema = new Schema({
                     rotate: {type: String},
                     home: {type: String}
                 },
-            },
-            preview:{
-                path:[{type:String}]
+                act16: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act17: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act18: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act19: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act16: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act20: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act21: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act22: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act23: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act24: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act25: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act26: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act27: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act28: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act29: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act30: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act31: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act32: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act33: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act34: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act35: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act36: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act37: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act38: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act39: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act40: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act41: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act42: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act43: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act44: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act45: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act46: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act47: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act48: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act49: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
+                act50: {
+                    stay_for: {type: String},
+                    take_photos: {type: String},
+                    record_video: {type: String},
+                    rotate: {type: String},
+                    home: {type: String}
+                },
             }
         }
     ],
