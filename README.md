@@ -28,6 +28,10 @@
  
  `GET`  /api/project/get/[id] (Menampilkan data project berdasarkan id)
 
+ `GET` /api/project/[projectId]/preview (Get Preview By Id Project)
+
+ `GET` /api/project/[projectId]/image (Get Image By Id Project)
+
  `POST` /api/project/add (create project baru)
  
  `PATCH` api/project/update/[id] (Edit parsial project)
