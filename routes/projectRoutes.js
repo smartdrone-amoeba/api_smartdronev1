@@ -6,7 +6,6 @@ const checkAuth = require("../middleware/check-auth");
 const { uploadFile, uploadToGCS } = require("../helper/upload");
 
 const moment = require("moment");
-const { findOne } = require("../models/projectModel");
 moment.locale("id");
 
 // GET
@@ -33,6 +32,7 @@ router.get("/get-all", checkAuth, async (req, res) => {
               latitude: data.lokasi.latitude,
               longitude: data.lokasi.longitude,
             },
+            preview: data.preview,
             deploy: data.deploy,
             tglTarget: data.tglTarget,
             pin: data.pin.map((data) => data),
@@ -115,6 +115,7 @@ router.get("/getbyuser", checkAuth, async (req, res) => {
             latitude: data.lokasi.latitude,
             longitude: data.lokasi.longitude,
           },
+          preview: data.preview,
           deploy: data.deploy,
           tglTarget: data.tglTarget,
           pin: data.pin.map((data) => data),
@@ -174,6 +175,7 @@ router.get("/search", checkAuth, async (req, res) => {
               latitude: data.lokasi.latitude,
               longitude: data.lokasi.longitude,
             },
+            preview: data.preview,
             deploy: data.deploy,
             tglTarget: data.tglTarget,
             pin: data.pin.map((data) => data),
@@ -207,6 +209,7 @@ router.get("/search", checkAuth, async (req, res) => {
                 latitude: data.lokasi.latitude,
                 longitude: data.lokasi.longitude,
               },
+              preview: data.preview,
               deploy: data.deploy,
               tglTarget: data.tglTarget,
               pin: data.pin.map((data) => data),
@@ -238,6 +241,7 @@ router.get("/search", checkAuth, async (req, res) => {
                 latitude: data.lokasi.latitude,
                 longitude: data.lokasi.longitude,
               },
+              preview: data.preview,
               deploy: data.deploy,
               tglTarget: data.tglTarget,
               pin: data.pin.map((data) => data),
@@ -269,6 +273,7 @@ router.get("/search", checkAuth, async (req, res) => {
                 latitude: data.lokasi.latitude,
                 longitude: data.lokasi.longitude,
               },
+              preview: data.preview,
               deploy: data.deploy,
               tglTarget: data.tglTarget,
               pin: data.pin.map((data) => data),
@@ -278,7 +283,6 @@ router.get("/search", checkAuth, async (req, res) => {
         });
       }
     }
-    console.log(response);
   } catch (err) {
     res.json({
       status: "failed",
@@ -327,12 +331,54 @@ router.post("/add", checkAuth, async (req, res) => {
   }
 });
 
+// Get Preview
+
+router.get('/:projectId/preview', checkAuth, async (req, res) => {
+  const {projectId:id} = req.params
+  try {
+    const response = await Project.findById({ _id: id})
+    res.json({
+      status: 'success',
+      message: 'preview was fetching successfully',
+      data: response.preview
+    })
+  } catch (err) {
+    res.json({
+      status: "failed",
+      message: "error",
+      error: err.message,
+    });
+  }
+})
+
+// Get Image
+
+router.get('/:projectId/image', checkAuth, async (req, res) => {
+  const {projectId:id} = req.params
+  try {
+    const response = await Project.findById({ _id: id})
+    res.json({
+      status: 'success',
+      message: 'image was fetching successfully',
+      data: {
+        image2d: response.image2d,
+        image3d: response.image3d
+      }
+    })
+  } catch (err) {
+    res.json({
+      status: "failed",
+      message: "error",
+      error: err.message,
+    });
+  }
+})
+
 // Update Project || Add Pin to ProjectSchema
 // localhost:3001/api/project/[projectId]/add/pin
 
 router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
   const { projectId: id } = req.params;
-  console.log(req.body)
   try {
     const {
         name,
@@ -361,13 +407,15 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
       intervalmode,
       actions,
     };
-    const newPin = await Project.updateOne(
+
+    console.log(pin)
+    const newPin = await Project.update(
       {
         _id: id,
       },
       {
         $push: {
-          pin: pin,
+          pin: req.body,
         },
       }
     );
@@ -390,8 +438,9 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
 
 // UPDATE PATCH
 //localhost:3001/api/project/update/projectId
-router.patch("/update/:projectId", checkAuth, async (req, res) => {
+router.patch("/update/:projectId", uploadFile([{name: "preview", maxCount: 10}, {name: "image2d", maxCount: 500}, {name: "image3d", maxCount:500}]), checkAuth, async (req, res) => {
   let date = new Date();
+console.log(req.files)
 
   const { projectId: id } = req.params;
   try {
@@ -428,6 +477,16 @@ router.patch("/update/:projectId", checkAuth, async (req, res) => {
       project.lokasi.longitude = req.body.longitude;
       project.updatedAt = date.setHours(date.getHours() + 7);
     }
+    if (req.files.preview) {
+      project.preview.path = await uploadToGCS(req.files.preview);
+    }
+    if (req.files.image3d){
+      project.image3d.path = await uploadToGCS(req.files.image3d);
+    }
+    if (req.files.image2d){
+      project.image2d.path = await uploadToGCS(req.files.image2d);
+    }
+    
 
     const projectUpdated = await project.save();
 
@@ -450,12 +509,10 @@ router.patch("/update/:projectId", checkAuth, async (req, res) => {
 // localhost:3001/api/project/update/:projectId/pin/:pinId
 router.patch(
   "/update/:projectId/pin/:pinId",
-  checkAuth,
-  uploadFile("preview", 50),
-  async (req, res) => {
+  checkAuth, async (req, res) => {
     const { projectId, pinId } = req.params;
+
     let date = new Date();
-    const image = req.files;
     try {
       const project = await Project.findOne({ _id: projectId });
       const pin = project.pin.find((item) => item._id == pinId);
@@ -538,8 +595,8 @@ router.patch(
           pin.actions.act01.record_video = req.body.action01;
         } else if (pin.actions.act01.rotate) {
           pin.actions.act01.rotate = req.body.action01;
-        } else if (pin.actions.act01.home) {
-          pin.actions.act01.home = req.body.action01;
+        } else {
+          pin.actions.act01 = req.body.action01;
         }
       }
       if (req.body.action02) {
@@ -553,6 +610,8 @@ router.patch(
           pin.actions.act02.rotate = req.body.action02;
         } else if (pin.actions.act02.home) {
           pin.actions.act02.home = req.body.action02;
+        } else {      
+          pin.actions.act02 = req.body.action02;
         }
       }
       if (req.body.action03) {
@@ -566,6 +625,8 @@ router.patch(
           pin.actions.act03.rotate = req.body.action03;
         } else if (pin.actions.act03.home) {
           pin.actions.act03.home = req.body.action03;
+        } else {      
+          pin.actions.act03 = req.body.action03;
         }
       }
       if (req.body.action04) {
@@ -579,6 +640,8 @@ router.patch(
           pin.actions.act04.rotate = req.body.action04;
         } else if (pin.actions.act04.home) {
           pin.actions.act04.home = req.body.action04;
+        } else {      
+          pin.actions.act04 = req.body.action04;
         }
       }
       if (req.body.action05) {
@@ -592,6 +655,8 @@ router.patch(
           pin.actions.act05.rotate = req.body.action05;
         } else if (pin.actions.act05.home) {
           pin.actions.act05.home = req.body.action05;
+        } else {      
+          pin.actions.act05 = req.body.action05;
         }
       }
       if (req.body.action06) {
@@ -605,6 +670,8 @@ router.patch(
           pin.actions.act06.rotate = req.body.action06;
         } else if (pin.actions.act06.home) {
           pin.actions.act06.home = req.body.action06;
+        } else {      
+          pin.actions.act06 = req.body.action06;
         }
       }
       if (req.body.action07) {
@@ -618,6 +685,8 @@ router.patch(
           pin.actions.act07.rotate = req.body.action07;
         } else if (pin.actions.act07.home) {
           pin.actions.act07.home = req.body.action07;
+        } else {      
+          pin.actions.act07 = req.body.action07;
         }
       }
       if (req.body.action08) {
@@ -631,6 +700,8 @@ router.patch(
           pin.actions.act08.rotate = req.body.action08;
         } else if (pin.actions.act08.home) {
           pin.actions.act08.home = req.body.action08;
+        } else {      
+          pin.actions.act08 = req.body.action08;
         }
       }
       if (req.body.action09) {
@@ -644,6 +715,8 @@ router.patch(
           pin.actions.act09.rotate = req.body.action09;
         } else if (pin.actions.act09.home) {
           pin.actions.act09.home = req.body.action09;
+        } else {      
+          pin.actions.act09 = req.body.action03;
         }
       }
       if (req.body.action10) {
@@ -657,6 +730,8 @@ router.patch(
           pin.actions.act10.rotate = req.body.action10;
         } else if (pin.actions.act10.home) {
           pin.actions.act10.home = req.body.action10;
+        } else {      
+          pin.actions.act10 = req.body.action10;
         }
       }
       if (req.body.action11) {
@@ -670,6 +745,8 @@ router.patch(
           pin.actions.act11.rotate = req.body.action11;
         } else if (pin.actions.act11.home) {
           pin.actions.act11.home = req.body.action11;
+        } else {      
+          pin.actions.act11 = req.body.action11;
         }
       }
       if (req.body.action12) {
@@ -683,6 +760,8 @@ router.patch(
           pin.actions.act12.rotate = req.body.action12;
         } else if (pin.actions.act12.home) {
           pin.actions.act12.home = req.body.action12;
+        } else {      
+          pin.actions.act12 = req.body.action12;
         }
       }
       if (req.body.action13) {
@@ -696,6 +775,8 @@ router.patch(
           pin.actions.act13.rotate = req.body.action13;
         } else if (pin.actions.act13.home) {
           pin.actions.act13.home = req.body.action13;
+        } else {      
+          pin.actions.act13 = req.body.action13;
         }
       }
       if (req.body.action14) {
@@ -709,6 +790,8 @@ router.patch(
           pin.actions.act14.rotate = req.body.action14;
         } else if (pin.actions.act14.home) {
           pin.actions.act14.home = req.body.action14;
+        } else {      
+          pin.actions.act14 = req.body.action14;
         }
       }
       if (req.body.action15) {
@@ -722,10 +805,9 @@ router.patch(
           pin.actions.act15.rotate = req.body.action15;
         } else if (pin.actions.act15.home) {
           pin.actions.act15.home = req.body.action15;
+        } else {      
+          pin.actions.act15 = req.body.action15;
         }
-      }
-      if (req.files) {
-        pin.preview.path = await uploadToGCS(req.files);
       }
 
       const pinEdited = await Project.updateOne(

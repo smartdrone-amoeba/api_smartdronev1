@@ -112,7 +112,11 @@
     "name": "harahap",
     "gender":"man",
     "address": "address tester",
-    "phone": "0945345345345354345"
+    "phone": "0945345345345354345",
+    "status" : "Connected",
+    "battery" : "30%",
+    "remote" : "10%",
+    "signal" : "3"
 }
 ```
 

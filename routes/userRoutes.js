@@ -14,7 +14,7 @@ date.setHours(date.getHours() + 7)
 // http://localhost:3001/api/auth/get-all
 router.get('/get', async (req, res)=> {
     try {
-        const response = await User.find().select('_id name email address phone createdAt updatedAt')
+        const response = await User.find().select('_id name email address phone status battery remote signal createdAt updatedAt')
 
         res.json({
             status: 'success',
@@ -37,7 +37,7 @@ router.get('/get', async (req, res)=> {
 router.get('/get/:userId', async(req, res) => {
     const {userId:id} = req.params
     try {
-        const response = await User.findOne({_id:id}).select('_id name email address phone createdAt updatedAt')
+        const response = await User.findOne({_id:id}).select('_id name email address phone status battery remote signal createdAt updatedAt')
         res.json({
             status: 'success',
             message: 'data fetch successfully',
@@ -57,7 +57,7 @@ router.get('/get/:userId', async(req, res) => {
 // Register
 // localhot:3001/api/auth/register
 router.post('/register', async(req, res) => {
-    const {email, password, name, gender, address, phone} = req.body
+    const {email, password, name, gender, address, phone, status, battery, remote, signal} = req.body
     try {
         const checkExistedUser = await User.findOne({email})
 
@@ -74,7 +74,11 @@ router.post('/register', async(req, res) => {
             address,
             gender,
             phone,
-            password: result
+            password: result,
+            status,
+            battery,
+            remote,
+            signal
         })      
             try {
                 const userCreated = await newUser.save();
