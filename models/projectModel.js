@@ -36,7 +36,7 @@ const ProjectSchema = new Schema({
     //pin project 
     pin: [
         {
-            name: {type: String, required:true},
+            name: {type: String},
             koordinat    : {
                 latitude : {type: Number}, 
                 longitude : {type: Number}
