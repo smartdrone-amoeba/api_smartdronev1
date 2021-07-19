@@ -12,6 +12,8 @@
 
 `GET` /api/auth/get/[id] (Menampilkan data user berdasarkan id)
 
+`GET` /api/auth/load/ (Menampilkan user yang sedang login)
+
 `POST` /api/auth/register (register user baru)
 
 `POST` /api/auth/login (Login untuk generate token JWT)
@@ -106,6 +108,34 @@ Contoh Output
        "address": "jalan kutilang no 12 Semarang",
        "phone": 867657676754
    }
+}
+```
+
+**Contoh Input
+`GET` /api/auth/load (Load user yang login)**
+
+---
+
+```
+headers : {
+Authorization : `Bearer: ${token}`
+}
+```
+
+> Output
+
+```
+{
+    "status": "success",
+    "message": "data fetch successfully",
+    "data": {
+        "createdAt": "2021-07-13T09:20:42.666Z",
+        "_id": "60ecf937dda759000a8747e0",
+        "email": "nhawehsan@gmail.com",
+        "name": "Ehshan",
+        "address": "STO Telkom , Jalan Imam Bonjol no 1 Palangkaraya",
+        "phone": 81345266434
+    }
 }
 ```
 

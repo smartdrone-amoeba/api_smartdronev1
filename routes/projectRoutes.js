@@ -458,6 +458,7 @@ router.patch(
     { name: "preview", maxCount: 20 },
     { name: "image2d", maxCount: 10 },
     { name: "image3d", maxCount: 20 },
+    { name: "deleteImage3d", maxCount: 20 },
   ]),
   checkAuth,
   async (req, res) => {
@@ -517,6 +518,9 @@ router.patch(
             ]);
       }
       if (req.files.image3d) {
+        // Delete Option
+        // project.image3d.path = await uploadToGCS(req.files.image3d);
+
         project.image3d.path.length === 0
           ? (project.image3d.path = await uploadToGCS(req.files.image3d))
           : (project.image3d.path = [
