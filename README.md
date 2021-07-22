@@ -988,6 +988,7 @@ Authorization : `Bearer: ${token}`
 \*Contoh Output
 
 ```
+
    {
    "status": "success",
    "message": "preview was fetching successfully",
@@ -1001,6 +1002,72 @@ Authorization : `Bearer: ${token}`
            }
        }
    }
+}
+```
+
+**Contoh input
+`GET` /api/project/getbyuser (Menampilkan Project By Id)
+
+
+```
+headers : {
+Authorization : `Bearer: ${token}`
+}
+```
+
+> Contoh output
+
+```
+{
+    status: 'success',
+    message: '',
+    data: [
+
+    ]
+}
+```
+
+**Contoh input
+`GET` /api/project/[:projectId]/plugin (Menampilkan Project By Id)
+
+
+```
+headers : {
+Authorization : `Bearer: ${token}`
+}
+```
+
+> Contoh output
+
+```
+{
+    status: 'success',
+    message: '',
+    data: [
+        
+    ]
+}
+```
+
+**Contoh input
+`GET` /api/project/[:projectId]/export/[query] (Export file Project By Id)
+
+
+```
+headers : {
+Authorization : `Bearer: ${token}`
+}
+```
+
+> Contoh output
+
+```
+{
+    status: 'success',
+    message: '',
+    data: [
+        
+    ]
 }
 ```
 
@@ -1823,6 +1890,53 @@ contoh Output
        ],
        "__v": 0
    }
+}
+```
+**Contoh input
+`PATCH`/api/project/[:projectId]/plugin/add/[:pluginId] (Add plugin Project By Id)
+
+```
+headers : {
+Authorization : `Bearer: ${token}`
+}
+```
+> Note 
+* if req.body.nama maka akan create pada plugin
+
+[![Deepin-Screenshot-select-area-20210722094236.png](https://i.postimg.cc/9Q0fzwGH/Deepin-Screenshot-select-area-20210722094236.png)](https://postimg.cc/k2rCp41T)
+
+> Contoh output
+
+```
+{
+    status: 'success',
+    message: '',
+    data: [
+        
+    ]
+}
+```
+
+
+**Contoh input
+`PATCH`/api/project/[:projectId]/add-export (Export file Project By Id)
+
+```
+headers : {
+Authorization : `Bearer: ${token}`
+}
+```
+[![Deepin-Screenshot-select-area-20210722092415.png](https://i.postimg.cc/3xfdZFKw/Deepin-Screenshot-select-area-20210722092415.png)](https://postimg.cc/186mm6Vx)
+
+> Contoh output
+
+```
+{
+    status: 'success',
+    message: '',
+    data: [
+        
+    ]
 }
 ```
 
