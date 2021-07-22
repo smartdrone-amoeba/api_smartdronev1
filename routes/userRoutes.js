@@ -14,7 +14,7 @@ date.setHours(date.getHours() + 7);
 router.get("/get", async (req, res) => {
   try {
     const response = await User.find().select(
-      "_id name email address phone status battery remote signal createdAt updatedAt"
+      "_id name email pekerjaan address phone status battery remote signal createdAt updatedAt"
     );
 
     res.json({
@@ -39,7 +39,7 @@ router.get("/get/:userId", async (req, res) => {
   const { userId: id } = req.params;
   try {
     const response = await User.findOne({ _id: id }).select(
-      "_id name email address phone status battery remote signal createdAt updatedAt"
+      "_id name pekerjaan email address phone status battery remote signal createdAt updatedAt"
     );
     res.json({
       status: "success",
@@ -62,7 +62,9 @@ router.get("/load", checkAuth, async (req, res) => {
   try {
     const response = await User.findOne({
       _id: id,
-    }).select("_id name email address phone status battery remote signal createdAt updatedA");
+    }).select(
+      "_id name email pekerjaan address phone status battery remote signal createdAt updatedA"
+    );
 
     res.json({
       status: "success",
@@ -85,6 +87,7 @@ router.post("/register", async (req, res) => {
     email,
     password,
     name,
+    pekerjaan,
     gender,
     address,
     phone,
@@ -106,6 +109,7 @@ router.post("/register", async (req, res) => {
       const newUser = new User({
         email,
         name,
+        pekerjaan,
         address,
         gender,
         phone,
@@ -238,6 +242,10 @@ router.patch("/update-user/:userId", async (req, res) => {
     }
     if (req.body.phone) {
       user.phone = req.body.phone;
+      user.updatedAt = date;
+    }
+    if (req.body.pekerjaan) {
+      user.pekerjaan = req.body.pekerjaan;
       user.updatedAt = date;
     }
 
