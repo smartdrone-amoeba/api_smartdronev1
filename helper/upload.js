@@ -10,14 +10,21 @@ exports.uploadToGCS = (file) =>
       image2dUrl,
       image2dUrlCompress,
       image3dUrl,
-      image3dUrlCompress;
+      image3dUrlCompress,
+      pluginUrl,
+      csvUrl,
+      pngUrl,
+      kmlUrl,
+      jpegUrl,
+      reportUrl
     let preview = [];
     let image2d = [];
     let image3d = [];
+    let plugin, csv, png, kml, jpeg, report
     let previewCompress = [];
     let image2dCompress = [];
     let image3dCompress = [];
-    let previewBlob, image2dBlob, image3dBlob;
+    let previewBlob, image2dBlob, image3dBlob, pluginBlob, csvBlob, pngBlob, kmlBlob, jpegBlob, reportBlob;
     file.forEach(async (file) => {
       // console.log(file)
       if (file.fieldname == "preview") {
@@ -112,6 +119,133 @@ exports.uploadToGCS = (file) =>
           blobStream.end(file.buffer);
         }, 3000);
       }
+
+      //========================================================================================
+      //============================     Plugin     ============================================
+      //========================================================================================
+
+      if (file.fieldname == "imagePlugin") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        pluginBlob = bucket.file(`plugin/${filename.replace(" ", "_")}`);
+        pluginUrl = `https://storage.googleapis.com/${bucket.name}/${pluginBlob.name}`;
+        plugin= pluginUrl;
+
+        const blobStream = pluginBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(plugin);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
+      //========================================================================================
+      //============================     Export CSV     ========================================
+      //========================================================================================
+
+      if (file.fieldname == "CSV") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        csvBlob = bucket.file(`export/csv/${filename.replace(" ", "_")}`);
+        csvUrl = `https://storage.googleapis.com/${bucket.name}/${csvBlob.name}`;
+        csv = csvUrl;
+
+        const blobStream = csvBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(csv);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
+      //========================================================================================
+      //============================     Export PNG     ========================================
+      //========================================================================================
+
+      if (file.fieldname == "PNG") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        pngBlob = bucket.file(`export/csv/${filename.replace(" ", "_")}`);
+        pngUrl = `https://storage.googleapis.com/${bucket.name}/${pngBlob.name}`;
+        png = pngUrl;
+
+        const blobStream = pngBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(png);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
+      //========================================================================================
+      //============================     Export KML     ========================================
+      //========================================================================================
+
+      if (file.fieldname == "KML") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        kmlBlob = bucket.file(`export/csv/${filename.replace(" ", "_")}`);
+        kmlUrl = `https://storage.googleapis.com/${bucket.name}/${kmlBlob.name}`;
+        kml = kmlUrl;
+
+        const blobStream = kmlBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(kml);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
+      //========================================================================================
+      //============================     Export JPEG     ========================================
+      //========================================================================================
+
+      if (file.fieldname == "JPEG") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        jpegBlob = bucket.file(`export/csv/${filename.replace(" ", "_")}`);
+        jpegUrl = `https://storage.googleapis.com/${bucket.name}/${jpegBlob.name}`;
+        jpeg = jpegUrl;
+
+        const blobStream = jpegBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(jpeg);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
+      //========================================================================================
+      //============================     Export REPORT     =====================================
+      //========================================================================================
+
+      if (file.fieldname == "REPORT") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        reportBlob = bucket.file(`export/csv/${filename.replace(" ", "_")}`);
+        reportUrl = `https://storage.googleapis.com/${bucket.name}/${reportBlob.name}`;
+        report = reportUrl;
+
+        const blobStream = reportBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(report);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
     });
   });
 

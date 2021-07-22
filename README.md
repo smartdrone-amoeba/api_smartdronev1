@@ -34,13 +34,29 @@
 
 `GET` /api/project/[projectId]/image (Get Image By Id Project)
 
+`GET` /api/project/search?[query] (GET project search)
+
+`GET` /api/project/getbyuser (GET project bt user)
+
+`GET` /api/project/[:projectId]/plugin (GET plugin project)
+
+`GET` /api/project/[:projectId]/export?[query] (Export project file)
+
 `POST` /api/project/add (create project baru)
 
 `PATCH` api/project/update/[id] (Edit parsial project)
 
 `PATCH` api/project/[projectId]/pin/add (add pin to project)
+
 `PATCH` api/project/update/[id]/pin/[id] (Edit parsial project pin)
+
+`PATCH` api/project//delete/[:projectId]/pin/[:pinId] (Delete project pin)
+
 `PATCH` api/project/deploy[projectId] (deploy project)
+
+`PATCH` api/project/[:projectId]/plugin/add/[:pluginId] (Add Plugin on project)
+
+`PATCH` api/project/[:projectId]/add-export" (Add Export file to project)
 
 `DELETE` api/project/delete/[id]
 

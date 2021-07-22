@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/projectModel");
+const path = require("path");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
 const { uploadFile, uploadToGCS } = require("../helper/upload");
@@ -35,7 +36,10 @@ router.get("/get-all", checkAuth, async (req, res) => {
             preview: data.preview,
             image2d: data.image2d,
             image3d: data.image3d,
+            export: data.export,
             deploy: data.deploy,
+            history: data.history.map((value) => value),
+            plugin: data.plugin.map((value) => value),
             tglTarget: data.tglTarget,
             pin: data.pin.map((data) => data),
             userName: data.user.name,
@@ -77,6 +81,8 @@ router.get("/get-one/:projectId", checkAuth, async (req, res) => {
         image2d: response.image2d,
         image3d: response.image3d,
         deploy: response.deploy,
+        history: response.history.map((value) => value),
+        plugin: data.plugin.map((value) => value),
         tglTarget: response.tglTarget,
         pin: response.pin.map((data) => data),
         userName: response.user.name,
@@ -123,6 +129,8 @@ router.get("/getbyuser", checkAuth, async (req, res) => {
           image2d: data.image2d,
           image3d: data.image3d,
           deploy: data.deploy,
+          history: data.history.map((value) => value),
+          plugin: data.plugin.map((value) => value),
           tglTarget: data.tglTarget,
           pin: data.pin.map((data) => data),
           userName: data.user.name,
@@ -185,6 +193,8 @@ router.get("/search", checkAuth, async (req, res) => {
             image2d: data.image2d,
             image3d: data.image3d,
             deploy: data.deploy,
+            history: data.history.map((value) => value),
+            plugin: data.plugin.map((value) => value),
             tglTarget: data.tglTarget,
             pin: data.pin.map((data) => data),
             userName: data.user.name,
@@ -221,6 +231,8 @@ router.get("/search", checkAuth, async (req, res) => {
               image2d: data.image2d,
               image3d: data.image3d,
               deploy: data.deploy,
+              history: data.history.map((value) => value),
+              plugin: data.plugin.map((value) => value),
               tglTarget: data.tglTarget,
               pin: data.pin.map((data) => data),
               userName: data.user.name,
@@ -255,6 +267,8 @@ router.get("/search", checkAuth, async (req, res) => {
               image2d: data.image2d,
               image3d: data.image3d,
               deploy: data.deploy,
+              history: data.history.map((value) => value),
+              plugin: data.plugin.map((value) => value),
               tglTarget: data.tglTarget,
               pin: data.pin.map((data) => data),
               userName: data.user.name,
@@ -289,6 +303,8 @@ router.get("/search", checkAuth, async (req, res) => {
               image2d: data.image2d,
               image3d: data.image3d,
               deploy: data.deploy,
+              history: data.history.map((value) => value),
+              plugin: data.plugin.map((value) => value),
               tglTarget: data.tglTarget,
               pin: data.pin.map((data) => data),
               userName: data.user.name,
@@ -331,6 +347,23 @@ router.post("/add", checkAuth, async (req, res) => {
       "pin"
     );
 
+    // Attach History
+    let date = new Date();
+    await Project.updateOne(
+      {
+        _id: newProject._id,
+      },
+      {
+        $push: {
+          history: {
+            aktivitas: "planning",
+            tgl: date.setHours(date.getHours() + 7),
+            status: !newProject ? "Fail" : "Success",
+          },
+        },
+      }
+    );
+
     res.json({
       status: "success",
       message: "data create successfully",
@@ -366,7 +399,6 @@ router.get("/:projectId/preview", checkAuth, async (req, res) => {
 });
 
 // Get Image
-
 router.get("/:projectId/image", checkAuth, async (req, res) => {
   const { projectId: id } = req.params;
   try {
@@ -422,7 +454,6 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
       actions,
     };
 
-    console.log(pin);
     const newPin = await Project.update(
       {
         _id: id,
@@ -430,6 +461,23 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
       {
         $push: {
           pin: req.body,
+        },
+      }
+    );
+
+    // Attach History
+    let date = new Date();
+    await Project.update(
+      {
+        _id: id,
+      },
+      {
+        $push: {
+          history: {
+            aktivitas: "planning",
+            tgl: date.setHours(date.getHours() + 7),
+            status: !newPin ? "Fail" : "Success",
+          },
         },
       }
     );
@@ -501,6 +549,11 @@ router.patch(
         project.lokasi.longitude = req.body.longitude;
         project.updatedAt = date.setHours(date.getHours() + 7);
       }
+      if (req.body.drone) {
+        project.drone.nama = req.body.drone;
+        project.drone.tglPlanning = project.tglPlanning;
+        project.updatedAt = date.setHours(date.getHours() + 7);
+      }
       if (req.files.preview) {
         project.preview.path.length === 0
           ? (project.preview.path = await uploadToGCS(req.files.preview))
@@ -530,7 +583,23 @@ router.patch(
       }
 
       const projectUpdated = await project.save();
-      console.log(projectUpdated);
+
+      // Attach History
+      let date = new Date();
+      await Project.updateOne(
+        {
+          _id: id,
+        },
+        {
+          $push: {
+            history: {
+              aktivitas: "Edit project",
+              tgl: date.setHours(date.getHours() + 7),
+              status: !projectUpdated ? "Fail" : "Success",
+            },
+          },
+        }
+      );
 
       // response
       return res.send({
@@ -858,6 +927,22 @@ router.patch("/update/:projectId/pin/:pinId", checkAuth, async (req, res) => {
       }
     );
 
+    // Attach History
+    await Project.updateOne(
+      {
+        _id: projectId,
+      },
+      {
+        $push: {
+          history: {
+            aktivitas: "Edit pin",
+            tgl: date.setHours(date.getHours() + 7),
+            status: !newProject ? "Fail" : "Success",
+          },
+        },
+      }
+    );
+
     if (pinEdited.n == 0) {
       return res.json({
         status: "failed",
@@ -895,7 +980,6 @@ router.patch("/deploy/:projectId", checkAuth, async (req, res) => {
   const { projectId: id } = req.params;
   let date = new Date();
 
-  console.log(date);
   try {
     const response = await Project.update(
       {
@@ -909,6 +993,23 @@ router.patch("/deploy/:projectId", checkAuth, async (req, res) => {
         },
       }
     );
+
+    // Attach History
+    await Project.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $push: {
+          history: {
+            aktivitas: "Deploy",
+            tgl: date.setHours(date.getHours() + 7),
+            status: !response.n !== 1 ? "Fail" : "Success",
+          },
+        },
+      }
+    );
+
     if (response.n !== 1) {
       return res.json({
         status: "failed",
@@ -943,6 +1044,23 @@ router.delete("/delete/:projectId/pin/:pinId", async (req, res) => {
     );
     const response = await Project.findOne({ _id: projectId }).select("pin");
 
+    // Attach History
+    await Project.updateOne(
+      {
+        _id: projectId,
+      },
+      {
+        $push: {
+          history: {
+            aktivitas: "Delete pin",
+            tgl: date.setHours(date.getHours() + 7),
+            status:
+              !deletePin || deletePin.nModified === 0 ? "Fail" : "Success",
+          },
+        },
+      }
+    );
+
     if (!deletePin || deletePin.nModified === 0) {
       return res.json({
         status: "failed",
@@ -960,6 +1078,218 @@ router.delete("/delete/:projectId/pin/:pinId", async (req, res) => {
     return res.json({
       status: "failed",
       message: "error",
+      error: err.message,
+    });
+  }
+});
+
+// =====================================================================
+// =======================     Plugin      =============================
+// =====================================================================
+
+router.get("/:projectId/plugin", async (req, res) => {
+  const { projectId: id } = req.params;
+  try {
+    const response = await Project.findOne({ _id: id });
+
+    if (!response) {
+      return res.json({
+        status: "failed",
+        message: `id ${id} not found`,
+      });
+    }
+    return res.json({
+      status: "success",
+      message: "data successfully fetching",
+      count: response.length,
+      data: response.plugin,
+    });
+  } catch (err) {
+    return res.json({
+      status: "failed",
+      message: "error",
+      error: err.message,
+    });
+  }
+});
+
+router.patch(
+  "/:projectId/plugin/add/:pluginId",
+  uploadFile([{ name: "imagePlugin", maxCount: 1 }]),
+  async (req, res) => {
+    const { projectId: id, pluginId } = req.params;
+    const { name, title, shortDescription, longDescription } = req.body;
+    try {
+      if (name) {
+        await Project.updateOne(
+          {
+            _id: id,
+          },
+          {
+            $push: {
+              plugin: {
+                name,
+              },
+            },
+          }
+        );
+        return res.json({
+          status: "success",
+          message: "plugin success created, please add action",
+        });
+      }
+
+      const addPlugin = await Project.updateOne(
+        { _id: id, "plugin._id": pluginId },
+        {
+          $push: {
+            "plugin.$[].actions": {
+              title,
+              shortDescription,
+              longDescription,
+              image: await uploadToGCS(req.files.imagePlugin),
+            },
+          },
+        }
+      );
+
+      let date = new Date();
+      await Project.updateOne(
+        {
+          _id: id,
+        },
+        {
+          $push: {
+            history: {
+              aktivitas: "planning",
+              tgl: date.setHours(date.getHours() + 7),
+              status: !addPlugin ? "Fail" : "Success",
+            },
+          },
+        }
+      );
+
+      const response = await Project.findOne({ "plugin._id": pluginId });
+
+      return res.json({
+        status: "success",
+        message: "data successfully created",
+        data: response.plugin,
+      });
+    } catch (err) {
+      return res.json({
+        status: "failed",
+        message: "error",
+        error: err.message,
+      });
+    }
+  }
+);
+
+// =====================================================================
+// =======================     Export      =============================
+// =====================================================================
+
+router.patch(
+  "/:projectId/add-export",
+  uploadFile([
+    { name: "CSV", maxCount: 1 },
+    { name: "PNG", maxCount: 1 },
+    { name: "KML", maxCount: 1 },
+    { name: "JPEG", maxCount: 1 },
+    { name: "REPORT", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    const { projectId: id } = req.params;
+    try {
+      const project = await Project.findOne({ _id: id });
+
+      if (req.files.CSV) {
+        project.export.CSV = await uploadToGCS(req.files.CSV);
+      }
+      if (req.files.PNG) {
+        project.export.PNG = await uploadToGCS(req.files.PNG);
+      }
+      if (req.files.KML) {
+        project.export.KML = await uploadToGCS(req.files.KML);
+      }
+      if (req.files.JPEG) {
+        project.export.JPEG = await uploadToGCS(req.files.JPEG);
+      }
+      if (req.files.KML) {
+        project.export.KML = await uploadToGCS(req.files.KML);
+      }
+
+      await project.save();
+
+      const exportFile = await Project.findOne({ _id: id });
+
+      if (!exportFile) {
+        return res.json({
+          status: "failed",
+          message: `id ${id} not found`,
+        });
+      }
+
+      return res.json({
+        status: "success",
+        message: "file was uploaded",
+        data: exportFile.export,
+      });
+    } catch (err) {
+      return res.json({
+        status: "failed",
+        error: err.message,
+      });
+    }
+  }
+);
+router.get("/:projectId/export", async (req, res) => {
+  const { projectId: id } = req.params;
+
+  try {
+    const dirname = path.join(__dirname, "../../../../Downloads");
+    const project = await Project.findOne({ _id: id });
+    if (!project.export) {
+      if (req.query.csv) {
+        const file = `${project.export.CSV}`;
+        res.download(file);
+      }
+      if (req.query.png) {
+        const file = `${dirname}/${project.export.PNG}`;
+        res.download(file);
+      }
+      if (req.query.kml) {
+        const file = `${dirname}/${project.export.KML}`;
+        res.download(file);
+      }
+      if (req.query.jpeg) {
+        const file = `${dirname}/${project.export.JPEG}`;
+        res.download(file);
+      }
+      if (req.query.report) {
+        const file = `${dirname}/${project.export.REPORT}`;
+        res.download(file);
+      }
+    }
+    console.log(project.export);
+    return res.json({
+      status: "success",
+      message: `file ${
+        req.query.csv
+          ? "csv"
+          : req.query.png
+          ? "png"
+          : req.query.kml
+          ? "kml"
+          : req.query.jpeg
+          ? "jpeg"
+          : "report"
+      } was downloaded`,
+    });
+  } catch (err) {
+    return res.json({
+      status: "failed",
       error: err.message,
     });
   }
