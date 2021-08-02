@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv/config");
+const path = require("path");
+
+app.use("/public", express.static('public'));
 
 // connect to DB google storage api versi terbaru
 mongoose.connect(process.env.DB_CONNECTION, {

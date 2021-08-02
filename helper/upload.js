@@ -1,8 +1,30 @@
 const gc = require("../config/");
 const bucket = gc.bucket("contoh-cloud");
 const multer = require("multer");
+const { format } = require("util");
 const sharp = require("sharp");
 
+const { Storage } = require("@google-cloud/storage");
+
+// Creates a client
+const storage = new Storage();
+
+const path = require("path");
+const publicDir = path.join(__dirname, "../public/");
+
+exports.donwloadFile = async (obj, mtl) => {
+  const optionsObj = {
+    destination: path.join(publicDir, 'objFile.obj' ),
+  };
+
+  const optionsMtl = {
+    destination: path.join(publicDir, 'mtlFile.mtl' ),
+  };
+
+
+  await bucket.file(obj).download(optionsObj);
+  await bucket.file(mtl).download(optionsMtl);
+};
 exports.uploadToGCS = (file) =>
   new Promise(async (resolve, reject) => {
     let previewUrl,
@@ -59,7 +81,9 @@ exports.uploadToGCS = (file) =>
         previewBlobCompress = bucket.file(
           `compress/preview/${filename.replace(" ", "_")}`
         );
-        previewUrlCompress = `https://storage.googleapis.com/${bucket.name}/${previewBlobCompress.name}`;
+        previewUrlCompress = format(
+          `https://storage.googleapis.com/${bucket.name}/${previewBlobCompress.name}`
+        );
         previewCompress.push(previewUrlCompress);
 
         const blobStreamCompress = previewBlobCompress.createWriteStream();

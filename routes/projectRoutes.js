@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Project = require("../models/projectModel");
 const path = require("path");
+const fs = require("fs");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
-const { uploadFile, uploadToGCS } = require("../helper/upload");
+const { uploadFile, uploadToGCS, donwloadFile } = require("../helper/upload");
 
 const moment = require("moment");
 moment.locale("id");
@@ -402,7 +403,19 @@ router.get("/:projectId/preview", checkAuth, async (req, res) => {
 router.get("/:projectId/image", checkAuth, async (req, res) => {
   const { projectId: id } = req.params;
   try {
+    fs.unlinkSync("public/mtlFile.mtl");
+    fs.unlinkSync("public/objFile.obj");
     const response = await Project.findById({ _id: id });
+
+    const objFile = response.image3d.path[0].replace(
+      "https://storage.googleapis.com/contoh-cloud/",
+      ""
+    );
+    const mtlFile = response.image3d.path[1].replace(
+      "https://storage.googleapis.com/contoh-cloud/",
+      ""
+    );
+    await donwloadFile(objFile, mtlFile);
     res.json({
       status: "success",
       message: "image was fetching successfully",
