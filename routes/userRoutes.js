@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const router = require("./projectRoutes");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
+const { uploadFile, uploadToGCS } = require("../helper/upload");
 
 let date = new Date();
 date.setHours(date.getHours() + 7);
@@ -14,7 +15,7 @@ date.setHours(date.getHours() + 7);
 router.get("/get", async (req, res) => {
   try {
     const response = await User.find().select(
-      "_id name email pekerjaan address phone status battery remote signal createdAt updatedAt"
+      "_id name email pekerjaan avatar address phone status battery remote signal createdAt updatedAt"
     );
 
     res.json({
@@ -39,7 +40,7 @@ router.get("/get/:userId", async (req, res) => {
   const { userId: id } = req.params;
   try {
     const response = await User.findOne({ _id: id }).select(
-      "_id name pekerjaan email address phone status battery remote signal createdAt updatedAt"
+      "_id name pekerjaan avatar email address phone status battery remote signal createdAt updatedAt"
     );
     res.json({
       status: "success",
@@ -63,7 +64,7 @@ router.get("/load", checkAuth, async (req, res) => {
     const response = await User.findOne({
       _id: id,
     }).select(
-      "_id name email pekerjaan address phone status battery remote signal createdAt updatedA"
+      "_id name email pekerjaan address phone avatar status battery remote signal createdAt updatedAt"
     );
 
     res.json({
@@ -217,54 +218,62 @@ router.post("/login", async (req, res) => {
 // Update
 // localhost:3001/api/auth/update-user/:[userId]
 
-router.patch("/update-user/:userId", async (req, res) => {
-  const { userId: id } = req.params;
-  try {
-    const user = await User.findByIdAndUpdate(
-      { _id: id },
-      { new: true }
-    ).select("_id name email address phone createdAt updatedAt");
+router.patch(
+  "/update-user",
+  checkAuth,
+  uploadFile([{ name: "avatar", maxCount: 1 }]),
+  async (req, res) => {
+    const { userId: id } = req.userData;
+    try {
+      const user = await User.findByIdAndUpdate(
+        { _id: id },
+        { new: true }
+      ).select("_id name email avatar pekerjaan address phone createdAt updatedAt");
 
-    // Check if existed project
-    if (!user) {
+      // Check if existed project
+      if (!user) {
+        res.json({
+          status: "failed",
+          message: `data id: ${id} not found`,
+        });
+      }
+      if (req.body.name) {
+        user.name = req.body.name;
+        user.updatedAt = date;
+      }
+      if (req.body.address) {
+        user.address = req.body.address;
+        user.updatedAt = date;
+      }
+      if (req.body.phone) {
+        user.phone = req.body.phone;
+        user.updatedAt = date;
+      }
+      if (req.body.pekerjaan) {
+        user.pekerjaan = req.body.pekerjaan;
+        user.updatedAt = date;
+      }
+      if (req.files.avatar) {
+        user.avatar = await uploadToGCS(req.files.avatar);
+        user.updatedAt = date;
+      }
+      const userUpdated = await user.save();
+
+      // response
+      res.json({
+        status: "success",
+        message: "data update successfully",
+        data: userUpdated,
+      });
+    } catch (err) {
       res.json({
         status: "failed",
-        message: `data id: ${id} not found`,
+        message: "request failed",
+        error: err.message,
       });
     }
-    if (req.body.name) {
-      user.name = req.body.name;
-      user.updatedAt = date;
-    }
-    if (req.body.address) {
-      user.address = req.body.address;
-      user.updatedAt = date;
-    }
-    if (req.body.phone) {
-      user.phone = req.body.phone;
-      user.updatedAt = date;
-    }
-    if (req.body.pekerjaan) {
-      user.pekerjaan = req.body.pekerjaan;
-      user.updatedAt = date;
-    }
-
-    const userUpdated = await user.save();
-
-    // response
-    res.json({
-      status: "success",
-      message: "data update successfully",
-      data: userUpdated,
-    });
-  } catch (err) {
-    res.json({
-      status: "failed",
-      message: "request failed",
-      error: err.message,
-    });
   }
-});
+);
 
 // Delete
 // localhost:3001/api/auth/delete-user/[userId]

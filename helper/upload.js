@@ -16,15 +16,25 @@ exports.uploadToGCS = (file) =>
       pngUrl,
       kmlUrl,
       jpegUrl,
-      reportUrl
+      reportUrl,
+      avatarUrl;
     let preview = [];
     let image2d = [];
     let image3d = [];
-    let plugin, csv, png, kml, jpeg, report
+    let plugin, csv, png, kml, jpeg, report, avatar;
     let previewCompress = [];
     let image2dCompress = [];
     let image3dCompress = [];
-    let previewBlob, image2dBlob, image3dBlob, pluginBlob, csvBlob, pngBlob, kmlBlob, jpegBlob, reportBlob;
+    let previewBlob,
+      image2dBlob,
+      image3dBlob,
+      pluginBlob,
+      csvBlob,
+      pngBlob,
+      kmlBlob,
+      jpegBlob,
+      reportBlob,
+      avatarBlob;
     file.forEach(async (file) => {
       // console.log(file)
       if (file.fieldname == "preview") {
@@ -121,6 +131,27 @@ exports.uploadToGCS = (file) =>
       }
 
       //========================================================================================
+      //============================     Avatar     ============================================
+      //========================================================================================
+
+      if (file.fieldname == "avatar") {
+        const filename = Date.now() + "-" + file.originalname;
+        //* Raw Version
+        avatarBlob = bucket.file(`avatar/${filename.replace(" ", "_")}`);
+        avatarUrl = `https://storage.googleapis.com/${bucket.name}/${avatarBlob.name}`;
+        avatar = avatarUrl;
+
+        const blobStream = avatarBlob.createWriteStream();
+        blobStream.on("finish", () => {
+          resolve(avatar);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        blobStream.end(file.buffer);
+      }
+
+      //========================================================================================
       //============================     Plugin     ============================================
       //========================================================================================
 
@@ -129,7 +160,7 @@ exports.uploadToGCS = (file) =>
         //* Raw Version
         pluginBlob = bucket.file(`plugin/${filename.replace(" ", "_")}`);
         pluginUrl = `https://storage.googleapis.com/${bucket.name}/${pluginBlob.name}`;
-        plugin= pluginUrl;
+        plugin = pluginUrl;
 
         const blobStream = pluginBlob.createWriteStream();
         blobStream.on("finish", () => {
@@ -245,7 +276,6 @@ exports.uploadToGCS = (file) =>
         });
         blobStream.end(file.buffer);
       }
-
     });
   });
 

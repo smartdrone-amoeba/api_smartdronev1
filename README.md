@@ -218,13 +218,7 @@ headers : {
 }
 ```
 
-```
-{
-    "name":"donkey",
-    "phone": "0932834943",
-    "address": "jalan kutilang edit"
-}
-```
+[![Deepin-Screenshot-select-area-20210802090028.png](https://i.postimg.cc/3wGBRkhz/Deepin-Screenshot-select-area-20210802090028.png)](https://postimg.cc/VSYMZLdF)
 
 Contoh Output
 
@@ -239,7 +233,8 @@ Contoh Output
         "email": "drone@gmail.com",
         "name": "donkey",
         "address": "jalan kutilang edit",
-        "phone": 932834943
+        "phone": 932834943,
+        "avatar": "https://storage.googleapis.com/contoh-cloud/avatar/1627618460011-median-filter.png"
     }
 }
 ```
