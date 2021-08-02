@@ -1312,7 +1312,7 @@ contoh Output
 ```
 
 **Contoh Input
-`PATCH` /api/project/update/[id] (Update project (Spesifikasi field allowed))**
+`PATCH` /api/project/update/[id] (Update project (Spesifikasi field allowed & only limit 20 file per field))**
 
 ---
 
