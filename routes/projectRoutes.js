@@ -5,7 +5,12 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
-const { uploadFile, uploadToGCS, donwloadFile } = require("../helper/upload");
+const {
+  uploadFile,
+  uploadToGCS,
+  donwloadFile,
+  uploadPreviewToGCS,
+} = require("../helper/upload");
 
 const moment = require("moment");
 moment.locale("id");
@@ -403,8 +408,14 @@ router.get("/:projectId/preview", checkAuth, async (req, res) => {
 router.get("/:projectId/image", checkAuth, async (req, res) => {
   const { projectId: id } = req.params;
   try {
-    fs.unlinkSync("public/mtlFile.mtl");
-    fs.unlinkSync("public/objFile.obj");
+    if (
+      fs.existsSync("./public/mtlFile.mtl") ||
+      fs.existsSync("./public/objFile.obj")
+    ) {
+      fs.unlinkSync("public/mtlFile.mtl");
+      fs.unlinkSync("public/objFile.obj");
+      fs.unlinkSync("public/objFile.obj");
+    }
     const response = await Project.findById({ _id: id });
 
     const objFile = response.image3d.path[0].replace(
@@ -523,6 +534,8 @@ router.patch(
   ]),
   checkAuth,
   async (req, res) => {
+    const preview = req.files.preview;
+
     let date = new Date();
     const { projectId: id } = req.params;
     try {
@@ -568,13 +581,16 @@ router.patch(
         project.updatedAt = date.setHours(date.getHours() + 7);
       }
       if (req.files.preview) {
-        project.preview.path.length === 0
-          ? (project.preview.path = await uploadToGCS(req.files.preview))
-          : (project.preview.path = [
-              ...project.preview.path,
-              ...(await uploadToGCS(req.files.preview)),
-            ]);
+        for (i = 0; i < preview.length; i++) {
+          project.preview.path.length === 0
+            ? (project.preview.path = await uploadPreviewToGCS(preview[i]))
+            : (project.preview.path = [
+                ...project.preview.path,
+                ...(await uploadPreviewToGCS(preview[i])),
+              ]);
+        }
       }
+
       if (req.files.image2d) {
         project.image2d.path.length === 0
           ? (project.image2d.path = await uploadToGCS(req.files.image2d))
