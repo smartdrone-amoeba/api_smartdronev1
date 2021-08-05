@@ -14,19 +14,61 @@ const publicDir = path.join(__dirname, "../public/");
 
 exports.donwloadFile = async (obj, mtl) => {
   const optionsObj = {
-    destination: path.join(publicDir, 'objFile.obj' ),
+    destination: path.join(publicDir, "objFile.obj"),
   };
 
   const optionsMtl = {
-    destination: path.join(publicDir, 'mtlFile.mtl' ),
+    destination: path.join(publicDir, "mtlFile.mtl"),
   };
-
 
   await bucket.file(obj).download(optionsObj);
   await bucket.file(mtl).download(optionsMtl);
 };
-exports.uploadToGCS = (file) =>
+
+exports.uploadPreviewToGCS = (file) =>
   new Promise(async (resolve, reject) => {
+    let previewUrl, previewUrlCompress, previewBlob, previewBlobCompress;
+    let preview = [];
+    let previewCompress = [];
+    if (file.fieldname === "preview") {
+      const filename = Date.now() + "-" + file.originalname;
+      //* Preview
+      previewBlob = bucket.file(`preview/${filename.replace(" ", "_")}`);
+      previewUrl = `https://storage.googleapis.com/${bucket.name}/${previewBlob.name}`;
+      preview.push(previewUrl);
+
+      const blobStream = previewBlob.createWriteStream();
+      blobStream.on("finish", () => {
+        // resolve(preview);
+      });
+      blobStream.on("error", (err) => {
+        reject(err);
+      });
+      blobStream.end(file.buffer);
+      //* Compress
+      previewBlobCompress = bucket.file(
+        `compress/preview/${filename.replace(" ", "_")}`
+      );
+      previewUrlCompress = format(
+        `https://storage.googleapis.com/${bucket.name}/${previewBlobCompress.name}`
+      );
+      previewCompress.push(previewUrlCompress);
+
+      const blobStreamCompress = previewBlobCompress.createWriteStream();
+      blobStreamCompress.on("finish", () => {
+        resolve(previewCompress);
+      });
+      blobStreamCompress.on("error", (err) => {
+        reject(err);
+      });
+
+      let compressing = file;
+      const response = await sharp(compressing.buffer).toBuffer();
+      blobStreamCompress.end(response);
+    }
+  });
+exports.uploadToGCS = (files) =>
+  new Promise((resolve, reject) => {
     let previewUrl,
       previewUrlCompress,
       image2dUrl,
@@ -48,6 +90,7 @@ exports.uploadToGCS = (file) =>
     let image2dCompress = [];
     let image3dCompress = [];
     let previewBlob,
+      previewBlobCompress,
       image2dBlob,
       image3dBlob,
       pluginBlob,
@@ -57,25 +100,23 @@ exports.uploadToGCS = (file) =>
       jpegBlob,
       reportBlob,
       avatarBlob;
-    file.forEach(async (file) => {
-      // console.log(file)
+    files.forEach(async (file) => {
       if (file.fieldname == "preview") {
         const filename = Date.now() + "-" + file.originalname;
         //* Preview
-        setTimeout(() => {
-          previewBlob = bucket.file(`preview/${filename.replace(" ", "_")}`);
-          previewUrl = `https://storage.googleapis.com/${bucket.name}/${previewBlob.name}`;
-          preview.push(previewUrl);
+        previewBlob = bucket.file(`preview/${filename.replace(" ", "_")}`);
+        previewUrl = `https://storage.googleapis.com/${bucket.name}/${previewBlob.name}`;
+        preview.push(previewUrl);
 
-          const blobStream = previewBlob.createWriteStream();
-          blobStream.on("finish", () => {
-            resolve(preview);
-          });
-          blobStream.on("error", (err) => {
-            reject(err);
-          });
-          blobStream.end(file.buffer);
-        }, 3000);
+        const blobStream = previewBlob.createWriteStream();
+        blobStream.on("finish", (value) => {
+          console.log(value);
+          resolve(preview);
+        });
+        blobStream.on("error", (err) => {
+          reject(err);
+        });
+        await blobStream.end(file.buffer);
 
         //* Compress
         previewBlobCompress = bucket.file(
@@ -96,7 +137,7 @@ exports.uploadToGCS = (file) =>
 
         let compressing = file;
         const response = await sharp(compressing.buffer).toBuffer();
-        blobStreamCompress.end(response);
+        await blobStreamCompress.end(response);
       }
       //* Image 2D
       if (file.fieldname == "image2d") {
@@ -303,11 +344,11 @@ exports.uploadToGCS = (file) =>
     });
   });
 
+
 exports.uploadFile = (fields) => {
-  const maxSize = 1024 * 1024 * 1024;
   const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: maxSize },
+    limits: { fileSize: 500 * 1024 * 1024 },
   }).fields(fields);
 
   return (req, res, next) => {
@@ -326,7 +367,7 @@ exports.uploadFile = (fields) => {
       if (err) {
         if (err.code === "LIMIT_FILE_SIZE") {
           return res.status(400).send({
-            message: "Max file sized 20MB" + err,
+            message: "Max file sized 500MB" + err,
           });
         }
         return res.status(400).send({
