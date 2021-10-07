@@ -6,7 +6,7 @@ const cors = require("cors");
 require("dotenv/config");
 const path = require("path");
 
-app.use("/public", express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // connect to DB google storage api versi terbaru
 mongoose.connect(process.env.DB_CONNECTION, {
@@ -22,8 +22,8 @@ db.once("open", () => {
   console.log("Database is Connected");
 });
 
-app.use(express.urlencoded({ extended: true}));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 // import routes

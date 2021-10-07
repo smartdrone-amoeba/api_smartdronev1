@@ -11,7 +11,7 @@ let date = new Date();
 date.setHours(date.getHours() + 7);
 
 // Get All User
-// http://localhost:3001/api/auth/get-all
+// http://localhost:3001/api/auth/get
 router.get("/get", async (req, res) => {
   try {
     const response = await User.find().select(
@@ -228,7 +228,9 @@ router.patch(
       const user = await User.findByIdAndUpdate(
         { _id: id },
         { new: true }
-      ).select("_id name email avatar pekerjaan address phone createdAt updatedAt");
+      ).select(
+        "_id name email avatar pekerjaan address phone createdAt updatedAt"
+      );
 
       // Check if existed project
       if (!user) {
