@@ -10,6 +10,9 @@ const {
   uploadToGCS,
   donwloadFile,
   uploadPreviewToGCS,
+  uploadV4,
+  uploadPath,
+  downloadFiles,
 } = require("../helper/upload");
 
 const moment = require("moment");
@@ -88,7 +91,7 @@ router.get("/get-one/:projectId", checkAuth, async (req, res) => {
         image3d: response.image3d,
         deploy: response.deploy,
         history: response.history.map((value) => value),
-        plugin: data.plugin.map((value) => value),
+        plugin: response.plugin.map((value) => value),
         tglTarget: response.tglTarget,
         pin: response.pin.map((data) => data),
         userName: response.user.name,
@@ -408,25 +411,7 @@ router.get("/:projectId/preview", checkAuth, async (req, res) => {
 router.get("/:projectId/image", checkAuth, async (req, res) => {
   const { projectId: id } = req.params;
   try {
-    if (
-      fs.existsSync("./public/mtlFile.mtl") ||
-      fs.existsSync("./public/objFile.obj")
-    ) {
-      fs.unlinkSync("public/mtlFile.mtl");
-      fs.unlinkSync("public/objFile.obj");
-      fs.unlinkSync("public/objFile.obj");
-    }
     const response = await Project.findById({ _id: id });
-
-    const objFile = response.image3d.path[0].replace(
-      "https://storage.googleapis.com/contoh-cloud/",
-      ""
-    );
-    const mtlFile = response.image3d.path[1].replace(
-      "https://storage.googleapis.com/contoh-cloud/",
-      ""
-    );
-    await donwloadFile(objFile, mtlFile);
     res.json({
       status: "success",
       message: "image was fetching successfully",
@@ -535,7 +520,6 @@ router.patch(
   checkAuth,
   async (req, res) => {
     const preview = req.files.preview;
-
     let date = new Date();
     const { projectId: id } = req.params;
     try {
@@ -580,16 +564,18 @@ router.patch(
         project.drone.tglPlanning = project.tglPlanning;
         project.updatedAt = date.setHours(date.getHours() + 7);
       }
-      if (req.files.preview) {
-        for (i = 0; i < preview.length; i++) {
-          project.preview.path.length === 0
-            ? (project.preview.path = await uploadPreviewToGCS(preview[i]))
-            : (project.preview.path = [
-                ...project.preview.path,
-                ...(await uploadPreviewToGCS(preview[i])),
-              ]);
-        }
-      }
+      // console.log(req)
+      // if (req.files.preview) {
+      //   for (i = 0; i < preview.length; i++) {
+      //     // await uploadPath(preview[i]);
+      //     project.preview.path.length === 0
+      //       ? (project.preview.path = await uploadPreviewToGCS(preview[i]))
+      //       : (project.preview.path = [
+      //           ...project.preview.path,
+      //           ...(await uploadPreviewToGCS(preview[i])),
+      //         ]);
+      //   }
+      // }
 
       if (req.files.image2d) {
         project.image2d.path.length === 0

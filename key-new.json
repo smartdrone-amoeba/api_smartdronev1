@@ -1,3 +1,4 @@
+
 {
   "type": "service_account",
   "project_id": "our-chess-310913",
@@ -10,3 +11,4 @@
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/contoh-cloud%40our-chess-310913.iam.gserviceaccount.com"
 }
+

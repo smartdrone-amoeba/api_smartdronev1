@@ -7,10 +7,39 @@ const sharp = require("sharp");
 const { Storage } = require("@google-cloud/storage");
 
 // Creates a client
-const storage = new Storage();
 
 const path = require("path");
-const publicDir = path.join(__dirname, "../public/");
+const fs = require("fs");
+var absolutePath = path.resolve('../../../');
+const publicDir = path.join(__dirname, "../../texturing");
+const pathPublic = path.join(__dirname, "../");
+
+
+
+exports.downloadFiles = async (files) => {
+  for (i = 0; i < files.length; i++) {
+    const filename = files[i].replace(
+      "https://storage.googleapis.com/contoh-cloud/",
+      ""
+    );
+
+    let options;
+    if (i === 0) {
+      options = {
+        destination: path.join(`${publicDir}/`, `file${i}.obj`),
+      };
+    } else if (i === 1) {
+      options = {
+        destination: path.join(`${publicDir}/`, `file${i}.mtl`),
+      };
+    } else {
+      options = {
+        destination: path.join(`${publicDir}texturing/`, `file${i}.png`),
+      };
+    }
+    await bucket.file(filename).download(options);
+  }
+};
 
 exports.donwloadFile = async (obj, mtl) => {
   const optionsObj = {
@@ -23,6 +52,32 @@ exports.donwloadFile = async (obj, mtl) => {
 
   await bucket.file(obj).download(optionsObj);
   await bucket.file(mtl).download(optionsMtl);
+};
+
+exports.uploadV4 = async (file) => {
+  try {
+    const filename = Date.now() + "-" + file.originalname.replace(" ", "_");
+    const options = {
+      version: "v4",
+      action: "write",
+      expires: Date.now() + 5 * 60 * 1000, // 5 minutes
+      contentType: "application/octet-stream",
+    };
+    const [url] = await bucket.file(filename).getSignedUrl(options);
+
+    console.log("Url : ", url);
+  } catch (err) {
+    console.log("err yah", err);
+  }
+};
+
+exports.uploadPath = async (file) => {
+
+  const filename = Date.now() + "-" + file.originalname.replace(" ", "_");
+  const response = await bucket.upload(`/${file.originalname}`, {
+    destination: filename,
+  });
+  const filePath = `https://storage.googleapis.com/${bucket.name}/preview/${filename}`;
 };
 
 exports.uploadPreviewToGCS = (file) =>
@@ -343,7 +398,6 @@ exports.uploadToGCS = (files) =>
       }
     });
   });
-
 
 exports.uploadFile = (fields) => {
   const upload = multer({
