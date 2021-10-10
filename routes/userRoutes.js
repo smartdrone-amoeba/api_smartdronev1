@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const router = require("./projectRoutes");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
-const { uploadFile, uploadToGCS } = require("../helper/upload");
+const { uploadFiles, uploadToGCS } = require("../helper/upload");
 
 let date = new Date();
 date.setHours(date.getHours() + 7);
@@ -221,7 +221,7 @@ router.post("/login", async (req, res) => {
 router.patch(
   "/update-user",
   checkAuth,
-  uploadFile([{ name: "avatar", maxCount: 1 }]),
+  uploadFiles([{ name: "avatar", maxCount: 1 }]),
   async (req, res) => {
     const { userId: id } = req.userData;
     try {
