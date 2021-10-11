@@ -20,6 +20,8 @@ const {
 const moment = require("moment");
 const { moveDir } = require("../helper");
 const publicAssets = path.join(__dirname, '../public/assets/')
+const publicPath = path.join(__dirname, '../public/')
+
 moment.locale("id");
 
 // GET
@@ -523,10 +525,10 @@ router.patch(
   ]),
   checkAuth,
   async (req, res) => {
-    let date = new Date();
-     
     const { projectId: id } = req.params;
+    const pathStatic = path.join(__dirname, '../public/assets/')
     try {
+      let date = new Date()
       const project = await Project.findByIdAndUpdate(
         { _id: id },
         { new: true }
@@ -540,15 +542,30 @@ router.patch(
         });
       }
       if (req.body.namaProject) {
-        try{
-          fs.renameSync(publicAssets + project.namaProject,publicAssets + req.body.namaProject.toLowerCase().replace(/\s+/g, '-'))
+        // Copy all inside folder
+        const folderProject = publicAssets + project.namaProject.toLowerCase().replace(/\s+/g, '-')
+        const subDir = fs.readdirSync(folderProject)
+
+        subDir.forEach(folder => {
+          fsExtra.moveSync('public/assets/' + project.namaProject.toLowerCase().replace(/\s+/g, '-') + '/' + folder, "public/temp/"+ folder)
+        })
+
+          fs.renameSync(publicAssets + project.namaProject.toLowerCase().replace(/\s+/g, '-'), publicAssets + req.body.namaProject.toLowerCase().replace(/\s+/g, '-'))        
+        
           project.namaProject = req.body.namaProject;
           project.updatedAt = date.setHours(date.getHours() + 7);
-        }catch(err){
-          console.log(err)
-        }
+        
+        
+
+        // await fs.rename(`${pathStatic}${project.namaProject.toLowerCase().replace(/\s+/g, '-')}`, `${pathStatic}${req.body.namaProject.toLowerCase().replace(/\s+/g, '-')}`, err => {
+        //   if (err) {
+        //     throw err;
+        //   }
+        // })
         
       }
+
+
       if (req.body.namaSurveyor) {
         project.namaSurveyor = req.body.namaSurveyor;
         project.updatedAt = date.setHours(date.getHours() + 7);
@@ -578,15 +595,15 @@ router.patch(
         const preview = req.files.preview;
         for (i = 0; i < preview.length; i++) {
           // await uploadPath(preview[i]);
-          moveDir(preview[i].filename, `${project.namaProject.toLowerCase()}/preview`)
-          const path = `assets/${project.namaProject.toLowerCase()}/preview/${preview[i].filename}`
+          moveDir(preview[i].filename, `${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview`)
+          const path = `assets/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`
           // project.preview.path = await path
           project.preview.path.length === 0
             ? (project.preview.path = path)
             : (project.preview.path = [
-                ...project.preview.path,
-                path,
-              ]);
+              ...project.preview.path,
+              path,
+            ]);
         }
       }
 
@@ -594,15 +611,15 @@ router.patch(
         const image2d = req.files.image2d;
         for (i = 0; i < image2d.length; i++) {
           // await uploadPath(image2d[i]);
-          moveDir(image2d[i].filename, `${project.namaProject}/image2d`)
-          const path = `assets/${project.namaProject}/image2d/${image2d[i].filename}`
+          moveDir(image2d[i].filename, `${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image2d`)
+          const path = `assets/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image2d/${image2d[i].filename}`
           // project.image2d.path = await path
           project.image2d.path.length === 0
             ? (project.image2d.path = path)
             : (project.image2d.path = [
-                ...project.image2d.path,
-                path,
-              ]);
+              ...project.image2d.path,
+              path,
+            ]);
         }
       }
       if (req.files.image3d) {
@@ -614,22 +631,29 @@ router.patch(
         console.log(dirname)
         for (i = 0; i < image3d.length; i++) {
           // await uploadPath(image3d[i]);
-          moveDir(image3d[i].filename, `${project.namaProject}/image3d`)
-          const path = `assets/${project.namaProject}/image3d/${image3d[i].filename}`
+          moveDir(image3d[i].filename, `${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image3d`)
+          const path = `assets/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image3d/${image3d[i].filename}`
           // project.image3d.path = await path
           project.image3d.path.length === 0
             ? (project.image3d.path = path)
             : (project.image3d.path = [
-                ...project.image3d.path,
-                path,
-              ]);
+              ...project.image3d.path,
+              path,
+            ]);
         }
       }
 
       const projectUpdated = await project.save();
 
+      // Copy back to folder static
+
+      const newFolderProject = publicPath + 'temp/'
+        const tempDir = fs.readdirSync(newFolderProject)
+
+        tempDir.forEach(folder => {
+          fsExtra.moveSync('public/temp/' + folder, "public/assets/"+ projectUpdated.namaProject.toLowerCase().replace(/\s+/g, '-') + '/' + folder)
+        })
       // Attach History
-      let date = new Date();
       await Project.updateOne(
         {
           _id: id,
@@ -667,16 +691,16 @@ router.patch(
 
 
 router.patch('/delete/uploaded', checkAuth, async (req, res) => {
-  const {namaProject, namaField} = req.query
+  const { namaProject, namaField } = req.query
 
-  const pathDeleting = `${publicAssets}${namaProject.toLowerCase()}`
+  const pathDeleting = `${publicAssets}${namaProject.toLowerCase().replace(/\s+/g, '-')}`
   const subFolder = pathDeleting + "/" + namaField.toLowerCase()
   try {
     if (fs.existsSync(subFolder)) {
       const files = fs.readdirSync(subFolder)
-  
+
       if (files.length > 0) {
-        files.forEach(function(filename) {
+        files.forEach(function (filename) {
           if (fs.statSync(subFolder + "/" + filename).isDirectory()) {
             removeDir(subFolder + "/" + filename)
           } else {
@@ -689,7 +713,10 @@ router.patch('/delete/uploaded', checkAuth, async (req, res) => {
       }
     }
 
-    // fsExtra.remove(`${publicAssets}${namaProject.toLowerCase()}`)
+    res.json({
+      status: 'success',
+      message: `remove image ${namaField} from ${namaProject} successfully`,
+    })
   } catch (err) {
     res.json({
       status: "failed",
@@ -1356,17 +1383,16 @@ router.get("/:projectId/export", async (req, res) => {
     }
     return res.json({
       status: "success",
-      message: `file ${
-        req.query.csv
+      message: `file ${req.query.csv
           ? "csv"
           : req.query.png
-          ? "png"
-          : req.query.kml
-          ? "kml"
-          : req.query.jpeg
-          ? "jpeg"
-          : "report"
-      } was downloaded`,
+            ? "png"
+            : req.query.kml
+              ? "kml"
+              : req.query.jpeg
+                ? "jpeg"
+                : "report"
+        } was downloaded`,
     });
   } catch (err) {
     return res.json({
