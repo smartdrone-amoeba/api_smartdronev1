@@ -3,3 +3,6 @@ uploads/
 key.json
 app.yaml
 public/assets
+public/extracted
+public/temp
+public/compress

@@ -3,7 +3,10 @@ const router = express.Router();
 const Project = require("../models/projectModel");
 const path = require("path");
 const fs = require("fs");
-const fsExtra = require('fs-extra')
+const sharp = require("sharp");
+const axios =require('axios')
+const fsExtra = require("fs-extra");
+const FormData = require('form-data')
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
 const {
@@ -18,9 +21,14 @@ const {
 } = require("../helper/upload");
 
 const moment = require("moment");
-const { moveDir } = require("../helper");
-const publicAssets = path.join(__dirname, '../public/assets/')
-const publicPath = path.join(__dirname, '../public/')
+const {
+  moveDir,
+  downloadFile,
+  unZipFile,
+  extractFile
+} = require("../helper");
+const publicAssets = path.join(__dirname, "../public/assets/");
+const publicPath = path.join(__dirname, "../public/");
 
 moment.locale("id");
 
@@ -513,22 +521,19 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
   }
 });
 
-
 // UPDATE PATCH
 //localhost:3001/api/project/update/projectId
 router.patch(
   "/update/:projectId",
   uploadImage([
-    { name: "preview", maxCount: 20 },
-    { name: "image2d", maxCount: 10 },
-    { name: "image3d", maxCount: 20 },
+    { name: "preview", maxCount: 20 }
   ]),
   checkAuth,
   async (req, res) => {
     const { projectId: id } = req.params;
-    const pathStatic = path.join(__dirname, '../public/assets/')
+    const pathStatic = path.join(__dirname, "../public/assets/");
     try {
-      let date = new Date()
+      let date = new Date();
       const project = await Project.findByIdAndUpdate(
         { _id: id },
         { new: true }
@@ -543,28 +548,28 @@ router.patch(
       }
       if (req.body.namaProject) {
         // Copy all inside folder
-        const folderProject = publicAssets + project.namaProject.toLowerCase().replace(/\s+/g, '-')
-        const subDir = fs.readdirSync(folderProject)
+        const folderProject =
+          publicAssets + project.namaProject.toLowerCase().replace(/\s+/g, "-");
+        const subDir = fs.readdirSync(folderProject);
 
-        subDir.forEach(folder => {
-          fsExtra.moveSync('public/assets/' + project.namaProject.toLowerCase().replace(/\s+/g, '-') + '/' + folder, "public/temp/"+ folder)
-        })
+        subDir.forEach((folder) => {
+          fsExtra.moveSync(
+            "public/assets/" +
+              project.namaProject.toLowerCase().replace(/\s+/g, "-") +
+              "/" +
+              folder,
+            "public/temp/" + folder
+          );
+        });
 
-          fs.renameSync(publicAssets + project.namaProject.toLowerCase().replace(/\s+/g, '-'), publicAssets + req.body.namaProject.toLowerCase().replace(/\s+/g, '-'))        
-        
-          project.namaProject = req.body.namaProject;
-          project.updatedAt = date.setHours(date.getHours() + 7);
-        
-        
+        fs.renameSync(
+          publicAssets + project.namaProject.toLowerCase().replace(/\s+/g, "-"),
+          publicAssets + req.body.namaProject.toLowerCase().replace(/\s+/g, "-")
+        );
 
-        // await fs.rename(`${pathStatic}${project.namaProject.toLowerCase().replace(/\s+/g, '-')}`, `${pathStatic}${req.body.namaProject.toLowerCase().replace(/\s+/g, '-')}`, err => {
-        //   if (err) {
-        //     throw err;
-        //   }
-        // })
-        
+        project.namaProject = req.body.namaProject;
+        project.updatedAt = date.setHours(date.getHours() + 7);
       }
-
 
       if (req.body.namaSurveyor) {
         project.namaSurveyor = req.body.namaSurveyor;
@@ -594,16 +599,20 @@ router.patch(
       if (req.files.preview) {
         const preview = req.files.preview;
         for (i = 0; i < preview.length; i++) {
+          // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
+          // console.log(compress)
           // await uploadPath(preview[i]);
-          moveDir(preview[i].filename, `${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview`)
-          const path = `assets/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`
+          moveDir(
+            preview[i].filename,
+            `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/preview`
+          );
+          const path = `assets/${project.namaProject
+            .toLowerCase()
+            .replace(/\s+/g, "-")}/preview/${preview[i].filename}`;
           // project.preview.path = await path
           project.preview.path.length === 0
             ? (project.preview.path = path)
-            : (project.preview.path = [
-              ...project.preview.path,
-              path,
-            ]);
+            : (project.preview.path = [...project.preview.path, path]);
         }
       }
 
@@ -611,15 +620,17 @@ router.patch(
         const image2d = req.files.image2d;
         for (i = 0; i < image2d.length; i++) {
           // await uploadPath(image2d[i]);
-          moveDir(image2d[i].filename, `${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image2d`)
-          const path = `assets/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image2d/${image2d[i].filename}`
+          moveDir(
+            image2d[i].filename,
+            `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image2d`
+          );
+          const path = `assets/${project.namaProject
+            .toLowerCase()
+            .replace(/\s+/g, "-")}/image2d/${image2d[i].filename}`;
           // project.image2d.path = await path
           project.image2d.path.length === 0
             ? (project.image2d.path = path)
-            : (project.image2d.path = [
-              ...project.image2d.path,
-              path,
-            ]);
+            : (project.image2d.path = [...project.image2d.path, path]);
         }
       }
       if (req.files.image3d) {
@@ -627,19 +638,21 @@ router.patch(
         // project.image3d.path = await uploadToGCS(req.files.image3d);
 
         const image3d = req.files.image3d;
-        const dirname = path.join(__dirname, '../uploads/')
-        console.log(dirname)
+        const dirname = path.join(__dirname, "../uploads/");
+        console.log(dirname);
         for (i = 0; i < image3d.length; i++) {
           // await uploadPath(image3d[i]);
-          moveDir(image3d[i].filename, `${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image3d`)
-          const path = `assets/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/image3d/${image3d[i].filename}`
+          moveDir(
+            image3d[i].filename,
+            `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image3d`
+          );
+          const path = `assets/${project.namaProject
+            .toLowerCase()
+            .replace(/\s+/g, "-")}/image3d/${image3d[i].filename}`;
           // project.image3d.path = await path
           project.image3d.path.length === 0
             ? (project.image3d.path = path)
-            : (project.image3d.path = [
-              ...project.image3d.path,
-              path,
-            ]);
+            : (project.image3d.path = [...project.image3d.path, path]);
         }
       }
 
@@ -647,12 +660,18 @@ router.patch(
 
       // Copy back to folder static
 
-      const newFolderProject = publicPath + 'temp/'
-        const tempDir = fs.readdirSync(newFolderProject)
+      const newFolderProject = publicPath + "temp/";
+      const tempDir = fs.readdirSync(newFolderProject);
 
-        tempDir.forEach(folder => {
-          fsExtra.moveSync('public/temp/' + folder, "public/assets/"+ projectUpdated.namaProject.toLowerCase().replace(/\s+/g, '-') + '/' + folder)
-        })
+      tempDir.forEach((folder) => {
+        fsExtra.moveSync(
+          "public/temp/" + folder,
+          "public/assets/" +
+            projectUpdated.namaProject.toLowerCase().replace(/\s+/g, "-") +
+            "/" +
+            folder
+        );
+      });
       // Attach History
       await Project.updateOne(
         {
@@ -685,38 +704,97 @@ router.patch(
   }
 );
 
+router.patch("/upload/assets", uploadImage([{name:"images", maxCount: 200}]),async (req, res) => {
+  const {images} = req.files
 
-// Delete Image upload
-// delete/uploaded?namaProject=""&namafield=""
-
-
-router.patch('/delete/uploaded', checkAuth, async (req, res) => {
-  const { namaProject, namaField } = req.query
-
-  const pathDeleting = `${publicAssets}${namaProject.toLowerCase().replace(/\s+/g, '-')}`
-  const subFolder = pathDeleting + "/" + namaField.toLowerCase()
   try {
-    if (fs.existsSync(subFolder)) {
-      const files = fs.readdirSync(subFolder)
 
-      if (files.length > 0) {
-        files.forEach(function (filename) {
-          if (fs.statSync(subFolder + "/" + filename).isDirectory()) {
-            removeDir(subFolder + "/" + filename)
-          } else {
-            fs.unlinkSync(subFolder + "/" + filename)
-          }
-        })
-        fs.rmdirSync(subFolder)
-      } else {
-        fs.rmdirSync(subFolder)
-      }
-    }
+const form_data = new FormData();
+images.map(image=>{
+  form_data.append("images", fs.createReadStream(image.path));
+})
+const config = {
+    method: "post",
+    url: 'http://34.126.89.49:3000/task/new',
+    headers: {
+        "Content-Type": `multipart/form-data;boundary=${form_data.getBoundary()}`
+
+    },
+    data: form_data,
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity
+};
+    // const newPost = await axios(config)
+    // console.log(newPost.data)
+    const url = `http://34.126.89.49:3000/task/054b104c-78cd-40a5-b723-19785b2427fb/download/all.zip`;
+    const dest = "public/temp/file.zip";
+    // await downloadFile(url, dest, (err) => err ? res.json({ status: 'error', message: err.message }) : res.json({
+    //   status: 'success',
+    //   message: 'file was donwloaded',
+    // }))
+    
+     await downloadFile(url, dest)
+     await extractFile('contoh')
+    //  fsExtra.removeSync('public/extracted/')
+      // const folderOdm = publicPath + "extracted/odm_texturing/";
+      // const odmDir = fs.readdirSync(folderOdm);
+
+      // odmDir.forEach((folder) => {
+      //   fsExtra.moveSync(
+      //     `public/extracted/odm_texturing/${folder}`,
+      //     `public/assets/test/image3d/${folder}`
+      //   )
+      // });
+      // fsExtra.moveSync(
+      //   "public/extracted/odm_orthophoto/odm_orthophoto.tif",
+      //   "public/assets/test/image2d/odm_orthophoto.tif"
+      // );
+
+    // setTimeout(() => {
+    //   fsExtra.removeSync("public/extracted/entwine_pointcloud");
+    //   fsExtra.removeSync("public/extracted/odm_georeferencing");
+    //   fsExtra.removeSync("public/extracted/odm_report");
+    //   fsExtra.removeSync("public/extracted/cameras.json");
+    //   fsExtra.removeSync("public/extracted/images.json");
+    //   fsExtra.removeSync("public/extracted/task_output.txt");
+    // }, 5000);
+
+    //  await unZipFile('public/temp/file.zip', 'public/extracted/')
+    // await extractWithYauzl('public/temp/file.zip', 'public/extracted/')
+    // await _extractFile('public/temp/file.zip', 'public/extracted/').then(() => res.json({status:'success'}))
+    // fsExtra.removeSync('public/extracted/entwine_pointcloud/');
+
+    // fsExtra.removeSync('public/extracted/')
+
+    // if (fs.existsSync('public/extracted/')) {
+    //   fs.readdirSync('public/extracted/').forEach((file, index) => {
+    //     const curPath = path.join('public/extracted/', file);
+    //     console.log(curPath)
+    //     if(curPath ==! 'public/extracted/odm_orthophoto' && curPath ==! 'public/extracted/odm_texturing') {
+    //       if (fs.lstatSync(curPath).isDirectory()) {
+    //         // recurse
+    //          deleteFolderRecursive(curPath);
+    //        } else {
+    //          // delete file
+    //          fs.unlinkSync(curPath);
+    //        }
+    //       }
+    //      });
+    //     //  fs.rmdirSync('public/extracted/');
+    //     }
+
+    // fs.readdirSync('public/extracted/').forEach((file) => {
+    //   console.log(file)
+    //   if(file ==! 'odm_orthophoto' || file ==! 'odm_texturing'){
+    //     // fs.rmdirSync('public/extracted', { recursive: true });
+    //   }
+    // })
+    // await downloadFile(url, dest)
 
     res.json({
-      status: 'success',
-      message: `remove image ${namaField} from ${namaProject} successfully`,
-    })
+      status: "success",
+      message: "file downloaded",
+    });
   } catch (err) {
     res.json({
       status: "failed",
@@ -724,7 +802,62 @@ router.patch('/delete/uploaded', checkAuth, async (req, res) => {
       error: err.message,
     });
   }
-})
+});
+
+// Delete Image upload
+// delete/uploaded?namaProject=""&namafield=""
+router.patch("/:projectId/delete/uploaded", checkAuth, async (req, res) => {
+  const { namaProject, namaField } = req.query;
+  const { projectId: id } = req.params;
+
+  const pathDeleting = `${publicAssets}${namaProject
+    .toLowerCase()
+    .replace(/\s+/g, "-")}`;
+  const subFolder = pathDeleting + "/" + namaField.toLowerCase();
+  try {
+    if (fs.existsSync(subFolder)) {
+      const files = fs.readdirSync(subFolder);
+
+      if (files.length > 0) {
+        files.forEach(function (filename) {
+          if (fs.statSync(subFolder + "/" + filename).isDirectory()) {
+            removeDir(subFolder + "/" + filename);
+          } else {
+            fs.unlinkSync(subFolder + "/" + filename);
+          }
+        });
+        fs.rmdirSync(subFolder);
+      } else {
+        fs.rmdirSync(subFolder);
+      }
+    }
+
+    const project = await Project.findByIdAndUpdate({ _id: id }, { new: true });
+
+    if (namaField === "preview") {
+      project.preview.path = [];
+    }
+    if (namaField === "image2d") {
+      project.image2d.path = [];
+    }
+    if (namaField === "image3d") {
+      project.image3d.path = [];
+    }
+
+    await project.save();
+
+    res.json({
+      status: "success",
+      message: `remove image ${namaField} from ${namaProject} successfully`,
+    });
+  } catch (err) {
+    res.json({
+      status: "failed",
+      message: "error",
+      error: err.message,
+    });
+  }
+});
 
 // Update Pin
 // localhost:3001/api/project/update/:projectId/pin/:pinId
@@ -1383,16 +1516,17 @@ router.get("/:projectId/export", async (req, res) => {
     }
     return res.json({
       status: "success",
-      message: `file ${req.query.csv
+      message: `file ${
+        req.query.csv
           ? "csv"
           : req.query.png
-            ? "png"
-            : req.query.kml
-              ? "kml"
-              : req.query.jpeg
-                ? "jpeg"
-                : "report"
-        } was downloaded`,
+          ? "png"
+          : req.query.kml
+          ? "kml"
+          : req.query.jpeg
+          ? "jpeg"
+          : "report"
+      } was downloaded`,
     });
   } catch (err) {
     return res.json({

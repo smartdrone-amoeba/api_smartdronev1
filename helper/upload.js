@@ -9,13 +9,19 @@ exports.uploadImage = (fields) => {
       return cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-      const filename = file.originalname.replace(/\s+/g, '-')
-      return cb(null, Date.now() + '-' + filename);
+      const filename =  file.originalname.replace(/\s+/g, '-')
+      if(file.originalname.match(/\.(OBJ|obj)/)){
+        return cb(null, 'file.obj')
+      }
+      if(file.originalname.match(/\.(MTL|mtl)/)){
+        return cb(null, 'file.mtl')
+      }
+      return cb(null,Date.now() + '-' + filename);
     },
   });
   //? handle channel table upload file
   const fileFilter = (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+    if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|OBJ|obj|MTL|mtl)$/)) {
       req.fileValidationError = {
         message: 'Only image files are allowed!',
       };
@@ -24,7 +30,7 @@ exports.uploadImage = (fields) => {
     cb(null, true);
   };
 
-  const maxSize = 15 * 1000 * 1000;
+  const maxSize = 50 * 1000 * 1000;
 
   const upload = multer({
     storage,
@@ -49,7 +55,7 @@ exports.uploadImage = (fields) => {
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE') {
           return res.status(400).send({
-            message: 'Max file sized 5MB',
+            message: 'Max file sized 50MB',
           });
         }
         return res.status(400).send(err);
