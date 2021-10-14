@@ -4,9 +4,9 @@ const Project = require("../models/projectModel");
 const path = require("path");
 const fs = require("fs");
 const sharp = require("sharp");
-const axios =require('axios')
+const axios = require("axios");
 const fsExtra = require("fs-extra");
-const FormData = require('form-data')
+const FormData = require("form-data");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
 const {
@@ -21,12 +21,7 @@ const {
 } = require("../helper/upload");
 
 const moment = require("moment");
-const {
-  moveDir,
-  downloadFile,
-  unZipFile,
-  extractFile
-} = require("../helper");
+const { moveDir, downloadFile, unZipFile, extractFile } = require("../helper");
 const publicAssets = path.join(__dirname, "../public/assets/");
 const publicPath = path.join(__dirname, "../public/");
 
@@ -525,9 +520,7 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
 //localhost:3001/api/project/update/projectId
 router.patch(
   "/update/:projectId",
-  uploadImage([
-    { name: "preview", maxCount: 20 }
-  ]),
+  uploadImage([{ name: "preview", maxCount: 20 }]),
   checkAuth,
   async (req, res) => {
     const { projectId: id } = req.params;
@@ -598,6 +591,72 @@ router.patch(
       }
       if (req.files.preview) {
         const preview = req.files.preview;
+
+        // init upload image to generate 3d & 2d
+        const form_data = new FormData();
+        preview.map((image) => {
+          form_data.append("preview", fs.createReadStream(image.path));
+        });
+        const config = {
+          method: "post",
+          url: "http://34.126.89.49:3000/task/new",
+          headers: {
+            "Content-Type": `multipart/form-data;boundary=${form_data.getBoundary()}`,
+          },
+          data: form_data,
+          maxContentLength: Infinity,
+          maxBodyLength: Infinity,
+        };
+
+        // Generating
+        const newPost = await axios(config);
+        console.log(newPost);
+
+        // Download image was generated
+        const url = `http://34.126.89.49:3000/task/${newPost.uuid}/download/all.zip`;
+        const dest = "public/temp/file.zip";
+        await downloadFile(url, dest);
+
+        // Extracted result of downloaded file
+        await extractFile(project.namaProject);
+
+        // Add path to field image2d database
+        if (
+          !fs.existsSync(
+            `public/assets/${project.namaProject}/image2d/odm_orthophoto.tif`
+          )
+        ) {
+          const path = `assets/${project.namaProject
+            .toLowerCase()
+            .replace(/\s+/g, "-")}/image2d/odm_orthophoto.tif`;
+          // project.image2d.path = await path
+          project.image2d.path = path;
+        }
+
+        // Add path to field image3d database
+        if (
+          !fs.existsSync(
+            `public/assets/${project.namaProject}/image3d/odm_textured_model_geo.mtl`
+          )
+        ) {
+          const folderOdm = path.join(
+            __dirname,
+            `../public/assets/${project.namaProject}/image3d`
+          );
+          const odmDir = fs.readdirSync(folderOdm);
+
+          let path = [];
+          odmDir.map((file) => {
+            path.push(
+              `assets/${project.namaProject
+                .toLowerCase()
+                .replace(/\s+/g, "-")}/image3d/${file}`
+            );
+          });
+          project.image3d.path = path;
+        }
+
+        // Add path to field preview database
         for (i = 0; i < preview.length; i++) {
           // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
           // console.log(compress)
@@ -616,45 +675,45 @@ router.patch(
         }
       }
 
-      if (req.files.image2d) {
-        const image2d = req.files.image2d;
-        for (i = 0; i < image2d.length; i++) {
-          // await uploadPath(image2d[i]);
-          moveDir(
-            image2d[i].filename,
-            `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image2d`
-          );
-          const path = `assets/${project.namaProject
-            .toLowerCase()
-            .replace(/\s+/g, "-")}/image2d/${image2d[i].filename}`;
-          // project.image2d.path = await path
-          project.image2d.path.length === 0
-            ? (project.image2d.path = path)
-            : (project.image2d.path = [...project.image2d.path, path]);
-        }
-      }
-      if (req.files.image3d) {
-        // Delete Option
-        // project.image3d.path = await uploadToGCS(req.files.image3d);
+      // if (req.files.image2d) {
+      //   const image2d = req.files.image2d;
+      //   for (i = 0; i < image2d.length; i++) {
+      //     // await uploadPath(image2d[i]);
+      //     moveDir(
+      //       image2d[i].filename,
+      //       `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image2d`
+      //     );
+      //     const path = `assets/${project.namaProject
+      //       .toLowerCase()
+      //       .replace(/\s+/g, "-")}/image2d/${image2d[i].filename}`;
+      //     // project.image2d.path = await path
+      //     project.image2d.path.length === 0
+      //       ? (project.image2d.path = path)
+      //       : (project.image2d.path = [...project.image2d.path, path]);
+      //   }
+      // }
+      // if (req.files.image3d) {
+      //   // Delete Option
+      //   // project.image3d.path = await uploadToGCS(req.files.image3d);
 
-        const image3d = req.files.image3d;
-        const dirname = path.join(__dirname, "../uploads/");
-        console.log(dirname);
-        for (i = 0; i < image3d.length; i++) {
-          // await uploadPath(image3d[i]);
-          moveDir(
-            image3d[i].filename,
-            `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image3d`
-          );
-          const path = `assets/${project.namaProject
-            .toLowerCase()
-            .replace(/\s+/g, "-")}/image3d/${image3d[i].filename}`;
-          // project.image3d.path = await path
-          project.image3d.path.length === 0
-            ? (project.image3d.path = path)
-            : (project.image3d.path = [...project.image3d.path, path]);
-        }
-      }
+      //   const image3d = req.files.image3d;
+      //   const dirname = path.join(__dirname, "../uploads/");
+      //   console.log(dirname);
+      //   for (i = 0; i < image3d.length; i++) {
+      //     // await uploadPath(image3d[i]);
+      //     moveDir(
+      //       image3d[i].filename,
+      //       `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image3d`
+      //     );
+      //     const path = `assets/${project.namaProject
+      //       .toLowerCase()
+      //       .replace(/\s+/g, "-")}/image3d/${image3d[i].filename}`;
+      //     // project.image3d.path = await path
+      //     project.image3d.path.length === 0
+      //       ? (project.image3d.path = path)
+      //       : (project.image3d.path = [...project.image3d.path, path]);
+      //   }
+      // }
 
       const projectUpdated = await project.save();
 
@@ -704,105 +763,108 @@ router.patch(
   }
 );
 
-router.patch("/upload/assets", uploadImage([{name:"images", maxCount: 200}]),async (req, res) => {
-  const {images} = req.files
+router.patch(
+  "/upload/assets",
+  uploadImage([{ name: "images", maxCount: 200 }]),
+  async (req, res) => {
+    const { images } = req.files;
 
-  try {
+    try {
+      const form_data = new FormData();
+      images.map((image) => {
+        form_data.append("images", fs.createReadStream(image.path));
+      });
+      const config = {
+        method: "post",
+        url: "http://34.126.89.49:3000/task/new",
+        headers: {
+          "Content-Type": `multipart/form-data;boundary=${form_data.getBoundary()}`,
+        },
+        data: form_data,
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
+      };
 
-const form_data = new FormData();
-images.map(image=>{
-  form_data.append("images", fs.createReadStream(image.path));
-})
-const config = {
-    method: "post",
-    url: 'http://34.126.89.49:3000/task/new',
-    headers: {
-        "Content-Type": `multipart/form-data;boundary=${form_data.getBoundary()}`
+       // Generating
+       const newPost = await axios(config);
+       console.log("New Post: ",newPost.data)
 
-    },
-    data: form_data,
-    maxContentLength: Infinity,
-    maxBodyLength: Infinity
-};
-    // const newPost = await axios(config)
-    // console.log(newPost.data)
-    const url = `http://34.126.89.49:3000/task/054b104c-78cd-40a5-b723-19785b2427fb/download/all.zip`;
-    const dest = "public/temp/file.zip";
-    // await downloadFile(url, dest, (err) => err ? res.json({ status: 'error', message: err.message }) : res.json({
-    //   status: 'success',
-    //   message: 'file was donwloaded',
-    // }))
-    
-     await downloadFile(url, dest)
-     await extractFile('contoh')
-    //  fsExtra.removeSync('public/extracted/')
-      // const folderOdm = publicPath + "extracted/odm_texturing/";
-      // const odmDir = fs.readdirSync(folderOdm);
+      let checkUploadIsDone = await axios.get(`http://34.126.89.49:3000/task/${newPost.data.uuid}/info`)
+      
+    while (checkUploadIsDone.data.progress < 100){
+        checkUploadIsDone = await axios.get(`http://34.126.89.49:3000/task/${newPost.data.uuid}/info`)
+      }
 
-      // odmDir.forEach((folder) => {
-      //   fsExtra.moveSync(
-      //     `public/extracted/odm_texturing/${folder}`,
-      //     `public/assets/test/image3d/${folder}`
-      //   )
-      // });
-      // fsExtra.moveSync(
-      //   "public/extracted/odm_orthophoto/odm_orthophoto.tif",
-      //   "public/assets/test/image2d/odm_orthophoto.tif"
-      // );
+      const url = `http://34.126.89.49:3000/task/${newPost.data.uuid}/download/all.zip`;
+        const dest = "public/temp/file.zip";
+        await downloadFile(url, dest);
 
-    // setTimeout(() => {
-    //   fsExtra.removeSync("public/extracted/entwine_pointcloud");
-    //   fsExtra.removeSync("public/extracted/odm_georeferencing");
-    //   fsExtra.removeSync("public/extracted/odm_report");
-    //   fsExtra.removeSync("public/extracted/cameras.json");
-    //   fsExtra.removeSync("public/extracted/images.json");
-    //   fsExtra.removeSync("public/extracted/task_output.txt");
-    // }, 5000);
+        // Extracted result of downloaded file
+        await extractFile(`contoh-lagi4`);
 
-    //  await unZipFile('public/temp/file.zip', 'public/extracted/')
-    // await extractWithYauzl('public/temp/file.zip', 'public/extracted/')
-    // await _extractFile('public/temp/file.zip', 'public/extracted/').then(() => res.json({status:'success'}))
-    // fsExtra.removeSync('public/extracted/entwine_pointcloud/');
 
-    // fsExtra.removeSync('public/extracted/')
+        for (i = 0; i < images.length; i++) {
+          // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
+          // console.log(compress)
+          // await uploadPath(preview[i]);
+          await moveDir(
+            images[i].filename,
+            `contoh-lagi4/preview`
+          );
+          // const path = `assets/contoh-lagi3/preview/${images[i].filename}`;
+          // project.preview.path = await path
+          // project.preview.path.length === 0
+          //   ? (project.preview.path = path)
+          //   : (project.preview.path = [...project.preview.path, path]);
+        }
 
-    // if (fs.existsSync('public/extracted/')) {
-    //   fs.readdirSync('public/extracted/').forEach((file, index) => {
-    //     const curPath = path.join('public/extracted/', file);
-    //     console.log(curPath)
-    //     if(curPath ==! 'public/extracted/odm_orthophoto' && curPath ==! 'public/extracted/odm_texturing') {
-    //       if (fs.lstatSync(curPath).isDirectory()) {
-    //         // recurse
-    //          deleteFolderRecursive(curPath);
-    //        } else {
-    //          // delete file
-    //          fs.unlinkSync(curPath);
-    //        }
-    //       }
-    //      });
-    //     //  fs.rmdirSync('public/extracted/');
-    //     }
+        // Add path to field image2d database
+        // if (
+        //   !fs.existsSync(
+        //     `public/assets/contoh-lagi3/image2d/odm_orthophoto.tif`
+        //   )
+        // ) {
+        //   // const path = `assets/contoh-lagi3/image2d/odm_orthophoto.tif`; 
+        //   // project.image2d.path = await path
+        //   // project.image2d.path = path;
+        // }
 
-    // fs.readdirSync('public/extracted/').forEach((file) => {
-    //   console.log(file)
-    //   if(file ==! 'odm_orthophoto' || file ==! 'odm_texturing'){
-    //     // fs.rmdirSync('public/extracted', { recursive: true });
-    //   }
-    // })
-    // await downloadFile(url, dest)
+        // // Add path to field image3d database
+        // if (
+        //   !fs.existsSync(
+        //     `public/assets/contoh-lagi3/image3d/odm_textured_model_geo.mtl`
+        //   )
+        // ) {
+        //   const folderOdm = path.join(
+        //     __dirname,
+        //     `../public/assets/contoh-lagi3/image3d`
+        //   );
+        //   const odmDir = fs.readdirSync(folderOdm);
 
-    res.json({
-      status: "success",
-      message: "file downloaded",
-    });
-  } catch (err) {
-    res.json({
-      status: "failed",
-      message: "error",
-      error: err.message,
-    });
+        //   let dirPath = [];
+        //   odmDir.map((file) => {
+        //     dirPath.push(
+        //       `assets/contoh-lagi3/image3d/${file}`
+        //     );
+        //   });
+        //   // project.image3d.path = path;
+        // }
+
+
+
+      res.json({
+        status: "success",
+        message: "file downloaded",
+      });
+    } catch (err) {
+      res.json({
+        status: "failed",
+        message: "error",
+        error: err.message,
+      });
+    }
   }
-});
+);
 
 // Delete Image upload
 // delete/uploaded?namaProject=""&namafield=""

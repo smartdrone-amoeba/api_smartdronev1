@@ -13,7 +13,6 @@ exports.moveDir = async (filename, directory) => {
         if (err) {
             return console.error(err);
         }
-        return true
     });
 }
 
@@ -90,7 +89,7 @@ exports.extractFile =  async (projectName) => {
           }
           
           if(filename.match(/\odm_texturing/)){
-             const folderOdm = path.join(__dirname, '../public/') + "extracted/odm_texturing/";
+            const folderOdm = path.join(__dirname, '../public/') + "extracted/odm_texturing/";
             const odmDir = fs.readdirSync(folderOdm);
             odmDir.forEach((folder) => {
               if(!folder.match(/\model.mtl|conf/)){
