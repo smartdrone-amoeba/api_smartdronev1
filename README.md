@@ -46,6 +46,8 @@
 
 `PATCH` api/project/update/[id] (Edit parsial project)
 
+`PATCH` api/project/[id]/delete/uploaded?namaProject= . . .
+
 `PATCH` api/project/[projectId]/pin/add (add pin to project)
 
 `PATCH` api/project/update/[id]/pin/[id] (Edit parsial project pin)
