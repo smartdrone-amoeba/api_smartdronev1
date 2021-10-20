@@ -10,15 +10,17 @@ const FormData = require("form-data");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
 const {
-  uploadFiles,
   uploadImage,
-  uploadToGCS,
   donwloadFile,
-  uploadPreviewToGCS,
   uploadV4,
   uploadPath,
   downloadFiles,
 } = require("../helper/upload");
+const {
+  uploadFile,
+  uploadToGCS,
+  uploadPreviewToGCS,
+} = require("../helper/uploadGCS");
 
 const moment = require("moment");
 const { moveDir, downloadFile, unZipFile, extractFile } = require("../helper");
@@ -516,11 +518,14 @@ router.patch("/:projectId/pin/add", checkAuth, async (req, res) => {
   }
 });
 
+
 // UPDATE PATCH
 //localhost:3001/api/project/update/projectId
+
+// if uploadGCS usage upload uploadFile if upload VPS usage uploadImage
 router.patch(
   "/update/:projectId",
-  uploadImage([{ name: "preview", maxCount: 20 }]),
+  uploadImage([{ name: "images", maxCount: 200 }]),
   checkAuth,
   async (req, res) => {
     const { projectId: id } = req.params;
@@ -551,7 +556,7 @@ router.patch(
               project.namaProject.toLowerCase().replace(/\s+/g, "-") +
               "/" +
               folder,
-            "public/temp/" + folder
+            "public/backup/" + folder
           );
         });
 
@@ -589,13 +594,21 @@ router.patch(
         project.drone.tglPlanning = project.tglPlanning;
         project.updatedAt = date.setHours(date.getHours() + 7);
       }
-      if (req.files.preview) {
-        const preview = req.files.preview;
+      if (req.files.images) {
+        const preview = req.files.images;
 
-        // init upload image to generate 3d & 2d
+        // ===============================================================
+        //*                        Upload to VPS
+        // ===============================================================
+        //* delete directory of /extracted
+        if (fs.existsSync("public/extracted")) {
+          fs.rmdirSync("public/extracted", { recursive: true });
+        }
+
+        //* init upload image to generate 3d & 2d
         const form_data = new FormData();
         preview.map((image) => {
-          form_data.append("preview", fs.createReadStream(image.path));
+          form_data.append("images", fs.createReadStream(image.path));
         });
         const config = {
           method: "post",
@@ -608,55 +621,30 @@ router.patch(
           maxBodyLength: Infinity,
         };
 
-        // Generating
+        //* Generating
         const newPost = await axios(config);
-        console.log(newPost);
+        console.log("upload selesai")
+        console.log(newPost.data);
 
-        // Download image was generated
-        const url = `http://34.126.89.49:3000/task/${newPost.uuid}/download/all.zip`;
+        // * Check progress
+        let checkUploadIsDone = await axios.get(
+          `http://34.126.89.49:3000/task/${newPost.data.uuid}/info`
+        );
+        while (checkUploadIsDone.data.progress < 100) {
+          checkUploadIsDone = await axios.get(
+            `http://34.126.89.49:3000/task/${newPost.data.uuid}/info`
+          );
+        }
+
+        //* Download image was generated
+        const url = `http://34.126.89.49:3000/task/${newPost.data.uuid}/download/all.zip`;
         const dest = "public/temp/file.zip";
         await downloadFile(url, dest);
+        console.log('download Selesai')
 
-        // Extracted result of downloaded file
-        await extractFile(project.namaProject);
+        //* Extracted result of downloaded file
+        const extracted = await extractFile(project.namaProject.toLowerCase().replace(/\s+/g, "-"));
 
-        // Add path to field image2d database
-        if (
-          !fs.existsSync(
-            `public/assets/${project.namaProject}/image2d/odm_orthophoto.tif`
-          )
-        ) {
-          const path = `assets/${project.namaProject
-            .toLowerCase()
-            .replace(/\s+/g, "-")}/image2d/odm_orthophoto.tif`;
-          // project.image2d.path = await path
-          project.image2d.path = path;
-        }
-
-        // Add path to field image3d database
-        if (
-          !fs.existsSync(
-            `public/assets/${project.namaProject}/image3d/odm_textured_model_geo.mtl`
-          )
-        ) {
-          const folderOdm = path.join(
-            __dirname,
-            `../public/assets/${project.namaProject}/image3d`
-          );
-          const odmDir = fs.readdirSync(folderOdm);
-
-          let path = [];
-          odmDir.map((file) => {
-            path.push(
-              `assets/${project.namaProject
-                .toLowerCase()
-                .replace(/\s+/g, "-")}/image3d/${file}`
-            );
-          });
-          project.image3d.path = path;
-        }
-
-        // Add path to field preview database
         for (i = 0; i < preview.length; i++) {
           // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
           // console.log(compress)
@@ -665,72 +653,80 @@ router.patch(
             preview[i].filename,
             `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/preview`
           );
-          const path = `assets/${project.namaProject
+          const pathDir = `assets/${project.namaProject
             .toLowerCase()
             .replace(/\s+/g, "-")}/preview/${preview[i].filename}`;
-          // project.preview.path = await path
           project.preview.path.length === 0
-            ? (project.preview.path = path)
-            : (project.preview.path = [...project.preview.path, path]);
+            ? (project.preview.path = pathDir)
+            : (project.preview.path = [...project.preview.path, pathDir]);
         }
+
+        //* Add path to field image2d database
+  
+          project.image2d.path = `assets/${project.namaProject
+            .toLowerCase()
+            .replace(/\s+/g, "-")}/image2d/odm_orthophoto.tif`;
+
+          //* Add path to field image3d database
+          project.image3d.path = extracted;
       }
 
-      // if (req.files.image2d) {
-      //   const image2d = req.files.image2d;
-      //   for (i = 0; i < image2d.length; i++) {
-      //     // await uploadPath(image2d[i]);
-      //     moveDir(
-      //       image2d[i].filename,
-      //       `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image2d`
-      //     );
+      // =========================================================
+      //*                       Upload To GCS
+      // =========================================================
+      // if(req.files.preview){
+
+      //   // Add path to field preview database
+      //   for (i = 0; i < preview.length; i++) {
+      //     // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
+      //     // console.log(compress)
+      //     // await uploadPath(preview[i]);
+      //     // moveDir(
+      //     //   preview[i].filename,
+      //     //   `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/preview`
+      //     // );
       //     const path = `assets/${project.namaProject
       //       .toLowerCase()
-      //       .replace(/\s+/g, "-")}/image2d/${image2d[i].filename}`;
-      //     // project.image2d.path = await path
-      //     project.image2d.path.length === 0
-      //       ? (project.image2d.path = path)
-      //       : (project.image2d.path = [...project.image2d.path, path]);
+      //       .replace(/\s+/g, "-")}/preview/${preview[i].filename}`;
+      //     project.preview.path.length === 0
+      //       ? (project.preview.path = path)
+      //       : (project.preview.path = [...project.preview.path, path]);
       //   }
       // }
-      // if (req.files.image3d) {
-      //   // Delete Option
-      //   // project.image3d.path = await uploadToGCS(req.files.image3d);
 
-      //   const image3d = req.files.image3d;
-      //   const dirname = path.join(__dirname, "../uploads/");
-      //   console.log(dirname);
-      //   for (i = 0; i < image3d.length; i++) {
-      //     // await uploadPath(image3d[i]);
-      //     moveDir(
-      //       image3d[i].filename,
-      //       `${project.namaProject.toLowerCase().replace(/\s+/g, "-")}/image3d`
-      //     );
-      //     const path = `assets/${project.namaProject
-      //       .toLowerCase()
-      //       .replace(/\s+/g, "-")}/image3d/${image3d[i].filename}`;
-      //     // project.image3d.path = await path
-      //     project.image3d.path.length === 0
-      //       ? (project.image3d.path = path)
-      //       : (project.image3d.path = [...project.image3d.path, path]);
-      //   }
+      // if (req.files.image2d) {
+      //     (project.image2d.path = await uploadToGCS(req.files.image2d))
+
+      // }
+
+      // if (req.files.image3d) {
+      //   project.image3d.path.length === 0
+      //     ?
+      //     (project.image3d.path = await uploadToGCS(req.files.image3d))
+      //     : (project.image3d.path = [
+      //         ...project.image3d.path,
+      //         ...(await uploadToGCS(req.files.image3d)),
+      //       ]);
       // }
 
       const projectUpdated = await project.save();
 
+
       // Copy back to folder static
+      if(req.body.namaProject){
+        const newFolderProject = publicPath + "backup/";
+        const tempDir = fs.readdirSync(newFolderProject);
+        tempDir.forEach((folder) => {
+          fsExtra.moveSync(
+            "public/backup/" + folder,
+            "public/assets/" +
+              projectUpdated.namaProject.toLowerCase().replace(/\s+/g, "-") +
+              "/" +
+              folder
+          );
+        });
+      }
 
-      const newFolderProject = publicPath + "temp/";
-      const tempDir = fs.readdirSync(newFolderProject);
-
-      tempDir.forEach((folder) => {
-        fsExtra.moveSync(
-          "public/temp/" + folder,
-          "public/assets/" +
-            projectUpdated.namaProject.toLowerCase().replace(/\s+/g, "-") +
-            "/" +
-            folder
-        );
-      });
       // Attach History
       await Project.updateOne(
         {
@@ -763,6 +759,10 @@ router.patch(
   }
 );
 
+// const folderOdm = `public/assets/test/image3d/`
+//             const odmDir = fs.readdirSync(folderOdm);
+//             console.log(odmDir)
+
 router.patch(
   "/upload/assets",
   uploadImage([{ name: "images", maxCount: 200 }]),
@@ -770,6 +770,11 @@ router.patch(
     const { images } = req.files;
 
     try {
+      // delete directory of /extracted
+      if (fs.existsSync("public/extracted")) {
+        fs.rmdirSync("public/extracted", { recursive: true });
+      }
+
       const form_data = new FormData();
       images.map((image) => {
         form_data.append("images", fs.createReadStream(image.path));
@@ -785,72 +790,70 @@ router.patch(
         maxBodyLength: Infinity,
       };
 
-       // Generating
-       const newPost = await axios(config);
-       console.log("New Post: ",newPost.data)
+      // Generating
+      const newPost = await axios(config);
+      console.log("New Post: ", newPost.data);
 
-      let checkUploadIsDone = await axios.get(`http://34.126.89.49:3000/task/${newPost.data.uuid}/info`)
-      
-    while (checkUploadIsDone.data.progress < 100){
-        checkUploadIsDone = await axios.get(`http://34.126.89.49:3000/task/${newPost.data.uuid}/info`)
+      let checkUploadIsDone = await axios.get(
+        `http://34.126.89.49:3000/task/${newPost.data.uuid}/info`
+      );
+
+      while (checkUploadIsDone.data.progress < 100) {
+        checkUploadIsDone = await axios.get(
+          `http://34.126.89.49:3000/task/${newPost.data.uuid}/info`
+        );
       }
 
       const url = `http://34.126.89.49:3000/task/${newPost.data.uuid}/download/all.zip`;
-        const dest = "public/temp/file.zip";
-        await downloadFile(url, dest);
+      const dest = "public/temp/file.zip";
+      await downloadFile(url, dest);
 
-        // Extracted result of downloaded file
-        await extractFile(`contoh-lagi4`);
+      // Extracted result of downloaded file
+      await extractFile(`contoh-lagi7`);
 
+      for (i = 0; i < images.length; i++) {
+        // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
+        // console.log(compress)
+        // await uploadPath(preview[i]);
+        await moveDir(images[i].filename, `contoh-lagi7/preview`);
+        // const path = `assets/contoh-lagi3/preview/${images[i].filename}`;
+        // project.preview.path = await path
+        // project.preview.path.length === 0
+        //   ? (project.preview.path = path)
+        //   : (project.preview.path = [...project.preview.path, path]);
+      }
 
-        for (i = 0; i < images.length; i++) {
-          // const compress = await sharp(preview[i].path).resize(200, 200).toFile(publicPath + `compress/${project.namaProject.toLowerCase().replace(/\s+/g, '-')}/preview/${preview[i].filename}`)
-          // console.log(compress)
-          // await uploadPath(preview[i]);
-          await moveDir(
-            images[i].filename,
-            `contoh-lagi4/preview`
-          );
-          // const path = `assets/contoh-lagi3/preview/${images[i].filename}`;
-          // project.preview.path = await path
-          // project.preview.path.length === 0
-          //   ? (project.preview.path = path)
-          //   : (project.preview.path = [...project.preview.path, path]);
-        }
+      // Add path to field image2d database
+      // if (
+      //   !fs.existsSync(
+      //     `public/assets/contoh-lagi3/image2d/odm_orthophoto.tif`
+      //   )
+      // ) {
+      //   // const path = `assets/contoh-lagi3/image2d/odm_orthophoto.tif`;
+      //   // project.image2d.path = await path
+      //   // project.image2d.path = path;
+      // }
 
-        // Add path to field image2d database
-        // if (
-        //   !fs.existsSync(
-        //     `public/assets/contoh-lagi3/image2d/odm_orthophoto.tif`
-        //   )
-        // ) {
-        //   // const path = `assets/contoh-lagi3/image2d/odm_orthophoto.tif`; 
-        //   // project.image2d.path = await path
-        //   // project.image2d.path = path;
-        // }
+      // // Add path to field image3d database
+      // if (
+      //   !fs.existsSync(
+      //     `public/assets/contoh-lagi3/image3d/odm_textured_model_geo.mtl`
+      //   )
+      // ) {
+      //   const folderOdm = path.join(
+      //     __dirname,
+      //     `../public/assets/contoh-lagi3/image3d`
+      //   );
+      //   const odmDir = fs.readdirSync(folderOdm);
 
-        // // Add path to field image3d database
-        // if (
-        //   !fs.existsSync(
-        //     `public/assets/contoh-lagi3/image3d/odm_textured_model_geo.mtl`
-        //   )
-        // ) {
-        //   const folderOdm = path.join(
-        //     __dirname,
-        //     `../public/assets/contoh-lagi3/image3d`
-        //   );
-        //   const odmDir = fs.readdirSync(folderOdm);
-
-        //   let dirPath = [];
-        //   odmDir.map((file) => {
-        //     dirPath.push(
-        //       `assets/contoh-lagi3/image3d/${file}`
-        //     );
-        //   });
-        //   // project.image3d.path = path;
-        // }
-
-
+      //   let dirPath = [];
+      //   odmDir.map((file) => {
+      //     dirPath.push(
+      //       `assets/contoh-lagi3/image3d/${file}`
+      //     );
+      //   });
+      //   // project.image3d.path = path;
+      // }
 
       res.json({
         status: "success",
@@ -866,51 +869,33 @@ router.patch(
   }
 );
 
+
 // Delete Image upload
-// delete/uploaded?namaProject=""&namafield=""
+// delete/uploaded?namaProject=""
 router.patch("/:projectId/delete/uploaded", checkAuth, async (req, res) => {
-  const { namaProject, namaField } = req.query;
+  const { namaProject } = req.query;
   const { projectId: id } = req.params;
 
-  const pathDeleting = `${publicAssets}${namaProject
-    .toLowerCase()
-    .replace(/\s+/g, "-")}`;
-  const subFolder = pathDeleting + "/" + namaField.toLowerCase();
   try {
-    if (fs.existsSync(subFolder)) {
-      const files = fs.readdirSync(subFolder);
-
-      if (files.length > 0) {
-        files.forEach(function (filename) {
-          if (fs.statSync(subFolder + "/" + filename).isDirectory()) {
-            removeDir(subFolder + "/" + filename);
-          } else {
-            fs.unlinkSync(subFolder + "/" + filename);
-          }
-        });
-        fs.rmdirSync(subFolder);
-      } else {
-        fs.rmdirSync(subFolder);
+    const pathDeleting = `${publicAssets}${namaProject
+      .toLowerCase()
+      .replace(/\s+/g, "-")}`;
+      while(fs.existsSync(pathDeleting)){
+        fs.rmdirSync(pathDeleting, {recursive: true})
       }
-    }
 
     const project = await Project.findByIdAndUpdate({ _id: id }, { new: true });
 
-    if (namaField === "preview") {
-      project.preview.path = [];
-    }
-    if (namaField === "image2d") {
-      project.image2d.path = [];
-    }
-    if (namaField === "image3d") {
-      project.image3d.path = [];
-    }
+    project.preview.path = [];
+    project.image2d.path = [];
+    project.image3d.path = [];
+  
 
     await project.save();
 
     res.json({
       status: "success",
-      message: `remove image ${namaField} from ${namaProject} successfully`,
+      message: `remove assets from ${namaProject} successfully`,
     });
   } catch (err) {
     res.json({
@@ -1419,7 +1404,7 @@ router.get("/:projectId/plugin", async (req, res) => {
 
 router.patch(
   "/:projectId/plugin/add/:pluginId",
-  uploadFiles([{ name: "imagePlugin", maxCount: 1 }]),
+  uploadFile([{ name: "imagePlugin", maxCount: 1 }]),
   async (req, res) => {
     const { projectId: id, pluginId } = req.params;
     const { name, title, shortDescription, longDescription } = req.body;
@@ -1496,7 +1481,7 @@ router.patch(
 
 router.patch(
   "/:projectId/add-export",
-  uploadFiles([
+  uploadFile([
     { name: "CSV", maxCount: 1 },
     { name: "PNG", maxCount: 1 },
     { name: "KML", maxCount: 1 },

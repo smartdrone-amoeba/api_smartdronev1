@@ -214,21 +214,21 @@ exports.uploadToGCS = (files) =>
         }, 3000);
 
         //* Compress
-        // image2dBlobCompress = bucket.file(`compress/image2d/${filename.replace(" ", "_")}`);
-        // image2dUrlCompress = `https://storage.googleapis.com/${bucket.name}/${image2dBlobCompress.name}`;
-        // image2dCompress.push(image2dUrlCompress);
+        image2dBlobCompress = bucket.file(`compress/image2d/${filename.replace(" ", "_")}`);
+        image2dUrlCompress = `https://storage.googleapis.com/${bucket.name}/${image2dBlobCompress.name}`;
+        image2dCompress.push(image2dUrlCompress);
 
-        // const blobStreamCompress = image2dBlobCompress.createWriteStream();
-        // blobStreamCompress.on("finish", () => {
-        //   resolve(image2dCompress);
-        // });
-        // blobStreamCompress.on("error", (err) => {
-        //   reject(err);
-        // });
+        const blobStreamCompress = image2dBlobCompress.createWriteStream();
+        blobStreamCompress.on("finish", () => {
+          resolve(image2dCompress);
+        });
+        blobStreamCompress.on("error", (err) => {
+          reject(err);
+        });
 
-        // let compressing = file;
-        // const response = await sharp(compressing.buffer).toBuffer()
-        // blobStreamCompress.end(response);
+        let compressing = file;
+        const response = await sharp(compressing.buffer).toBuffer()
+        blobStreamCompress.end(response);
       }
       //* Image 3D
       if (file.fieldname == "image3d") {

@@ -1,9 +1,11 @@
 const multer = require('multer');
+const fs = require('fs')
 
 // =============================================================
 //                         Upload Image
 // =============================================================
 exports.uploadImage = (fields) => {
+  const dirUpload = fs.readdirSync('uploads/')
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       return cb(null, 'uploads/');
@@ -40,6 +42,11 @@ exports.uploadImage = (fields) => {
 
   //? Middleware
   return (req, res, next) => {
+    if(dirUpload.length > 0){
+      dirUpload.map(data => {
+        fs.unlinkSync(`uploads/${data}`)
+      })
+    }
     upload(req, res, (err) => {
       //! Error validation
       if (req.fileValidationError)

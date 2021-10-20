@@ -15,9 +15,9 @@ exports.moveDir = async (filename, directory) => {
         }
     });
 }
-
-// Donwload File 
-
+// ==========================================================
+//*                        Donwload File 
+// ==========================================================
 exports.downloadFile = (fileUrl, outputLocationPath) => {
     const writer = fs.createWriteStream(outputLocationPath);
   
@@ -49,14 +49,20 @@ exports.downloadFile = (fileUrl, outputLocationPath) => {
     });
   }
 
-
+// ==========================================================
+//*                        Extracting File 
+// ==========================================================
 exports.extractFile =  async (projectName) => {
+  let pathDir = []
+  let sumDir = 0
+  return new Promise(  (resolve, reject) => {
     const zip = new StreamZip({file: 'public/temp/file.zip', storeEntries: true})
 
   zip.on('error', function (err) { console.log(err); });
-   zip.on('entry', async function (entry) {
+   zip.on('entry',  function (entry) {
     const pathname = path.resolve('public/extracted', entry.name);
-    const filename = await entry.name
+    const filename =  entry.name
+
     if (/\.\./.test(path.relative('public/extracted', pathname))) {
         console.warn("[zip warn]: ignoring maliciously crafted paths in zip file:", entry.name);
         return;
@@ -66,11 +72,10 @@ exports.extractFile =  async (projectName) => {
       return;
     }
     console.log('[FILE]', entry.name);
-    zip.stream(entry.name, async function (err, stream) {
-      return new Promise((resolve, reject) => {
+    zip.stream(entry.name, function (err, stream) {
         if (err) { console.error('Error:', err.toString()); return; }
   
-      stream.on('error', function (err) { console.log('[ERROR]', err); return; });
+      stream.on('error', function (err) { console.log('[ERROR]', err); return });
   
       // example: print contents to screen
       //stream.pipe(process.stdout);
@@ -79,9 +84,9 @@ exports.extractFile =  async (projectName) => {
       fs.mkdir(
         path.dirname(pathname),
         { recursive: true },
-        function (err) {
-          stream.pipe(fs.createWriteStream(pathname));
-          if(filename === 'odm_orthophoto/odm_orthophoto.tif'){
+        async function (err) {
+          await stream.pipe(fs.createWriteStream(pathname));
+          if(filename.match(/\odm_orthophoto/)){
             fsExtra.moveSync(
               "public/extracted/odm_orthophoto/odm_orthophoto.tif",
               `public/assets/${projectName}/image2d/odm_orthophoto.tif`
@@ -97,19 +102,21 @@ exports.extractFile =  async (projectName) => {
                   `public/extracted/odm_texturing/${folder}`,
                   `public/assets/${projectName}/image3d/${folder}`
                 )
+                pathDir.push(`assets/${projectName}/image3d/${folder}`)
+                sumDir++
               }
             });
           }
         }
         ); 
-        stream.on('end', () => {
-          if(!err){
-            resolve(true)
+        stream.on('end',() => {
+          if(pathDir.length > 0 ){
+            resolve(pathDir)
           }
         })
-      })
       });
     });
+  })
 }
 
 
