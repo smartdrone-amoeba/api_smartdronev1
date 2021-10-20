@@ -10,20 +10,15 @@ const FormData = require("form-data");
 require("dotenv/config");
 const checkAuth = require("../middleware/check-auth");
 const {
-  uploadImage,
-  donwloadFile,
-  uploadV4,
-  uploadPath,
-  downloadFiles,
+  uploadImage
 } = require("../helper/upload");
 const {
   uploadFile,
   uploadToGCS,
-  uploadPreviewToGCS,
 } = require("../helper/uploadGCS");
 
 const moment = require("moment");
-const { moveDir, downloadFile, unZipFile, extractFile } = require("../helper");
+const { moveDir, downloadFile, extractFile } = require("../helper");
 const publicAssets = path.join(__dirname, "../public/assets/");
 const publicPath = path.join(__dirname, "../public/");
 

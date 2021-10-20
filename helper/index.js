@@ -1,13 +1,12 @@
 const fsExtra = require('fs-extra')
-const StreamZip = require('node-stream-zip');
 const fs = require('fs')
-const http = require('http')
+const StreamZip = require('node-stream-zip');
 const axios = require('axios')
-const extract = require('extract-zip')
 const path = require('path')
-const yauzl = require('yauzl')
 
-// Move Directory
+// ==========================================================
+//*                    Moving Directory
+// ==========================================================
 exports.moveDir = async (filename, directory) => {
     await fsExtra.move(`uploads/${filename}/`,`public/assets/${directory}/${filename}`, function (err, result) {
         if (err) {
@@ -118,56 +117,5 @@ exports.extractFile =  async (projectName) => {
     });
   })
 }
-
-
-exports._extractFile = (from, to) => {
-  !fs.existsSync(to) && fs.mkdirsSync(to);
-  const resolvePath = path.resolve(to)
-  return new Promise((resolve, reject) => {
-    return extract(
-      from,
-      {dir: resolvePath},
-      error => {
-        if (error) return reject(error);
-        resolve(resolvePath);
-      }
-    )
-  })
-}
-
-exports.extractWithYauzl = (src, dest) => {
-  yauzl.open(src, {lazyEntries: true}, function(err, zipfile) {
-    if (err) throw err;
-    zipfile.readEntry();
-    zipfile.on("entry", function(entry) {
-      if (/\/$/.test(entry.fileName)) {
-        // Directory file names end with '/'.
-        // Note that entires for directories themselves are optional.
-        // An entry's fileName implicitly requires its parent directories to exist.
-        zipfile.readEntry();
-      } else {
-        // file entry
-        zipfile.openReadStream(entry, function(err, readStream) {
-          if (err) throw err;
-          readStream.on("end", function() {
-            zipfile.readEntry();
-          });
-          readStream.pipe(dest);
-        });
-      }
-    });
-  });
-}
-  exports.unZipFile = async (src, dest) => {
-    try{
-      const resolvePath = path.resolve(dest)
-      console.log(resolvePath)
-      console.log(dest)
-      await extract(src, {dir: path.join(__dirname, '../public/extracted')})
-      console.log('completed')
-    }catch(err){
-      console.log(err)
-    }
-  }
 
 // File Compress
