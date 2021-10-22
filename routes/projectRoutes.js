@@ -776,7 +776,7 @@ router.patch(
       });
       const config = {
         method: "post",
-        url: "http://34.126.89.49:3000/task/new",
+        url: "http://35.247.160.50:3000/task/new",
         headers: {
           "Content-Type": `multipart/form-data;boundary=${form_data.getBoundary()}`,
         },
@@ -790,12 +790,12 @@ router.patch(
       console.log("New Post: ", newPost.data);
 
       let checkUploadIsDone = await axios.get(
-        `http://34.126.89.49:3000/task/${newPost.data.uuid}/info`
+        `http://35.247.160.50:3000/task/${newPost.data.uuid}/info`
       );
 
       while (checkUploadIsDone.data.progress < 100) {
         checkUploadIsDone = await axios.get(
-          `http://34.126.89.49:3000/task/${newPost.data.uuid}/info`
+          `http://35.247.160.50:3000/task/${newPost.data.uuid}/info`
         );
       }
 
